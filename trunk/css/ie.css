@@ -1,0 +1,59 @@
+@charset "utf-8";
+/* CSS Document */
+.img-shape1
+{
+float:right;
+margin-right: 16px;
+margin-top: 9px;
+}
+
+.add-address
+{
+	width:328px;
+	height: 478px;
+	background:#FFF;
+	border-left:solid 1px #cdcdcd;
+	border-right:solid 1px #cdcdcd;
+	margin-top:56px
+}
+
+.choose-format
+{
+width:308px;
+padding-top:21px;
+padding-left:21px;
+background:url(images/content-inner-bg.png) repeat-x left top;
+border-left:solid 1px #cdcdcd;
+border-right:solid 1px #cdcdcd;
+float:left;
+}
+
+.edit-design-content
+{
+width:659px;
+float:left;
+border-right:solid 1px #cdcdcd;
+}
+
+.img-shape1
+{
+float:right;
+margin-right: 16px;
+margin-top: 9px;
+}
+
+.samplepic
+{
+width:639px;
+height:395px;
+margin-top:11px;
+margin-left:10px;
+}
+
+.edit-design-editor
+{
+width:985px;
+float:left;
+background:#fcfcfc;
+background:url(images/editor-right-bg.png) no-repeat right top;
+}
