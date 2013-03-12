@@ -1,13 +1,10 @@
      
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-    
-	
-	
-	<head>
-  
+    <head>
+
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"  />
-		
+
         <title>Choose Package</title>
         <!--my C-->
         <link rel="stylesheet" href="css/ui-lightness/jquery-ui-1.8.23.custom.css" /><!--add s to run this to put right corner-->
@@ -33,49 +30,39 @@
         <script src="./javascripts/vc3.js" type="text/javascript"></script>
         <script src="./javascripts/objectClasses.js" type="text/javascript"></script>
 
-
         <!--end of my C-->
 
         <!--[if IE 7]>
         <link rel="stylesheet" type="text/css" href="css/ie.css" />
         <![endif]-->
-<?php
-if(isset($_GET['language']))
-{ 
-    $language=$_GET['language']; 
-}
-else{
-    $language="english";
-    header( 'Location: ./index.php?language=english');//
-}
-
-
-        if($language=="english")
-	{
-            include('en.php'); 
+        <?php
+        if (isset($_GET['language'])) {
+            $language = $_GET['language'];
+        } else {
+            $language = "english";
+            header('Location: ./index.php?language=english'); //
         }
-        else if($language=="dutch")
-        {
-            
-            include('de.php'); 
-            
-            
+
+        if ($language == "english") {
+            include('en.php');
+        } else if ($language == "dutch") {
+
+            include('de.php');
         }
-        
-?>
+        ?>
         <script type="text/javascript">
                                                                                                                         
             var jproducts_bookmarks_url='/en/products/?task=bookmarks';
             $(document).ready(function(){
                 $("#divLoad").dialog({
                     autoOpen: false,
-                    closeOnEscape: false,
+                    //closeOnEscape: false,
                     title: "Processing",
                     height: 70,
                     width: 280,
                     modal:true,
-                    resizable:false,
-                    open: function() { $(this).parent().children().children('.ui-dialog-titlebar-close').hide(); }
+                    resizable:false
+                    //open: function() { $(this).parent().children().children('.ui-dialog-titlebar-close').hide(); }
                 });
                 
                 //temp
@@ -97,7 +84,7 @@ else{
                    //alert($("#adminAddBgImage").val());
                 });*/
 				
-			});
+            });
 			
 			
                             
@@ -109,46 +96,43 @@ else{
             
                 //This is all for navigation bar   
                 
-                
-             
-
                 buttonToUnactiveFlag();
-				$(".flag-de a").click(function(){
-                                   window.location='./index.php?language=dutch';
-                                   $(".lang-block .flag-de").prop("class","flag-de lang-active");
-                                });
-				$(".flag-en a").click(function(){
-                                   window.location='./index.php?language=english';
-                                   $(".lang-block .flag-en").prop("class","flag-en lang-active");
+                $(".flag-de a").click(function(){
+                    window.location='./index.php?language=dutch';
+                    $(".lang-block .flag-de").prop("class","flag-de lang-active");
+                });
+                $(".flag-en a").click(function(){
+                    window.location='./index.php?language=english';
+                    $(".lang-block .flag-en").prop("class","flag-en lang-active");
 				
-                            });
-				$(".flag-fr a").click(function(){
+                });
+                $(".flag-fr a").click(function(){
 				
-                   //$.get("fr.php");
-				});
-				var language = getURLParameter("language");
-                                if(language=="english")
-                                    {
-                                        $(".lang-block .flag-en").prop("class","flag-en lang-active");
-                                        //$(".format-tittle h1").html("<?php //echo mb_convert_encoding($lang['Choose a background image'], "UTF-8"); ?>");
-                                        //$(".choose-filling-tittle h1").html("choose a filling");
+                    //$.get("fr.php");
+                });
+                var language = getURLParameter("language");
+                if(language=="english")
+                {
+                    $(".lang-block .flag-en").prop("class","flag-en lang-active");
+                    //$(".format-tittle h1").html("<?php //echo mb_convert_encoding($lang['Choose a background image'], "UTF-8");          ?>");
+                    //$(".choose-filling-tittle h1").html("choose a filling");
                                         
                                         
-                                    }
-                                    else if(language=="dutch")
-                                        {
-                                          $(".lang-block .flag-de").prop("class","flag-de lang-active");
-                                          $("#style_css").attr("href","./css/germanstyle.css");
-                                       //applyGermanProgressBar(); 
+                }
+                else if(language=="dutch")
+                {
+                    $(".lang-block .flag-de").prop("class","flag-de lang-active");
+                    $("#style_css").attr("href","./css/germanstyle.css");
+                    //applyGermanProgressBar(); 
                                        
-                                        //
-                                    //$(".format-tittle h1").html("Format wählen");
-                                        //$(".choose-filling-tittle h1").append("Füllung wählen");
-                                          }
-                                        else if(language=="french")
-                                            {
-                                                $(".lang-block .flag-fr").prop("class","flag-fr lang-active");
-                                            }
+                    //
+                    //$(".format-tittle h1").html("Format wählen");
+                    //$(".choose-filling-tittle h1").append("Füllung wählen");
+                }
+                else if(language=="french")
+                {
+                    $(".lang-block .flag-fr").prop("class","flag-fr lang-active");
+                }
                                 
                                 
 				
@@ -159,8 +143,8 @@ else{
                     $(".nav6bar").show();
                     buttonToUnactivestate();
                     $(".nav6bar #first").prop("class","first active");
-                //alert("here");
-                     window.location.reload();
+                    //alert("here");
+                    window.location.reload();
 
                     //restoreAll()
                     //initialScreenOne();			
@@ -305,8 +289,8 @@ else{
                                 <li class="flag-de" dir="ltr"><a href="#"></a></li>
                                 <li class="flag-en" dir="ltr"><a href="#"></a></li>
                                 <li class="flag-fr" dir="ltr"><a href="#"></a></li>
-                                
-                                
+
+
                             </ul>
                         </div>
 
@@ -475,7 +459,7 @@ else{
                                     <li class='second'><?php echo mb_convert_encoding($lang['Choose the filling of the advent calendar'], "UTF-8"); ?>.</li>
                                     <li class='third'><?php echo mb_convert_encoding($lang['Choose and edit the address which is to be printed on the advent calendar'], "UTF-8"); ?>.</li>
                                     <li class='fourth'><?php echo mb_convert_encoding($lang['Choose the colour of the backside as well as the left and right sides'], "UTF-8"); ?>.</li>
-                                    
+
                                 </ul>
                                 <a id='businessButton'  class='buyandchoose' href='#' name='choose-btn'></a>
                             </div>
@@ -487,164 +471,102 @@ else{
                 <!--SCREEN-CHOOSE-FILLINGS-->
                 <div id="content-choosefillingshtml" class="screens">
                     <div class='fillingcontent'>
-                        <form action='#' method='post' name='choose-filling'>
-                            <div class='left-contentformat'>
-                                <div class='format-tittle'>
-                                    <h1><?php echo mb_convert_encoding($lang['Choose a Format'], "UTF-8"); ?></h1>
-                                </div>
-                                <div class='choose-format'>
-                                  <select id="changeFillingsBasic" name="dynamicFillings" class="dynamicFillings"> 
-<option>Classic Schoko-Adventskalender BASIC, ohne Werbedruck</option>
-<option>Knusper-Adventskalender BASIC ohne Werbeeindruck</option>
-<option>Premium Wunsch-Adventskalender BASIC mit Fruchtgummi "Weihnachten"</option>
-<option>Premium Wunsch-Adventskalender BASIC mit Lubecker Marzipanmischung</option>
-</select>
-                                    <select id="changeFillingsStandard" name="dynamicFillings" class="dynamicFillings"> 
-                                    <option>Kleinster (Advents-)Kalender der Welt Standard mit Schokolinsen</option>
-                                    <option>Kleinster (Advents-)Kalender der Welt Standard mit Pulmoll</option>
-                          </select>          
-                                    <select id="changeFillingsBusiness" name="dynamicFillings" class="dynamicFillings"> 
-                                <option>Classic Schoko-Wand-Adventskalender BUSINESS</option>
-                                <option>Classic Schoko-Tisch-Adventskalender BUSINESS</option>
-                              <option>Schoko-Sonderform-Adventskalender BUSINESS</option>
-                              <option>Wunsch-Adventskalender BUSINESS mit Vollmilch-Naps von Lindt & Sprungli</option>
-                              <option>Wunsch-Adventskalender BUSINESS mit Alpenmilchschokoladen-Naps von Kraft Foods</option>
-                             <option>Wunsch-Adventskalender BUSINESS mit Dextro Energy Traubenzucker-Tafelchen</option>
-                             <option>A5-Schoko-Adventskalender BUSINESS</option>
-                             <option>Knusper-Adventskalender BUSINESS</option>
-                             <option>Premium Wunsch-Adventskalender BUSINESS mit Fruchtgummi Weihnachten im Flowpack 16 g</option>
-                             <option>Premium Wunsch-Adventskalender BUSINESS mit Lubecker Marzipanmischung</option>
-                            <option>Mini-Fruchtgummi-Adventskalender BUSINESS</option>
-                             <option>Mini-BIO-Fruchtgummi-Adventskalender BUSINESS</option>
-                           <option>Kleinster (Advents-)Kalender der Welt BUSINESS mit Schokolinsen</option>
-                            <option>    Kleinster (Advents-)Kalender der Welt BUSINESS mit Pulmoll</option>
-                                    </select>   
-                                    <br/><br/>
-                                    <ul>
-
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class='right-contentfilling'>
-                                <div class='choose-filling-tittle'>
-                                    <h1><?php echo mb_convert_encoding($lang['choose a filling'], "UTF-8"); ?></h1>
-                                </div>
-                                <div class='choose-filling' style="height: 520px;">
-                                   
-                                    <ul>
-
-                                    </ul>
-                                    <div id='pagination' style="float: left;">
+                        <div>
+                            <form action='#' method='post' name='choose-filling'>
+                                <div class="filling-header">
+                                    <div class='format-title'>
+                                        <?php echo mb_convert_encoding($lang['Choose a Format'], "UTF-8"); ?>
                                     </div>
-                                    
-                                    <div id='nextButton' style="float: right; margin-right: 5px;"><input id='formatFillingNextButton' style="bottom: 10px;" type='button' name='submit' class='next-button' value='<?php echo mb_convert_encoding($lang['NEXT'], "UTF-8"); ?>' /></div>
-                                    <div id='nextButton' style="float: right; margin-right: 5px;"><input id='formatFillingBackButton' style="bottom: 10px;" type='button' name='submit' class='next-button' value='<?php echo mb_convert_encoding($lang['BACK'], "UTF-8"); ?>' /></div>
-                                    
-
+                                    <div class="filling-title">
+                                        <?php echo mb_convert_encoding($lang['choose a filling'], "UTF-8"); ?>
+                                    </div>
+                                    <div style="clear:both"></div>
                                 </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class='filling-content-lower'>
+
+                                <div class="fillingcontent-bg borderLeftRight">
+                                    <div class='left-contentformat'>
+                                        <center>
+                                            <div class='choose-format'>
+                                                <select id="dd_format">
+                                                    
+                                                </select>
+                                                <!--<select id="changeFormat" name="dynamicFillings" class="dynamicFillings"></select>
+                                                <select id="changeFillingsStandard" name="dynamicFillings" class="dynamicFillings">
+                                                </select>          
+                                                <select id="changeFillingsBasic" name="dynamicFillings" class="dynamicFillings"> </select>
+                                                <select id="changeFillingsBusiness" name="dynamicFillings" class="dynamicFillings"> 
+                                                </select>   
+                                                <br/><br/>
+                                                <ul>
+
+                                                </ul>-->
+                                            </div>
+                                            <div class="formatImage">
+                                                
+                                            </div>
+                                            
+                                        </center>
+                                    </div>
+                                    <div class='right-contentfilling'>
+
+                                        <div class='choose-filling'>
+                                            <ul>
+
+                                            </ul>
+                                        </div>
+                                        <div style="clear:both;"></div><div class='pagination' style="margin-top:2px;margin-left:2px;"></div><div style="clear:both;"></div>
+                                    </div>
+                                    <div style="clear:both;"></div>
+                                </div>
+                            </form>
+                        </div>
+                        <div style="clear:both;">
+                            <div id='nextButton' style="float: right; margin-right: 5px;"><input id='formatFillingNextButton' style="bottom: 10px;" type='button' name='submit' class='next-button' value='<?php echo mb_convert_encoding($lang['NEXT'], "UTF-8"); ?>' /></div>
+                            <div id='backButton' style="float: right; margin-right: 5px;"><input id='formatFillingBackButton' style="bottom: 10px;" type='button' name='submit' class='next-button' value='<?php echo mb_convert_encoding($lang['BACK'], "UTF-8"); ?>' /></div>
+                            <div style="clear:both;"></div>
+                        </div>
                     </div>
                 </div>
 
-
                 
-                
-                
-                <!--
-                
-                <div id="adminscreen" class="screens">
-                    <div class='tiitle'>
-                        <div class='tittle-left-bg'>
-                        </div>
-                        <div class='tittle-txt'>
-                            <h1>Add a background image</h1>
-                        </div>
-                        <div class='tittle-right-bg'>
-                        </div>
-                    </div>
-                    <div class='chose-format'>
-                        <div class='content-upper'>
-                            <ul>
-                                
-                                <select id="changeFillingsBusiness" name="dynamicFillings" class="dynamicFillings"> 
-                                <option>Classic Schoko-Wand-Adventskalender BUSINESS</option>
-                                <option>Classic Schoko-Tisch-Adventskalender BUSINESS</option>
-                              <option>Schoko-Sonderform-Adventskalender BUSINESS</option>
-                              <option>Wunsch-Adventskalender BUSINESS mit Vollmilch-Naps von Lindt & Sprungli</option>
-                              <option>Wunsch-Adventskalender BUSINESS mit Alpenmilchschokoladen-Naps von Kraft Foods</option>
-                             <option>Wunsch-Adventskalender BUSINESS mit Dextro Energy Traubenzucker-Tafelchen</option>
-                             <option>A5-Schoko-Adventskalender BUSINESS</option>
-                             <option>Knusper-Adventskalender BUSINESS</option>
-                             <option>Premium Wunsch-Adventskalender BUSINESS mit Fruchtgummi Weihnachten im Flowpack 16 g</option>
-                             <option>Premium Wunsch-Adventskalender BUSINESS mit Lubecker Marzipanmischung</option>
-                            <option>Mini-Fruchtgummi-Adventskalender BUSINESS</option>
-                             <option>Mini-BIO-Fruchtgummi-Adventskalender BUSINESS</option>
-                           <option>Kleinster (Advents-)Kalender der Welt BUSINESS mit Schokolinsen</option>
-                            <option>    Kleinster (Advents-)Kalender der Welt BUSINESS mit Pulmoll</option>
-                                    </select>   
-                               <input id='adminAddBgImage' type='text' value='img/bgimgs/business_bgimgs/B.jpg' name='adminAddBgImage' size='35' />
-                                
-                            </ul>
-                            <button id="addBgFromAdmin" class="addBgFromAdmin" value="Add" style="width: 200px; height: 100px;"></button>
-                        </div><div class='filling-content-lower'>
-                        </div>
-                    </div>
-                </div>
-                
-                
-                
-                -->
-                
-                
-                
-                
-                
-                
-                <!--SCREEN-CHOOSE-DESIGN-->
                 <div id="content-choosedesignhtml" class="screens">
-                    <div class='tiitle'>
-                        <div class='tittle-left-bg'>
+                    <div class="tiitle">
+                        <div class='design-title'>
+                            <?php echo mb_convert_encoding($lang['Choose a design'], "UTF-8"); ?>
                         </div>
-                        <div class='tittle-txt'>
-                            <h1><?php echo mb_convert_encoding($lang['Choose a design'], "UTF-8"); ?></h1>
-                        </div>
-                        <div class='tittle-right-bg'>
-                        </div>
+
+                        <div style="clear:both"></div>
                     </div>
-                    <div class='chose-format'>
-                        <div class='content-upper'>
-                            <ul></ul>
-                        </div><div class='filling-content-lower'>
-                        </div>
+                    <div class='content-upper' style="border-bottom: 1px solid #C9C9C9; border-radius: 0 0 5px 5px;">
+                        <ul></ul>
+                        <div class="clearBoth"></div><div id='pagination' style="margin-top:2px;margin-left:2px;"></div><div style="clear:both;"></div>
+                    </div>
+                    <div id="buttonDiv" style="clear:both; padding-top:20px;">
+                        <div id="uploadButton"></div>
+<!--                        <div id="backAndNextButtons"></div>-->
                     </div>
                 </div>
-
 
 
                 <!--SCREEN-CHOOSE-ADDRESS-->
                 <div id="content-chooseaddresshtml" class="screens">
                     <div class='tiitle'>
-                        <div class='tittle-left-bg'>
+                        
+                        <div class='address-title'>
+                            <?php echo mb_convert_encoding($lang['ADD YOUR HOUSE OR OFFICE ADDRESS'], "UTF-8"); ?>
                         </div>
-                        <div class='tittle-txt'>
-                            <h1><?php echo mb_convert_encoding($lang['ADD YOUR HOUSE OR OFFICE ADDRESS'], "UTF-8"); ?></h1>
-                        </div>
-                        <div class='tittle-right-bg'>
-                        </div>
+                        
                     </div>
                     <div class='chose-format'>
-                        <div class='content-upper-address'>
-                       <div id="radioForAddress">
-				<input type="radio" id="radioCompanyAddress" class="addressRadio" name="radio" checked="checked"/><label for="radioCompanyAddress"><?php echo mb_convert_encoding($lang['Use Company Address'], "UTF-8"); ?></label><br/>
-				<input type="radio" id="radioHomeAddress" class="addressRadio" name="radio"  /><label for="radioHomeAddress"><?php echo mb_convert_encoding($lang['Use Home Address'], "UTF-8"); ?></label>
-				<br/>
-			</div>
+                        <div class='content-upper-address' style="border-bottom: 1px solid #C9C9C9; border-radius: 0 0 5px 5px;">
+                            <div id="radioForAddress">
+                                <input type="radio" id="radioCompanyAddress" class="addressRadio" name="radio" checked="checked"/><label for="radioCompanyAddress"><?php echo mb_convert_encoding($lang['Use Company Address'], "UTF-8"); ?></label><br/>
+                                <input type="radio" id="radioHomeAddress" class="addressRadio" name="radio"  /><label for="radioHomeAddress"><?php echo mb_convert_encoding($lang['Use Home Address'], "UTF-8"); ?></label>
+                                <br/>
+                            </div>
                             <div id="homeAddress">
-                                
-                                
+
+
                                 <div id='addressDivindd_bg' style='text-align:left;padding-left:150px;'>
 
                                     <div>Address Line 1</div>
@@ -657,11 +579,14 @@ else{
                                     <div  id='dd_bgwebsite' style='margin-bottom:4px'><input id='dd_bgwebsiteinput' type='text' name='website' size='35' /></div>
                                 </div>
                                 <br/>
-                                <div class='next-button-div'><input id='AddressNextButton' type='button' name='submit' class='next-button' value='<?php echo mb_convert_encoding($lang['NEXT'], "UTF-8"); ?>' /></div>
-                            <div class='back-button-div'><input id='AddressBackButton' type='button' name='submit' class='next-button' value='<?php echo mb_convert_encoding($lang['BACK'], "UTF-8"); ?>' /></div>
+                               
                             </div>
-                        </div><div class='filling-content-lower'>
                         </div>
+                    </div>
+                    
+                    <div id="buttonDiv" style="clear:both; padding-top:20px;">
+                         <div class='next-button-div'><input id='AddressNextButton' type='button' name='submit' class='next-button' value='<?php echo mb_convert_encoding($lang['NEXT'], "UTF-8"); ?>' /></div>
+                                <div class='back-button-div'><input id='AddressBackButton' type='button' name='submit' class='next-button' value='<?php echo mb_convert_encoding($lang['BACK'], "UTF-8"); ?>' /></div>
                     </div>
                 </div>
 
@@ -669,16 +594,15 @@ else{
                 <!---->
                 <div id="content-playablehtml" class="screens">
                     <div class='tiitle'>
-                        <div class='tittle-left-bg'>
+                        
+                        <div class='playable-title'>
+                            <?php echo mb_convert_encoding($lang['CUSTOMIZE YOUR ADVENTS KALENDER'], "UTF-8"); ?>
                         </div>
-                        <div class='tittle-txt'>
-                            <h1><?php echo mb_convert_encoding($lang['CUSTOMIZE YOUR ADVENTS KALENDER'], "UTF-8"); ?></h1>
-                        </div>
-                        <div class='tittle-right-bg'>
-                        </div>
+                        
+                        
                     </div>
                     <div class='chose-format'>
-                        <div class='content-upper-playable' style='width: auto;'>
+                        <div class='content-upper-playable' style="border-bottom: 1px solid #C9C9C9; width: auto; height:auto; border-radius: 0 0 5px 5px;">
                             <div id="allPlayableArea" style="width: 100%;">
                                 <div class="edit-design-editor">
                                     <div class="tools">
@@ -764,31 +688,15 @@ else{
 
                                         <div id="packagesrc"  style="display:none;"><h1>Choose your package first</h1></div>
 
-
-
-
-
-
                                     </div>
-
-
-
-
-
-
-                                    
-
-
-
-
-
-
                                 </div>
 
                                 <div style="clear: both;"></div>
                             </div>
-                        </div><div class='filling-content-lower'>
                         </div>
+                    </div>
+                    <div id="playableButtonDiv" style="clear:both; padding-top:20px;">
+                         
                     </div>
                 </div>
 
@@ -797,7 +705,7 @@ else{
 
 
                 <!--SCREEN-DESK-->
-                
+
 
             </div>
 
@@ -814,4 +722,3 @@ else{
 
     </body>
 </html>
-

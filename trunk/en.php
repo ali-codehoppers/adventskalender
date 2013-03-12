@@ -18,9 +18,9 @@ $lang = array(
     'NEXT'=>'NEXT',
     'BACK'=>'BACK',
     'Choose a design'=>'Choose a design',
-    'ADD YOUR HOUSE OR OFFICE ADDRESS'=>'Fügen Sie Ihre die Adresse hinzu',
+    'ADD YOUR HOUSE OR OFFICE ADDRESS'=>'ADD YOUR HOUSE OR OFFICE ADDRESS',
     'Use Company Address'=>'Use Company Address',
-    'Use Home Address'=>'Privatadresse nutzen',
+    'Use Home Address'=>'Use Home Address',
     'CUSTOMIZE YOUR ADVENTS KALENDER'=>'CUSTOMIZE YOUR ADVENTS KALENDER'
 //'' => '',
 						
