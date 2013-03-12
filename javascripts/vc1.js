@@ -12,7 +12,9 @@ CH.VC1={
     dropbackground:"",
     currentSide:"Front",
     shapeSelected:"",
-    akType:"",
+    formatId:null,
+    fillingId:null,
+    packageId:1,
     fillingsForThisPackage:"changeFillingsStandard",
     init:function(){
         CH.VC2.deinitialize();
@@ -28,10 +30,9 @@ CH.VC1={
         this.initPreviewEps();
         this.initRemoveUnusedButton();
         this.initMakeShape();
-        
-		this.initSave();
-this.back=new Array();
-$(".address-tittle-txt h1").html("Enter Text For Front Side");
+        this.initSave();
+        this.back=new Array();
+        $(".address-tittle-txt h1").html("Enter Text For Front Side");
     },
     
     showLeftAndRightSide:function()
@@ -40,34 +41,173 @@ $(".address-tittle-txt h1").html("Enter Text For Front Side");
     },
     
     preparingFront:function(){
-     $( ".tools button" ).prop("disabled","disabled");
-        
-        //$( ".tools button" ).css("opacity","0.5");
-        //$( ".tools select" ).prop("disabled","disabled");
-        $( ".tools #changebg" ).prop("disabled","");
-        $( ".tools #changebg" ).css("opacity","1");
-        //$( ".tools #toolbarViewAction button" ).prop("disabled","");
+        $( ".tools button" ).prop("disabled","disabled");
+        $( ".tools #changebg" ).prop("disabled","disabled");
+        $( ".tools #changebg" ).css("opacity","0");
         $( ".tools #toolbarViewAction button" ).css("opacity","1");
-	 $( ".tools #Save" ).prop("disabled","");
+        $( ".tools #Save" ).prop("disabled","");
         $( ".tools #Save" ).css("opacity","1");
-    
     },
     
-  /*  initialScreenTwo:function(){
-        $(".screens").hide();
-            $("#content-choosedesignhtml").show();
-                $(".nav").hide();
+    /*here from the next here change is only initfillingnextbutton*/ 
+    /*initFormatChange:function(){
+        var oThis=this;
+        $("#changeFillingsStandard").change(function(){
+            oThis.formatChanged($("#changeFillingsStandard").val());
+        });
+        $("#changeFillingsStandard").change();
+    },
+    formatChanged:function(formatId){
+        var oThis=this;
+        $.ajax({
+            type: "POST",
+            url: "basicFunctions.php",
+            data: {
+                "type":"getFillingsForFormat",
+                formatId:formatId
+            },
+            success:function(data){
+                data=eval("("+data+")");
+                $('.choose-filling ul').html(data.data);
+                if(data.pagination){
+                    oThis.initPagination("#pagination",data.totalCount);
+                }
+                oThis.initFillingSelect();
+                oThis.initFillingNextButton();
+                
+            },
+            error:function(a,b,c){
+                alert("error");
+            }
+        });
+    } ,
+    initFillingNextButton:function(){
+        var oThis=this;
+        $('#formatFillingNextButton').unbind("click");
+        $('#formatFillingNextButton').click(function() {
+            if($('.filling-radio').is(':checked'))// && $('.format-radio').is(':checked')) 
+            {   
+                $("#backgroundsForEachPackage ul").html("");
+                oThis.formatId=$("#changeFillingsStandard").val();
+                $(".screens").hide();
+                $("#content-choosedesignhtml").show();
+                oThis.putBackGroundInInitialscreen();
+            }						
+        });
         
-        $(".nav6bar").show();
-            CH.VC1.putBackGroundInInitialscreen();
-            CH.selected=0;
+    },
+    initFillingSelect:function(){
+        var oThis=this;
+        $('.choose-filling ul li').unbind("click");
+        $('.choose-filling ul li').click(function() {
+            $(this).find('input[type=radio]').attr('checked', true);
+            var fillingId=$(this).find('input[type=radio]').prop("id");
+            fillingId=fillingId.substr(fillingId.indexOf("-")+1,fillingId.length);
+            oThis.fillingId=fillingId;
+        });
     },*/
     
-    initChangeSubPackage:function(){
-        $("#changeFillingsStandard").change(function(){
-             CH.VC1.getPageContent("",1);
+    /*here*/
+    initialScreenTwo:function(){
+        $(".screens").hide();
+        $("#content-choosefillingshtml").show();
+        $(".dynamicFillings").hide();
+        $("#changeFillingsStandard").show();
+        $(".filling-content-lower").css("margin-left","5px");
+        $(".nav").hide();
+        $(".nav6bar").show();
+        buttonToUnactivestate();
+        $(".nav6bar ul #second").prop("class","second active");
+        //CH.VC1.getFormats();
+        CH.com.VC=this;
+        CH.com.getFormats();
+        CH.selected=1;
+        
+    }, 
+    /*initPagination:function(selector,totalItems){
+        $(selector).pagination({
+            items: totalItems,
+            itemsOnPage: 6,
+            cssStyle: 'light-theme',
+            onClick:function(pageNum){
+                CH.VC1.getPageContent("",pageNum);
+            },
+            callback:function(){
+            //CH.VC1.getPageContent("","1");
+            }
         });
     },
+    initPaginationForDesign:function(selector,totalItems){
+        var oThis=this;
+        $(selector).pagination({
+            items: totalItems,
+            itemsOnPage: 16,
+            cssStyle: 'light-theme',
+            onClick:function(pageNum){
+                oThis.getPageContentForDesign("",pageNum);
+            },
+            callback:function(){
+            //CH.VC1.getPageContent("","1");
+            }
+        });
+    },
+    getPageContentForDesign:function(placingSelector,pageNum){//here
+        var oThis=this;
+        $.ajax({
+            type: "POST",
+            url: "basicFunctions.php",
+            data: {
+                "type":"getDesignPage",
+                fillingId:oThis.fillingId,
+                packageId:oThis.packageId,
+                pageNum:pageNum
+            },
+            success:function(data){
+                afterLoadDesignData(data,oThis);
+            },
+            error:function(a,b,c){
+                alert("error");
+            }
+        });
+    },*/
+    /*
+    getFormats:function(){
+        var oThis=this;
+        $.ajax({
+            type: "POST",
+            url: "basicFunctions.php",
+            data: {
+                "type":"getFormatsFromDb",
+                packageType:1
+            },
+            success:function(data){
+                $('#changeFillingsStandard').html(data);    
+                oThis.initFormatChange();
+            } 
+        });
+    },
+    
+    getPageContent:function(placingSelector,pageNum){
+        var oThis=this;
+        $.ajax({
+            type: "POST",
+            url: "basicFunctions.php",
+            data: {
+                "type":"getFillingsPage",
+                formatId:$("#changeFillingsStandard").val(),
+                pageNum:pageNum
+            },
+            success:function(data){
+                $('.choose-filling ul').html(data);
+                oThis.initFillingSelect();
+                oThis.initFillingNextButton();
+            },
+            error:function(a,b,c){
+                alert("error");
+            }
+        });
+    },*/
+/*main changes are till here*/
     
     initMakeShape:function(){
         
@@ -101,150 +241,27 @@ $(".address-tittle-txt h1").html("Enter Text For Front Side");
             $(".right").append(test);
         }
     },
-    initialScreenTwo:function(){
-            
-     $(".screens").hide();
-        $("#content-choosefillingshtml").show();
-        $(".dynamicFillings").hide();
-        $("#changeFillingsStandard").show();
-        this.initChangeSubPackage();
-        $(".filling-content-lower").css("margin-left","5px");
-        $(".nav").hide();
-        
-        $(".nav6bar").show();
-        buttonToUnactivestate();
-        $(".nav6bar ul #second").prop("class","second active");
-        CH.VC1.putchooseformatforinit();
-        $(function() {
-            $.ajax({
-                type: "POST",
-                url: "basicFunctions.php",
-                data: {
-                    "type":"getTotalFillings"
-                },
-                success:function(data){
-                    data=$.trim(data);
-                    CH.VC1.initPagination("#pagination",data);
-                },
-                error:function(a,b,c){
-                    alert("error");
-                }
-            });
-        });
-        CH.selected=1;       
-            
-    }, 
-    initPagination:function(selector,totalItems){
-        $(selector).pagination({
-            items: totalItems,
-            itemsOnPage: 6,
-            cssStyle: 'light-theme',
-            onClick:function(pageNum){
-                CH.VC1.getPageContent("",pageNum);
-            },
-            callback:function(){
-                CH.VC1.getPageContent("","1");
-            }
-        });
-    },
-    
-    putchooseformatforinit:function(){
-        var oThis=this;
-        
-        $.ajax({
-            type: "POST",
-            url: "basicFunctions.php",
-            data: {
-                "type":"getFormatsFromDb"
-            },
-            success:function(data){
-                //$('.choose-format ul').html(data);
-            } 
-        });
-    },
-    getPageContent:function(placingSelector,pageNum){
-        $.ajax({
-            type: "POST",
-            url: "basicFunctions.php",
-            data: {
-                "type":"getPagefillings",
-                subpckg:$("#changeFillingsStandard").val(),
-                pageNum:pageNum
-            },
-            success:function(data){
-                
-                /**xains code**/
-                
-                $('.choose-filling ul').html(data);
-                $('.filling-radio').click(function() {
-                    						
-                });
-                $('.choose-filling ul li').click(function() {
-                    $(this).find('input[type=radio]').attr('checked', true);
-                    						
-                });
-                
-                $('#formatFillingNextButton').click(function() {
-                    if($('.filling-radio').is(':checked'))// && $('.format-radio').is(':checked')) 
-                    {
-                        $("#backgroundsForEachPackage ul").html("");
-                        CH.VC1.akType=$("#changeFillingsStandard").val();
-                        //$('.content').html("");  
-                        //$('.content').append(choosedesignhtml);
-                        $(".screens").hide();
-                        $("#content-choosedesignhtml").show();
-                        CH.VC1.putBackGroundInInitialscreen();
-                        makeCanvas();
-                    }						
-                });
-                
-                
-               /* 
-                $('.choose-format ul li').click(function() {
-                    $(this).find('input[type=radio]').attr('checked', true);
-                    var temp= $(this.getElementsByTagName("input")).prop("value");//$(this).prop("value");
-                    $.ajax({
-                        async: false,
-                        type: "POST",
-                        url:"storesession.php",
-                        data:{
-                            bgsrc:temp
-                        },
-                        success:function(data){
-                            data=data.trim();
-                            CH.VC1.shapeSelected=data;
-                            CH.VC1.initMakeShape();
-                        } 
-                    })
-                });*/
-            /**xains code end**/
-            },
-            error:function(a,b,c){
-                alert("error");
-            }
-        });
-    },
- 
+     
     initializeAndSetActiveButtons:function(){
        
-                            CH.VC1.init();
-                            $(".nav ul #first").prop("class","first");
-                            $(".nav ul #middle").prop("class","middle");
-                            $(".nav ul #last").prop("class","last active");
-                            $( ".tools button" ).prop("disabled","disabled");
-                            $( ".tools button" ).css("opacity","0.5");
-                            $( ".tools select" ).prop("disabled","disabled");
-                            $( ".tools #changebg" ).prop("disabled","");
-                            $( ".tools #changebg" ).css("opacity","1");
-    	$( ".tools #Save" ).prop("disabled","");
+        CH.VC1.init();
+        $(".nav ul #first").prop("class","first");
+        $(".nav ul #middle").prop("class","middle");
+        $(".nav ul #last").prop("class","last active");
+        $( ".tools button" ).prop("disabled","disabled");
+        $( ".tools button" ).css("opacity","0.5");
+        $( ".tools select" ).prop("disabled","disabled");
+        //$( ".tools #changebg" ).prop("disabled","");
+        //$( ".tools #changebg" ).css("opacity","1");
+        $( ".tools #Save" ).prop("disabled","");
         $( ".tools #Save" ).css("opacity","1");
-                            $("#sidebuttons").append("<button name='addtext' class='toolbarViewBtn'  id='frontdivimg'><img src='img/imagesapp/front_view.png' width='18' alt='Front View' /></button><button name='addtext' class='toolbarViewBtn'  id='backdivimg'><img src='img/imagesapp/back_view.png' width='18' alt='Back View' /></button>");
-                            CH.VC1.toBack();
-                            CH.VC1.toFront();
-                            $( "#epsbutton" ).prop("disabled","");
-                            $( "#epsbutton" ).css("opacity","1");
+        $("#sidebuttons").append("<button name='addtext' class='toolbarViewBtn'  id='frontdivimg'><img src='img/imagesapp/front_view.png' width='18' alt='Front View' /></button><button name='addtext' class='toolbarViewBtn'  id='backdivimg'><img src='img/imagesapp/back_view.png' width='18' alt='Back View' /></button>");
+        CH.VC1.toBack();
+        CH.VC1.toFront();
+        $( "#epsbutton" ).prop("disabled","");
+        $( "#epsbutton" ).css("opacity","1");
        
-   },
+    },
     
     
     deinitialize:function(){
@@ -259,15 +276,15 @@ $(".address-tittle-txt h1").html("Enter Text For Front Side");
         $(".drop div").unbind("mousedown");
         $(".drop").unbind("click");
         $("#changebg").unbind("click");
-$("#epsbutton").unbind("click");
-$("#Save").unbind("click");
+        $("#epsbutton").unbind("click");
+        $("#Save").unbind("click");
     },
     
     initPreviewEps:function(){
         var oThis=this;
         $("#epsbutton").click(function(){
             buttonToUnactivestate();
-    $(".nav6bar ul #sixth").prop("class","sixth active");
+            $(".nav6bar ul #sixth").prop("class","sixth active");
     
             $("#previeweps").dialog("destroy");
             CH.VC1.saveState("prev");
@@ -291,7 +308,7 @@ $("#Save").unbind("click");
     },
     initRemoveUnusedButton:function()
     {
-            $("#removeButton").remove();
+        $("#removeButton").remove();
         $("#UndoButton").remove();
         $("#RedoButton").remove();
         $("#CopyButton").remove();
@@ -302,6 +319,7 @@ $("#Save").unbind("click");
         $("#leftdivimg").parent().remove();
         $("#rightdivimg").parent().remove();
         $("#clrpikr").parent().remove();
+        $("#changebg").remove();
         
     
     },
@@ -315,7 +333,7 @@ $("#Save").unbind("click");
         });
     },
     
-initButtonToChangeBackground:function(){  //change background
+    initButtonToChangeBackground:function(){  //change background
         var oThis=this;
         $("#toolbarImageAction #changebg").unbind("click");
         $("#toolbarImageAction #changebg").click(function() {
@@ -323,7 +341,7 @@ initButtonToChangeBackground:function(){  //change background
         });
     },
 
-changeBackground:function(){   //working function
+    changeBackground:function(){   //working function
         $("#imageform2").replaceWith("");
         var formStr = " <form id='imageform2' method='post' style='display:none;' enctype='multipart/form-data' action='./basicFunctions.php?type=uploadBackground'>"+
         "<input type='file' name='photoimg2' id='photoimg2' />"+
@@ -347,13 +365,13 @@ changeBackground:function(){   //working function
                         $("#divLoad").dialog("open");
                         //var url = "url(./img/imagesapp/loading.gif?"+Math.random()+")";
                         //$('.drop').css('background-image', url);//     .html('<img src="img/imagesapp/loading.gif" alt="Uploading...."/>');
-                        $("#imageform2").ajaxForm(
-                        {
-                        success:    function(responseText, statusText, xhr, $form) { 
+                        $("#imageform2").ajaxForm({
+                            success:function(responseText, statusText, xhr, $form) { 
                                 var src=responseText.split(',')[0];
                                 var success=responseText.split(',')[1];
                                 if(success[0]=="1")   
-                                {    $("#divLoad").dialog("close");
+                                {
+                                    $("#divLoad").dialog("close");
                                     //$('.back').css('background-image', 'url()');
                                     $('.back').hide();
                                     $('.drop').css('background-image', 'url()');
@@ -391,7 +409,7 @@ changeBackground:function(){   //working function
     },
     saveState:function(state){
         var empty;
-traverseBack();
+        traverseBack();
         var obj={
             "triangle":empty,
             "backSide":this.back,
@@ -433,14 +451,14 @@ traverseBack();
                                 });
                                 $("#divLoad").dialog("close");
                             };
-				if(CH.VC1.currentSide=="Front")
-                            	imgEPS.src='./EPSIMAGE/Front_EPS_'+data+'.png';
-				else 
-                            	imgEPS.src='./EPSIMAGE/Back_EPS_'+data+'.png';
+                            if(CH.VC1.currentSide=="Front")
+                                imgEPS.src='./EPSIMAGE/Front_EPS_'+data+'.png';
+                            else 
+                                imgEPS.src='./EPSIMAGE/Back_EPS_'+data+'.png';
                             $("#previeweps").html(imgEPS);
                         }else if(state=="save"){
-				//window.location.pathname="/adventscalender/EPSIMAGE/Front_EPSImage_"+data+".eps";
-				window.location.pathname="/adventscalender/EPSIMAGE/outfile_"+data+".zip";
+                            //window.location.pathname="/adventscalender/EPSIMAGE/Front_EPSImage_"+data+".eps";
+                            window.location.pathname="/adventscalender/EPSIMAGE/outfile_"+data+".zip";
                             $("#divLoad").dialog("close");
                         }
                     }
@@ -450,9 +468,11 @@ traverseBack();
     },
     
     putBackGroundInInitialscreen:function() 
-    {
-        currentPackage = CH.VC1;
-        loadDesigns(CH.VC1, false, CH.VC1.akType);			
-    }    
+    {   //load design n make canvas are is in common
+        //var oThis=this;
+        //loadDesigns(oThis,oThis.packageId,oThis.fillingId);
+        //makeCanvas(); check1 check this what it does
+    },
+    appendDesignBackgroundUploadBt:function(){/*dont delete*/}
     
 }

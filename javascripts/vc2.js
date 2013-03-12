@@ -28,7 +28,9 @@ CH.VC2={
     dropbackground:"",
     currentSide:"Front",
     shapeSelected:"",
-    akType:"",
+    formatId:null,
+    fillingId:null,
+    packageId:2,
     fillingsForThisPackage:"changeFillingsBasic",
     init:function(){
         
@@ -55,7 +57,7 @@ CH.VC2={
         this.initEditableDiv();
         this.toBack();
         this.toFront();
-	this.initSave();
+        this.initSave();
         this.initRemoveUnusedButton();
         this.initBtColorPickerForbackground();
         this.initBtBold();
@@ -67,16 +69,17 @@ CH.VC2={
         this.initBtRalign();
         this.initBtCalign();
         this.initMakeShape();
+        this.initRelBtRotate();
         
         backButtons()
         makeBack();
         matchAddressFromBack();
         $(".address-tittle-txt h1").html("Enter Text For Front Side");
-this.back=new Array();
+        this.back=new Array();
     },
-  initRemoveUnusedButton:function()
+    initRemoveUnusedButton:function()
     {
-      $("#removeButton").remove();
+        $("#removeButton").remove();
         $("#UndoButton").remove();
         $("#RedoButton").remove();
         $("#CopyButton").remove();
@@ -87,28 +90,28 @@ this.back=new Array();
         $("#rightdivimg").parent().remove();
         $("#backdivimg").parent().remove();
         $("#frontdivimg").parent().remove();
-     $("#textForSidecolor").remove();
+        $("#textForSidecolor").remove();
         $("#toolbarViewAction").append("<div id='textForSidecolor'>Choose color for back, left & right side</div>")
      
     },
-showLeftAndRightSide:function()
+    showLeftAndRightSide:function()
     {
         
     },
- initBtColorPickerForbackground:function(){
+    initBtColorPickerForbackground:function(){
         var oThis=this;
         $(".color-picker-for-background").miniColors({
             change: function(hex) {
                 
-                    oThis.colorPickerForBackground("left",hex);
+                oThis.colorPickerForBackground("left",hex);
                     
                 
             }
         });
     },
- preparingFront:function(){
+    preparingFront:function(){
      
-    $( ".tools button" ).prop("disabled","disabled");
+        $( ".tools button" ).prop("disabled","disabled");
         $( ".tools button" ).css("opacity","0.5");
         $( ".tools select" ).prop("disabled","disabled");
         $( ".tools #addButton" ).prop("disabled","");
@@ -117,10 +120,10 @@ showLeftAndRightSide:function()
         $( ".tools #upphot" ).css("opacity","1");
         $( ".tools #toolbarViewAction button" ).prop("disabled","");
         $( ".tools #toolbarViewAction button" ).css("opacity","1");
-    	$( ".tools #Save" ).prop("disabled","");
+        $( ".tools #Save" ).prop("disabled","");
         $( ".tools #Save" ).css("opacity","1");
 
-$( "#toolbarFontAction button" ).prop("disabled","");
+        $( "#toolbarFontAction button" ).prop("disabled","");
         $( "#toolbarFontAction button" ).css("opacity","1");
         $( "#font1" ).prop("disabled","");
         $( "#font1" ).css("opacity","1");
@@ -128,14 +131,173 @@ $( "#toolbarFontAction button" ).prop("disabled","");
         $( "#fontsize" ).css("opacity","1");
     },
  
- 
- initChangeSubPackage:function(){
+    /*
+    initFormatChange:function(){
+        var oThis=this;
         $("#changeFillingsBasic").change(function(){
-             CH.VC2.getPageContent("",1);
+            //CH.VC1.getPageContent("",1);
+            oThis.formatChanged($("#changeFillingsBasic").val());
+        });
+        $("#changeFillingsBasic").change();
+    },
+    formatChanged:function(formatId){
+        var oThis=this;
+        
+        //alert (formatId);
+        $.ajax({
+            type: "POST",
+            url: "basicFunctions.php",
+            data: {
+                "type":"getFillingsForFormat",
+                formatId:formatId
+            },
+            success:function(data){
+                data=eval("("+data+")");
+                $('.choose-filling ul').html(data.data);
+                if(data.pagination){
+                    oThis.initPagination("#pagination",data.totalCount);
+                }
+                oThis.initFillingSelect();
+                oThis.initFillingNextButton();
+                
+            },
+            error:function(a,b,c){
+                alert("error");
+            }
+        });
+    } ,
+    initFillingNextButton:function(){
+        var oThis=this;
+        $('#formatFillingNextButton').unbind("click");
+        $('#formatFillingNextButton').click(function() {
+            if($('.filling-radio').is(':checked'))// && $('.format-radio').is(':checked')) 
+            {   
+                $("#backgroundsForEachPackage ul").html("");
+                oThis.formatId=$("#changeFillingsStandard").val();
+                $(".screens").hide();
+                $("#content-choosedesignhtml").show();
+                oThis.putBackGroundInInitialscreen();
+            }						
+        });
+        
+    },
+    initFillingSelect:function(){
+        var oThis=this;
+        $('.choose-filling ul li').unbind("click");
+        $('.choose-filling ul li').click(function() {
+            $(this).find('input[type=radio]').attr('checked', true);
+            var fillingId=$(this).find('input[type=radio]').prop("id");
+            fillingId=fillingId.substr(fillingId.indexOf("-")+1,fillingId.length);
+            oThis.fillingId=fillingId;
         });
     },
- 
- initMakeShape:function(){
+    */
+    
+    
+    initialScreenTwo:function(){
+               
+        $(".screens").hide();
+        $("#content-choosefillingshtml").show();
+        $(".dynamicFillings").hide();
+        $("#changeFillingsBasic").show();
+        $(".filling-content-lower").css("margin-left","5px");
+        $(".nav").hide();
+        $(".nav6bar").show();
+        buttonToUnactivestate();
+        $(".nav6bar ul #second").prop("class","second active");
+        CH.com.VC=this;
+        CH.com.getFormats();
+        //CH.VC2.getFormats();
+        CH.selected=1;       
+            
+    }, 
+    /*  
+    initPagination:function(selector,totalItems){
+        $(selector).pagination({
+            items: totalItems,
+            itemsOnPage: 6,
+            cssStyle: 'light-theme',
+            onClick:function(pageNum){
+                CH.VC2.getPageContent("",pageNum);
+            },
+            callback:function(){
+            //CH.VC2.getPageContent("","1");
+            }
+        });
+    },
+   initPaginationForDesign:function(selector,totalItems){
+        var oThis=this;
+        $(selector).pagination({
+            items: totalItems,
+            itemsOnPage: 16,
+            cssStyle: 'light-theme',
+            onClick:function(pageNum){
+                oThis.getPageContentForDesign("",pageNum);
+            },
+            callback:function(){
+            //CH.VC1.getPageContent("","1");
+            }
+        });
+    },
+    getPageContentForDesign:function(placingSelector,pageNum){//here
+        var oThis=this;
+        $.ajax({
+            type: "POST",
+            url: "basicFunctions.php",
+            data: {
+                "type":"getDesignPage",
+                fillingId:oThis.fillingId,
+                packageId:oThis.packageId,
+                pageNum:pageNum
+            },
+            success:function(data){
+                afterLoadDesignData(data,oThis);
+            },
+            error:function(a,b,c){
+                alert("error");
+            }
+        });
+    },
+    getFormats:function(){
+        var oThis=this;
+        
+        $.ajax({
+            type: "POST",
+            url: "basicFunctions.php",
+            data: {
+                "type":"getFormatsFromDb",
+                packageType:2
+            },
+            success:function(data){
+            $('#changeFillingsBasic').html(data);
+            oThis.initFormatChange();
+            } 
+        });
+    },
+    getPageContent:function(placingSelector,pageNum){
+        var oThis=this;
+        $.ajax({
+            type: "POST",
+            url: "basicFunctions.php",
+            data: {
+                "type":"getFillingsPage",
+                formatId:$("#changeFillingsStandard").val(),
+                fillingId:oThis.fillingId,
+                packageId:oThis.packageId,
+                pageNum:pageNum
+            },
+            success:function(data){
+                $('.choose-filling ul').html(data);
+                oThis.initFillingSelect();
+                oThis.initFillingNextButton();
+            },
+            error:function(a,b,c){
+                alert("error");
+            }
+        });
+    },
+    */
+    initMakeShape:function(){
         
         $(".drop").find(".shapeOfAC").remove();
         $(".back").find(".shapeOfAC").remove();
@@ -167,138 +329,6 @@ $( "#toolbarFontAction button" ).prop("disabled","");
             $(".right").append(test);
         }
     },
- initialScreenTwo:function(){
-   /*     $(".screens").hide();
-            $("#content-choosedesignhtml").show();
-            $(".nav").hide();
-        $(".nav6bar").show();
-            CH.VC2.putBackGroundInInitialscreen();
-   CH.selected=0;
- */           
-     $(".screens").hide();
-        $("#content-choosefillingshtml").show();
-        $(".dynamicFillings").hide();
-        $("#changeFillingsBasic").show();
-        CH.VC2.initChangeSubPackage();
-        $(".filling-content-lower").css("margin-left","5px");
-        $(".nav").hide();
-        
-        $(".nav6bar").show();
-        buttonToUnactivestate();
-        $(".nav6bar ul #second").prop("class","second active");
-        CH.VC2.putchooseformatforinit();
-        $(function() {
-            $.ajax({
-                type: "POST",
-                url: "basicFunctions.php",
-                data: {
-                    "type":"getTotalFillings"
-                },
-                success:function(data){
-                    data=$.trim(data);
-                    CH.VC2.initPagination("#pagination",data);
-                },
-                error:function(a,b,c){
-                    alert("error");
-                }
-            });
-        });
-        CH.selected=1;       
-            
-    }, 
-    initPagination:function(selector,totalItems){
-        $(selector).pagination({
-            items: totalItems,
-            itemsOnPage: 6,
-            cssStyle: 'light-theme',
-            onClick:function(pageNum){
-                CH.VC2.getPageContent("",pageNum);
-            },
-            callback:function(){
-                CH.VC2.getPageContent("","1");
-            }
-        });
-    },
-    
-    putchooseformatforinit:function(){
-        var oThis=this;
-        
-        $.ajax({
-            type: "POST",
-            url: "basicFunctions.php",
-            data: {
-                "type":"getFormatsFromDb"
-            },
-            success:function(data){
-                //$('.choose-format ul').html(data);
-            } 
-        });
-    },
-    getPageContent:function(placingSelector,pageNum){
-        $.ajax({
-            type: "POST",
-            url: "basicFunctions.php",
-            data: {
-                "type":"getPagefillings",
-                subpckg:$("#changeFillingsBasic").val(),
-                pageNum:pageNum
-            },
-            success:function(data){
-                
-                /**xains code**/
-                
-                $('.choose-filling ul').html(data);
-                $('.filling-radio').click(function() {
-                    						
-                });
-                $('.choose-filling ul li').click(function() {
-                    $(this).find('input[type=radio]').attr('checked', true);
-                    						
-                });
-                
-                $('#formatFillingNextButton').click(function() {
-                    if($('.filling-radio').is(':checked'))// && $('.format-radio').is(':checked')) 
-                    {
-                        //$('.content').html("");  
-                        //$('.content').append(choosedesignhtml);
-                        $("#backgroundsForEachPackage ul").html("");
-                        CH.VC2.akType=$("#changeFillingsBasic").val();
-                        $(".screens").hide();
-                        $("#content-choosedesignhtml").show();
-                        CH.VC2.putBackGroundInInitialscreen();
-                        makeCanvas();
-                    }						
-                });
-                
-                
-                
-                /*
-                $('.choose-format ul li').click(function() {
-                    $(this).find('input[type=radio]').attr('checked', true);
-                    var temp= $(this.getElementsByTagName("input")).prop("value");//$(this).prop("value");
-                    $.ajax({
-                        async: false,
-                        type: "POST",
-                        url:"storesession.php",
-                        data:{
-                            bgsrc:temp
-                        },
-                        success:function(data){
-                            data=data.trim();
-                            CH.VC2.shapeSelected=data;
-                            CH.VC2.initMakeShape();
-                         
-                        } 
-                    })
-                });
-                */
-            /**xains code end**/
-            },
-            error:function(a,b,c){
-                alert("error");
-            }
-        });
-    },
     
     initEditableDiv:function(){
         $.ajax({
@@ -323,29 +353,29 @@ $( "#toolbarFontAction button" ).prop("disabled","");
         }); 
     },
     
- initializeAndSetActiveButtons:function(){
+    initializeAndSetActiveButtons:function(){
        
-                            CH.VC2.init();
-                            $(".nav ul #first").prop("class","first");
-                            $(".nav ul #middle").prop("class","middle");
-                            $(".nav ul #last").prop("class","last active");
-                            $( ".tools button" ).prop("disabled","disabled");
-                            $( ".tools button" ).css("opacity","0.5");
-                            $( ".tools select" ).prop("disabled","disabled");
-                            $( ".tools #addButton" ).prop("disabled","");
-                            $( ".tools #addButton" ).css("opacity","1");
-                            $( ".tools #upphot" ).prop("disabled","");
-                            $( ".tools #upphot" ).css("opacity","1");
-    	$( ".tools #Save" ).prop("disabled","");
+        CH.VC2.init();
+        $(".nav ul #first").prop("class","first");
+        $(".nav ul #middle").prop("class","middle");
+        $(".nav ul #last").prop("class","last active");
+        $( ".tools button" ).prop("disabled","disabled");
+        $( ".tools button" ).css("opacity","0.5");
+        $( ".tools select" ).prop("disabled","disabled");
+        $( ".tools #addButton" ).prop("disabled","");
+        $( ".tools #addButton" ).css("opacity","1");
+        $( ".tools #upphot" ).prop("disabled","");
+        $( ".tools #upphot" ).css("opacity","1");
+        $( ".tools #Save" ).prop("disabled","");
         $( ".tools #Save" ).css("opacity","1");
-                            //$("#sidebuttons").append("<button name='addtext' class='toolbarViewBtn'  id='frontdivimg'><img src='img/imagesapp/front_view.png' width='18' alt='Front View' /></button><button name='addtext' class='toolbarViewBtn'  id='backdivimg'><img src='img/imagesapp/back_view.png' width='18' alt='Back View' /></button>");
-                            CH.VC2.toBack();
-                            CH.VC2.toFront();
-                            $( "#epsbutton" ).prop("disabled",""); 
-                            $( "#epsbutton" ).css("opacity","1");
-                            $( "#toolbarFontAction button" ).prop("disabled","");
+        //$("#sidebuttons").append("<button name='addtext' class='toolbarViewBtn'  id='frontdivimg'><img src='img/imagesapp/front_view.png' width='18' alt='Front View' /></button><button name='addtext' class='toolbarViewBtn'  id='backdivimg'><img src='img/imagesapp/back_view.png' width='18' alt='Back View' /></button>");
+        CH.VC2.toBack();
+        CH.VC2.toFront();
+        $( "#epsbutton" ).prop("disabled",""); 
+        $( "#epsbutton" ).css("opacity","1");
+        $( "#toolbarFontAction button" ).prop("disabled","");
         $( "#toolbarFontAction button" ).css("opacity","1");
-         $( "#font1" ).prop("disabled","");
+        $( "#font1" ).prop("disabled","");
         $( "#font1" ).css("opacity","1");
         $( "#fontsize" ).prop("disabled","");
         $( "#fontsize" ).css("opacity","1");
@@ -354,10 +384,10 @@ $( "#toolbarFontAction button" ).prop("disabled","");
                             
                             
        
-   },
+    },
  
  
- deinitialize:function(){
+    deinitialize:function(){
         $(".back").remove();
         $(".probtn").unbind("click");
         $(".txtbtn").unbind("click");
@@ -378,9 +408,20 @@ $( "#toolbarFontAction button" ).prop("disabled","");
         $(".drop div div span .preview").unbind("dblclick");
         $(this.sDiv+" .drag-image").unbind("mousedown");
         this.destroyDragResize();
-$("#epsbutton").unbind("click");
-$("#Save").unbind("click");
-CH.VC2.count=0;
+        $("#epsbutton").unbind("click");
+        $("#Save").unbind("click");
+        CH.VC2.count=0;
+    },
+    
+    
+    initRelBtRotate:function(){    //display corner buttons
+        
+        $(".drop").unbind("mouseup");
+        $(".drop").mouseup(function (e){
+            $("#demobs".sDiv+" .drag-image").show();
+            $("#demobs".sDiv+" .delete-image").show();
+            //$("#demobs".sDiv+" .rotate-image").show();
+        });
     },
     
     initPreviewEps:function(){
@@ -388,7 +429,7 @@ CH.VC2.count=0;
         var oThis=this;
         $("#epsbutton").click(function(){
             buttonToUnactivestate();
-    $(".nav6bar ul #sixth").prop("class","sixth active");
+            $(".nav6bar ul #sixth").prop("class","sixth active");
             for(var i=1;i<=CH.VC2.totalcount;i++)
             {
                 CH.VC2.getXAndYPosition("#demobs"+i+"");
@@ -437,11 +478,11 @@ CH.VC2.count=0;
         $("#demobs"+divid).css('-o-transform', 'rotate('+angleOfdiv+'deg)');
         $("#demobs"+divid).css('-ms-transform', 'rotate('+angleOfdiv+'deg)');
         var roundx=$.trim(" "+(xPos-curleft));
-            roundx=roundx-CH.textConstantToAddForVerticalImages;
-            roundx=Math.floor(roundx);
-            var roundy=$.trim(" "+(yPos-curtop));
-            CH.VC2.items[temp-1].xposition=$.trim(" "+roundx);
-            CH.VC2.items[temp-1].yposition=$.trim(" "+roundy);
+        roundx=roundx-CH.textConstantToAddForVerticalImages;
+        roundx=Math.floor(roundx);
+        var roundy=$.trim(" "+(yPos-curtop));
+        CH.VC2.items[temp-1].xposition=$.trim(" "+roundx);
+        CH.VC2.items[temp-1].yposition=$.trim(" "+roundy);
     },
     
     initDestroyDrop:function(){
@@ -510,7 +551,7 @@ CH.VC2.count=0;
 
     initHideCornerButtons:function(){
         $(".drop div div .rotate-image").hide();
-        $(".drop div div .delete-image").hide();
+        //$(".drop div div .delete-image").hide();
         $(".drop div div.drag-image").hide();
     },
     
@@ -557,7 +598,7 @@ CH.VC2.count=0;
         return false;
     },
 
- initUploadPic:function(){
+    initUploadPic:function(){
         var oThis=this;
         $("#upphot").unbind("click");
         $("#upphot").click(function() {
@@ -567,49 +608,49 @@ CH.VC2.count=0;
  
  
  
- addImage:function(){
+    addImage:function(){
         var oThis=this;
         if(this.counter>2){
             alert("Only 3 new Fields");
             return false;
         }
         else{
-        $("#outer").html(" <form id='imageform' method='post' enctype='multipart/form-data' action='./basicFunctions.php?type=uploadPicture'><input type='file' name='photoimg' id='photoimg' /></form>");
-        this.imageortext=1;
-        $("#outer").dialog({
-            title:"Upload your image",
-            modal: true,
-            resizable: false,
-            open:function(event, ui){
-            },
-            buttons: {
-                Ok: function() {
-                    var temp=($("#imageform #photoimg").val());
-                    var result = temp.substring(temp.lastIndexOf("."));
-                    if(result.toLowerCase()==".jpg"||result.toLowerCase()==".png")
-                    {
-                        oThis.addField(0,"");
-                        $(".drop #demobs"+oThis.totalcount+" span").html('');
-                        $(".drop #demobs"+oThis.totalcount+" .delete-image").hide();
-                        $(".drop #demobs"+oThis.totalcount+" .drag-image").hide();
-                        $(".drop #demobs"+oThis.totalcount+" .rotate-image").hide();
-                        $(".drop #demobs"+oThis.totalcount+" span").html('<img src="img/imagesapp/loading.gif" alt="Uploading...."/>');
-                        $(".drop #demobs"+oThis.totalcount+" span img").attr("style", "width: auto");
-                        //$(".drop #demobs"+oThis.totalcount+" span img").width("auto");
-                        $("#imageform").ajaxForm({
-                            success:       oThis.showResponse
-                        //target: $(".drop #demo"+CH.VC3.idCounter+" span")
-                        }).submit();
-                        $( this ).dialog( "close" );
-                    }
-                    else{
-                        $( this ).dialog( "close" );
-                        alert("Please Select jpg or png image to upload");
-                        CH.VC2.addImage();
-                    }
-                }    
-            }
-        });
+            $("#outer").html(" <form id='imageform' method='post' enctype='multipart/form-data' action='./basicFunctions.php?type=uploadPicture'><input type='file' name='photoimg' id='photoimg' /></form>");
+            this.imageortext=1;
+            $("#outer").dialog({
+                title:"Upload your image",
+                modal: true,
+                resizable: false,
+                open:function(event, ui){
+                },
+                buttons: {
+                    Ok: function() {
+                        var temp=($("#imageform #photoimg").val());
+                        var result = temp.substring(temp.lastIndexOf("."));
+                        if(result.toLowerCase()==".jpg"||result.toLowerCase()==".png")
+                        {
+                            oThis.addField(0,"");
+                            $(".drop #demobs"+oThis.totalcount+" span").html('');
+                            $(".drop #demobs"+oThis.totalcount+" .delete-image").hide();
+                            $(".drop #demobs"+oThis.totalcount+" .drag-image").hide();
+                            $(".drop #demobs"+oThis.totalcount+" .rotate-image").hide();
+                            $(".drop #demobs"+oThis.totalcount+" span").html('<img src="img/imagesapp/loading.gif" alt="Uploading...."/>');
+                            $(".drop #demobs"+oThis.totalcount+" span img").attr("style", "width: auto");
+                            //$(".drop #demobs"+oThis.totalcount+" span img").width("auto");
+                            $("#imageform").ajaxForm({
+                                success:       oThis.showResponse
+                            //target: $(".drop #demo"+CH.VC3.idCounter+" span")
+                            }).submit();
+                            $( this ).dialog( "close" );
+                        }
+                        else{
+                            $( this ).dialog( "close" );
+                            alert("Please Select jpg or png image to upload");
+                            CH.VC2.addImage();
+                        }
+                    }    
+                }
+            });
         }
     },
     showResponse:function (responseText, statusText, xhr, $form)  { 
@@ -624,7 +665,7 @@ CH.VC2.count=0;
         //var newheight=50/asp;
         $("#outer").html("");
         var temp="#demobs"+CH.VC2.totalcount;
-         var temp2=$(".overlaydb").css("height");
+        var temp2=$(".overlaydb").css("height");
         $(temp+" span img").css("height",temp2);
         
         
@@ -639,11 +680,11 @@ CH.VC2.count=0;
         var filename = url.substring(url.lastIndexOf('/'));
         
         var databaseIdOfTheImage= responseText.split('@@@')[3];
-            CH.VC2.initImageEdit();
-            CH.VC2.items[ind].innertxt=$.trim(databaseIdOfTheImage)+","+filename;
-            CH.VC2.items[ind].istxt=0;
+        CH.VC2.initImageEdit();
+        CH.VC2.items[ind].innertxt=$.trim(databaseIdOfTheImage)+","+filename;
+        CH.VC2.items[ind].istxt=0;
 
-            //CH.VC3.getXAndYPosition("#"+CH.VC2.items[ind].id);
+    //CH.VC3.getXAndYPosition("#"+CH.VC2.items[ind].id);
     }, 
  
  
@@ -658,12 +699,12 @@ CH.VC2.count=0;
     },
     
     addField:function(flag,html){
-       var oThis=this;
+        var oThis=this;
         if(this.counter>2){
             alert("Only 3 new Fields");
             return false;
         }   
-	else{
+        else{
             var it= new CH.item();
             this.items.push(it);
             CH.VC2.count=this.totalcount+1;
@@ -687,12 +728,12 @@ CH.VC2.count=0;
             CH.VC2.items[CH.VC2.count-1].fontSize=""+temp;
             CH.VC2.items[CH.VC2.count-1].innertxt=($("#demobs"+CH.VC2.count+" span").html());
             oThis.initSelection();
-            //oThis.destroyDragResize();
-            oThis.initDrag();
+            oThis.selectElement("#demobs"+CH.VC2.count);//here
             oThis.initBtEditField();
             oThis.initImageEdit();
             oThis.initHideCornerButtons();
             oThis.initBtRemField();
+            oThis.initDrag();
             oThis.totalcount=this.totalcount+1;
             oThis.counter++;
             return true;
@@ -743,8 +784,8 @@ CH.VC2.count=0;
             }  
             else{
             {
-                    alert("please select any element to delete");
-                }
+                alert("please select any element to delete");
+            }
             }
         }
     },
@@ -867,7 +908,7 @@ CH.VC2.count=0;
         }
     },
   
-  updateCoords:function(c)
+    updateCoords:function(c)
     {
         var oThis=this;
         CH.VC2.imgparam=c;
@@ -880,7 +921,7 @@ CH.VC2.count=0;
         return false;
     },
   
-initDrag:function(){
+    initDrag:function(){
         var oThis=this;
         $(".drag-image").unbind("mousedown");
         $(".drag-image").mousedown(function(){
@@ -894,7 +935,7 @@ initDrag:function(){
         $(oThis.sDiv).draggable({
             containment: "parent",
             drag: function(){
-                $(".delete-image").hide();
+                //$(".delete-image").hide();
                 $(".rotate-image").hide();
                 var offset = $(this).offset();
                 var xPos = offset.left;
@@ -907,8 +948,10 @@ initDrag:function(){
     
     putBackGroundInInitialscreen:function(bannertemphtml) //initial wallpaper selection
     {
-        currentPackage = CH.VC2;
-        loadDesigns(CH.VC2, false, CH.VC2.akType);			
+        var oThis=this;
+        loadDesigns(oThis,oThis.packageId,oThis.fillingId);
+    //makeCanvas();
+    			
     },
     initSave:function(){ ///backhere
         var oThis=this;
@@ -919,7 +962,7 @@ initDrag:function(){
     },
     saveState:function(state){
         var empty;
-traverseBack();
+        traverseBack();
         var obj={
             "triangle":empty,
             "backSide":this.back,
@@ -962,16 +1005,16 @@ traverseBack();
                                 $("#divLoad").dialog("close");
                             };
                             if(CH.VC2.currentSide=="Front")
-                            	imgEPS.src='./EPSIMAGE/Front_EPS_'+data+'.png';
-				else 
-                            	imgEPS.src='./EPSIMAGE/Back_EPS_'+data+'.png';
+                                imgEPS.src='./EPSIMAGE/Front_EPS_'+data+'.png';
+                            else 
+                                imgEPS.src='./EPSIMAGE/Back_EPS_'+data+'.png';
                             $("#previeweps").html(imgEPS);
                         }else if(state=="save"){
-				                        //window.location=window.location.hostname+"/vccc/EPSIMAGE/EPSImage_"+data+".eps";
-                       // window.location.pathname="/adventscalender/vccc/EPSIMAGE/EPSImage_"+data+".eps";
+                            //window.location=window.location.hostname+"/vccc/EPSIMAGE/EPSImage_"+data+".eps";
+                            // window.location.pathname="/adventscalender/vccc/EPSIMAGE/EPSImage_"+data+".eps";
                        
-                    		//window.location.pathname="/adventscalender/EPSIMAGE/Front_EPSImage_"+data+".eps";
-window.location.pathname="/adventscalender/EPSIMAGE/outfile_"+data+".zip";
+                            //window.location.pathname="/adventscalender/EPSIMAGE/Front_EPSImage_"+data+".eps";
+                            window.location.pathname="/adventscalender/EPSIMAGE/outfile_"+data+".zip";
                             $("#divLoad").dialog("close");
                         }
                     }
@@ -1088,8 +1131,8 @@ window.location.pathname="/adventscalender/EPSIMAGE/outfile_"+data+".zip";
             
             var index=($(proDivId).prop("id")).substr($(proDivId).prop("id").length-1);//
                 
-           CH.VC2.items[index-1].isRightAligned=0;
-           CH.VC2.items[index-1].isCenterAligned=0;
+            CH.VC2.items[index-1].isRightAligned=0;
+            CH.VC2.items[index-1].isCenterAligned=0;
             CH.VC2.items[index-1].isLeftAligned=1;
             
             
@@ -1128,8 +1171,8 @@ window.location.pathname="/adventscalender/EPSIMAGE/outfile_"+data+".zip";
             
             var index=($(proDivId).prop("id")).substr($(proDivId).prop("id").length-1);//
                 
-           CH.VC2.items[index-1].isRightAligned=1;
-           CH.VC2.items[index-1].isCenterAligned=0;
+            CH.VC2.items[index-1].isRightAligned=1;
+            CH.VC2.items[index-1].isCenterAligned=0;
             CH.VC2.items[index-1].isLeftAligned=0;
             
             
@@ -1144,7 +1187,7 @@ window.location.pathname="/adventscalender/EPSIMAGE/outfile_"+data+".zip";
         var oThis=this;
         $("#Calignbutton").unbind("click");
         $("#Calignbutton").click(function(){
-     oThis.Calign(oThis.sDiv);
+            oThis.Calign(oThis.sDiv);
         });
     },
     Calign:function(proDivId){
@@ -1162,8 +1205,8 @@ window.location.pathname="/adventscalender/EPSIMAGE/outfile_"+data+".zip";
             
             var index=($(proDivId).prop("id")).substr($(proDivId).prop("id").length-1);//
                 
-           CH.VC2.items[index-1].isRightAligned=0;
-           CH.VC2.items[index-1].isCenterAligned=1;
+            CH.VC2.items[index-1].isRightAligned=0;
+            CH.VC2.items[index-1].isCenterAligned=1;
             CH.VC2.items[index-1].isLeftAligned=0;
             
             
@@ -1175,7 +1218,7 @@ window.location.pathname="/adventscalender/EPSIMAGE/outfile_"+data+".zip";
         }
     },
      
-     initChangeTheFont:function(){
+    initChangeTheFont:function(){
         var oThis=this;
         $("#font1").change(function(){
             CH.VC2.xainFunc();
@@ -1184,16 +1227,16 @@ window.location.pathname="/adventscalender/EPSIMAGE/outfile_"+data+".zip";
     xainFunc:function(){
         var oThis=this;
         
-            CH.VC2.fontFamilyOfText(oThis.sDiv);
+        CH.VC2.fontFamilyOfText(oThis.sDiv);
         
     },
     
     fontFamilyOfText:function(item){
         
         
-            $(""+item+" span").css("font-family",$("#font1").val());
-            var index=($(item).prop("id")).substr($(item).prop("id").length-1);//
-                CH.VC2.items[index-1].fontStyle= $(""+item+" span").css("font-family");
+        $(""+item+" span").css("font-family",$("#font1").val());
+        var index=($(item).prop("id")).substr($(item).prop("id").length-1);//
+        CH.VC2.items[index-1].fontStyle= $(""+item+" span").css("font-family");
             
         
     },
@@ -1215,23 +1258,24 @@ window.location.pathname="/adventscalender/EPSIMAGE/outfile_"+data+".zip";
     
     fontsizeOfText:function(item){
         
-            $(item+" span").css("font-size",$("#fontsize").val()+"pt");
-            //CH.VC3.items[CH.VC3.findItem(item.id)].fontSize=item.fontSize;
-            var index=($(item).prop("id")).substr($(item).prop("id").length-1);//
+        $(item+" span").css("font-size",$("#fontsize").val()+"pt");
+        //CH.VC3.items[CH.VC3.findItem(item.id)].fontSize=item.fontSize;
+        var index=($(item).prop("id")).substr($(item).prop("id").length-1);//
             
-            var temp2=$(item+" span").css("font-size");
-            temp2=temp2.substring(0, temp2.length-2);
-            temp2=parseInt(temp2);
-            temp2=$(temp2).toUnit("pt");
-            temp2=Math.ceil(temp2);
-            window.console.log(temp2);
+        var temp2=$(item+" span").css("font-size");
+        temp2=temp2.substring(0, temp2.length-2);
+        temp2=parseInt(temp2);
+        temp2=$(temp2).toUnit("pt");
+        temp2=Math.ceil(temp2);
+        window.console.log(temp2);
             
             
-            CH.VC2.items[index-1].fontSize=temp2+"";
-            $(item.id).css("width","auto");
-            $(item.id).css("height","auto");
+        CH.VC2.items[index-1].fontSize=temp2+"";
+        $(item.id).css("width","auto");
+        $(item.id).css("height","auto");
         
-    }
+    },
+    appendDesignBackgroundUploadBt:function(){/*dont delete*/}
     
     
  

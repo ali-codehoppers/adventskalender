@@ -38,8 +38,11 @@ CH.VC3={
     currentfilling:"",
     currentSide:"Front",
     shapeSelected:"",
+    formatId:null,
+    fillingId:null,
+    packageId:3,
     fillingsForThisPackage:"changeFillingsBusiness",
-    akType:"",
+    formatId:"",
     
     init:function(){
         CH.VC2.deinitialize();
@@ -53,59 +56,59 @@ CH.VC3={
         
         
         if(CH.language=="english")
-                    {
+        {
         
-        $("#drop").append("<div class='demo' id='demo1' align='right' ><img class='rotate-image' src='img/imagesapp/rotateimg.png' width='20' height='20' /><img class='drag-image' src='img/imagesapp/move.png' width='20' height='20' /><img class='delete-image' src='img/imagesapp/del.png' width='20' height='20' /><span id='span1'>Company-Name</span></div>	<div class='demo' id='demo2' align='right' ><img class='rotate-image' src='img/imagesapp/rotateimg.png' width='20' height='20' /><img class='drag-image' src='img/imagesapp/move.png' width='20' height='20' /><img class='delete-image' src='img/imagesapp/del.png' width='20' height='20' /><span id='span2'>Name</span></div> <div class='demo' id='demo3' align='right' ><img class='rotate-image' src='img/imagesapp/rotateimg.png' width='20' height='20' /><img class='drag-image' src='img/imagesapp/move.png' width='20' height='20' /><img class='delete-image' src='img/imagesapp/del.png' width='20' height='20' /><span id='span3'>Telephone</span></div> <div class='demo' id='demo4' align='right' ><img class='rotate-image' src='img/imagesapp/rotateimg.png' width='20' height='20' /><img class='drag-image' src='img/imagesapp/move.png' width='20' height='20' /><img class='delete-image' src='img/imagesapp/del.png' width='20' height='20' /><span id='span4'>E mail</span></div>");
+            $("#drop").append("<div class='demo' id='demo1' align='right' ><img class='rotate-image' src='img/imagesapp/rotateimg.png' width='20' height='20' /><img class='drag-image' src='img/imagesapp/move.png' width='20' height='20' /><img class='delete-image' src='img/imagesapp/del.png' width='20' height='20' /><span id='span1'>Company-Name</span></div>	<div class='demo' id='demo2' align='right' ><img class='rotate-image' src='img/imagesapp/rotateimg.png' width='20' height='20' /><img class='drag-image' src='img/imagesapp/move.png' width='20' height='20' /><img class='delete-image' src='img/imagesapp/del.png' width='20' height='20' /><span id='span2'>Name</span></div> <div class='demo' id='demo3' align='right' ><img class='rotate-image' src='img/imagesapp/rotateimg.png' width='20' height='20' /><img class='drag-image' src='img/imagesapp/move.png' width='20' height='20' /><img class='delete-image' src='img/imagesapp/del.png' width='20' height='20' /><span id='span3'>Telephone</span></div> <div class='demo' id='demo4' align='right' ><img class='rotate-image' src='img/imagesapp/rotateimg.png' width='20' height='20' /><img class='drag-image' src='img/imagesapp/move.png' width='20' height='20' /><img class='delete-image' src='img/imagesapp/del.png' width='20' height='20' /><span id='span4'>E mail</span></div>");
         
-        this.items= new Array();
-        var it= new CH.item();
-        this.items.push(it);
-        CH.VC3.items[0].id="demo1";
-        CH.VC3.items[0].innertxt="Company-Name";
-        CH.VC3.items[0].fontSize="23";
-        it= new CH.item();
-        this.items.push(it);// hard cord properties of first 4 divs
-        CH.VC3.items[1].id="demo2";
-        CH.VC3.items[1].innertxt="Name";
-        CH.VC3.items[1].fontSize="21";
-        it= new CH.item();
-        this.items.push(it);
-        CH.VC3.items[2].id="demo3";
-        CH.VC3.items[2].innertxt="Telephone";
-        CH.VC3.items[2].fontSize="18";
-        it= new CH.item();
-        this.items.push(it);
-        CH.VC3.items[3].id="demo4";
-        CH.VC3.items[3].innertxt="E mail";
-        CH.VC3.items[3].fontSize="18";
-                    }
-                    else if(CH.language=="dutch")
-                        {
+            this.items= new Array();
+            var it= new CH.item();
+            this.items.push(it);
+            CH.VC3.items[0].id="demo1";
+            CH.VC3.items[0].innertxt="Company-Name";
+            CH.VC3.items[0].fontSize="23";
+            it= new CH.item();
+            this.items.push(it);// hard cord properties of first 4 divs
+            CH.VC3.items[1].id="demo2";
+            CH.VC3.items[1].innertxt="Name";
+            CH.VC3.items[1].fontSize="21";
+            it= new CH.item();
+            this.items.push(it);
+            CH.VC3.items[2].id="demo3";
+            CH.VC3.items[2].innertxt="Telephone";
+            CH.VC3.items[2].fontSize="18";
+            it= new CH.item();
+            this.items.push(it);
+            CH.VC3.items[3].id="demo4";
+            CH.VC3.items[3].innertxt="E mail";
+            CH.VC3.items[3].fontSize="18";
+        }
+        else if(CH.language=="dutch")
+        {
                             
-                            $("#drop").append("<div class='demo' id='demo1' align='right' ><img class='rotate-image' src='img/imagesapp/rotateimg.png' width='20' height='20' /><img class='drag-image' src='img/imagesapp/move.png' width='20' height='20' /><img class='delete-image' src='img/imagesapp/del.png' width='20' height='20' /><span id='span1'>Firmenname</span></div>	<div class='demo' id='demo2' align='right' ><img class='rotate-image' src='img/imagesapp/rotateimg.png' width='20' height='20' /><img class='drag-image' src='img/imagesapp/move.png' width='20' height='20' /><img class='delete-image' src='img/imagesapp/del.png' width='20' height='20' /><span id='span2'>Name</span></div> <div class='demo' id='demo3' align='right' ><img class='rotate-image' src='img/imagesapp/rotateimg.png' width='20' height='20' /><img class='drag-image' src='img/imagesapp/move.png' width='20' height='20' /><img class='delete-image' src='img/imagesapp/del.png' width='20' height='20' /><span id='span3'>Telephon</span></div> <div class='demo' id='demo4' align='right' ><img class='rotate-image' src='img/imagesapp/rotateimg.png' width='20' height='20' /><img class='drag-image' src='img/imagesapp/move.png' width='20' height='20' /><img class='delete-image' src='img/imagesapp/del.png' width='20' height='20' /><span id='span4'>E mail</span></div>");
+            $("#drop").append("<div class='demo' id='demo1' align='right' ><img class='rotate-image' src='img/imagesapp/rotateimg.png' width='20' height='20' /><img class='drag-image' src='img/imagesapp/move.png' width='20' height='20' /><img class='delete-image' src='img/imagesapp/del.png' width='20' height='20' /><span id='span1'>Firmenname</span></div>	<div class='demo' id='demo2' align='right' ><img class='rotate-image' src='img/imagesapp/rotateimg.png' width='20' height='20' /><img class='drag-image' src='img/imagesapp/move.png' width='20' height='20' /><img class='delete-image' src='img/imagesapp/del.png' width='20' height='20' /><span id='span2'>Name</span></div> <div class='demo' id='demo3' align='right' ><img class='rotate-image' src='img/imagesapp/rotateimg.png' width='20' height='20' /><img class='drag-image' src='img/imagesapp/move.png' width='20' height='20' /><img class='delete-image' src='img/imagesapp/del.png' width='20' height='20' /><span id='span3'>Telephon</span></div> <div class='demo' id='demo4' align='right' ><img class='rotate-image' src='img/imagesapp/rotateimg.png' width='20' height='20' /><img class='drag-image' src='img/imagesapp/move.png' width='20' height='20' /><img class='delete-image' src='img/imagesapp/del.png' width='20' height='20' /><span id='span4'>E mail</span></div>");
         
-        this.items= new Array();
-        var it= new CH.item();
-        this.items.push(it);
-                           CH.VC3.items[0].id="demo1";
-        CH.VC3.items[0].innertxt="Firmenname";
-        CH.VC3.items[0].fontSize="23";
-        it= new CH.item();
-        this.items.push(it);// hard cord properties of first 4 divs
-        CH.VC3.items[1].id="demo2";
-        CH.VC3.items[1].innertxt="Name";
-        CH.VC3.items[1].fontSize="21";
-        it= new CH.item();
-        this.items.push(it);
-        CH.VC3.items[2].id="demo3";
-        CH.VC3.items[2].innertxt="Telephon";
-        CH.VC3.items[2].fontSize="18";
-        it= new CH.item();
-        this.items.push(it);
-        CH.VC3.items[3].id="demo4";
-        CH.VC3.items[3].innertxt="E mail";
-        CH.VC3.items[3].fontSize="18";
-                        }
+            this.items= new Array();
+            var it= new CH.item();
+            this.items.push(it);
+            CH.VC3.items[0].id="demo1";
+            CH.VC3.items[0].innertxt="Firmenname";
+            CH.VC3.items[0].fontSize="23";
+            it= new CH.item();
+            this.items.push(it);// hard cord properties of first 4 divs
+            CH.VC3.items[1].id="demo2";
+            CH.VC3.items[1].innertxt="Name";
+            CH.VC3.items[1].fontSize="21";
+            it= new CH.item();
+            this.items.push(it);
+            CH.VC3.items[2].id="demo3";
+            CH.VC3.items[2].innertxt="Telephon";
+            CH.VC3.items[2].fontSize="18";
+            it= new CH.item();
+            this.items.push(it);
+            CH.VC3.items[3].id="demo4";
+            CH.VC3.items[3].innertxt="E mail";
+            CH.VC3.items[3].fontSize="18";
+        }
         
         
         
@@ -202,16 +205,11 @@ CH.VC3={
         }
     },
     preparingFront:function(){
-   
-        
         $('#leftdivimg').show();
         $('#rightdivimg').show();
         $( ".tools button" ).prop("disabled","");
         $( ".tools button" ).css("opacity","1");
         $( ".tools select" ).prop("disabled","");
-        
-    //$(".drop").append("<img id='img1' src='./img/shapes/1.png'/>");
-        
     },
     
     showLeftAndRightSide:function()
@@ -221,48 +219,165 @@ CH.VC3={
         
     },
     
-    
-     initChangeSubPackage:function(){
+    /*
+    initFormatChange:function(){
+        var oThis=this;
         $("#changeFillingsBusiness").change(function(){
-             CH.VC3.getPageContent("",1);
+            //CH.VC1.getPageContent("",1);
+            oThis.formatChanged($("#changeFillingsBusiness").val());
         });
+        $("#changeFillingsBusiness").change();
     },
-    
+    formatChanged:function(formatId){
+        var oThis=this;
+        
+        //alert (formatId);
+        $.ajax({
+            type: "POST",
+            url: "basicFunctions.php",
+            data: {
+                "type":"getFillingsForFormat",
+                formatId:formatId
+            },
+            success:function(data){
+                data=eval("("+data+")");
+                $('.choose-filling ul').html(data.data);
+                if(data.pagination){
+                    oThis.initPagination("#pagination",data.totalCount);
+                }
+                oThis.initFillingSelect();
+                oThis.initFillingNextButton();
+                
+            },
+            error:function(a,b,c){
+                alert("error");
+            }
+        });
+    } ,
+    initFillingNextButton:function(){
+        var oThis=this;
+        $('#formatFillingNextButton').unbind("click");
+        $('#formatFillingNextButton').click(function() {
+            if($('.filling-radio').is(':checked'))// && $('.format-radio').is(':checked')) 
+            {   
+                $("#backgroundsForEachPackage ul").html("");
+                oThis.formatId=$("#changeFillingsBusiness").val();
+                $(".screens").hide();
+                $("#content-choosedesignhtml").show();
+                oThis.putBackGroundInInitialscreen();
+            }						
+        });
+        
+    },
+    initFillingSelect:function(){
+        var oThis=this;
+        $('.choose-filling ul li').unbind("click");
+        $('.choose-filling ul li').click(function() {
+            $(this).find('input[type=radio]').attr('checked', true);
+            var fillingId=$(this).find('input[type=radio]').prop("id");
+            fillingId=fillingId.substr(fillingId.indexOf("-")+1,fillingId.length);
+            oThis.fillingId=fillingId;
+        });
+    },*/
     initialScreenTwo:function(){
         $(".screens").hide();
         $("#content-choosefillingshtml").show();
         $(".dynamicFillings").hide();
         $("#changeFillingsBusiness").show();
-        CH.VC3.initChangeSubPackage();
         $(".filling-content-lower").css("margin-left","5px");
         $(".nav").hide();
-        
         $(".nav6bar").show();
         buttonToUnactivestate();
         $(".nav6bar ul #second").prop("class","second active");
-        /*$(".nav ul .first").prop("class","first");
-        $(".nav ul .middle").prop("class","middle active");
-        $(".nav ul .last").prop("class","last");*/
-        CH.VC3.putchooseformatforinit();
-        $(function() {
-            $.ajax({
-                type: "POST",
-                url: "basicFunctions.php",
-                data: {
-                    "type":"getTotalFillings"
-                },
-                success:function(data){
-                    data=$.trim(data);
-                    CH.VC3.initPagination("#pagination",data);
-                },
-                error:function(a,b,c){
-                    alert("error");
-                }
-            });
-        });
+        CH.com.VC=this;
+        CH.com.getFormats();
+        //CH.VC3.getFormats();
         CH.selected=1;
     },
+    /*
+    initPagination:function(selector,totalItems){
+        $(selector).pagination({
+            items: totalItems,
+            itemsOnPage: 6,
+            cssStyle: 'light-theme',
+            onClick:function(pageNum){
+                CH.VC3.getPageContent("",pageNum);
+            },
+            callback:function(){
+            //CH.VC3.getPageContent("","1");
+            }
+        });
+    },
+    initPaginationForDesign:function(selector,totalItems){
+        var oThis=this;
+        $(selector).pagination({
+            items: totalItems,
+            itemsOnPage: 16,
+            cssStyle: 'light-theme',
+            onClick:function(pageNum){
+                oThis.getPageContentForDesign("",pageNum);
+            },
+            callback:function(){
+            //CH.VC1.getPageContent("","1");
+            }
+        });
+    },
+    getPageContentForDesign:function(placingSelector,pageNum){//here
+        var oThis=this;
+        $.ajax({
+            type: "POST",
+            url: "basicFunctions.php",
+            data: {
+                "type":"getDesignPage",
+                fillingId:oThis.fillingId,
+                packageId:oThis.packageId,
+                pageNum:pageNum
+            },
+            success:function(data){
+                afterLoadDesignData(data,oThis);
+            },
+            error:function(a,b,c){
+                alert("error");
+            }
+        });
+    },
     
+    getFormats:function(){
+        var oThis=this;
+        $.ajax({
+            type: "POST",
+            url: "basicFunctions.php",
+            data: {
+                "type":"getFormatsFromDb",
+                packageType:3
+            },
+            success:function(data){
+                $('#changeFillingsBusiness').html(data); 
+                oThis.initFormatChange();
+            } 
+        });
+    },
+    getPageContent:function(placingSelector,pageNum){
+        var oThis=this;
+        $.ajax({
+            type: "POST",
+            url: "basicFunctions.php",
+            data: {
+                "type":"getFillingsPage",
+                formatId:$("#changeFillingsBusiness").val(),
+                pageNum:pageNum
+            },
+            success:function(data){
+                $('.choose-filling ul').html(data);
+                oThis.initFillingSelect();
+                oThis.initFillingNextButton();
+            },
+            error:function(a,b,c){
+                alert("error");
+            }
+        });
+    },
+    */
     
     initTextOfLeftOfFrontSideChange:function(){
         $(".front-form-inside-div input").on('keyup',function(){
@@ -456,14 +571,14 @@ CH.VC3={
         $("#textForSidecolor").remove();
         
         if(CH.language=="english")
-                    {
+        {
         
-        $("#toolbarViewAction").append("<div id='textForSidecolor'>Choose color for back, left & right side</div>")
-                    }
-                    else if(CH.language=="dutch")
-                        {
-                            $("#toolbarViewAction").append("<div id='textForSidecolor'>Wahlen Sie eine Farbe fur die Ruckseite sowie fur die rechte und linke Seite.</div>")
-                        }
+            $("#toolbarViewAction").append("<div id='textForSidecolor'>Choose color for back, left & right side</div>")
+        }
+        else if(CH.language=="dutch")
+        {
+            $("#toolbarViewAction").append("<div id='textForSidecolor'>Wahlen Sie eine Farbe fur die Ruckseite sowie fur die rechte und linke Seite.</div>")
+        }
      
     },
     toFront:function(){
@@ -620,19 +735,19 @@ CH.VC3={
             window.console.log(temp2);
             
     
-    $("#fontsize").append("<option>"+temp2+"</option>");
+            $("#fontsize").append("<option>"+temp2+"</option>");
     
     
     
-    var fontsizes = {};
-$("select[name='font-size'] > option").each(function () {
-    if(fontsizes[this.text]) {
-        $(this).remove();
-    } else {
-        fontsizes[this.text] = this.value;
-    }
-});
-    $("#fontsize").val(temp2);
+            var fontsizes = {};
+            $("select[name='font-size'] > option").each(function () {
+                if(fontsizes[this.text]) {
+                    $(this).remove();
+                } else {
+                    fontsizes[this.text] = this.value;
+                }
+            });
+            $("#fontsize").val(temp2);
     
 
             
@@ -1930,8 +2045,8 @@ $("select[name='font-size'] > option").each(function () {
                     newStr=Math.ceil(newStr);
                     newStr=""+newStr;    
                     CH.VC3.items[CH.VC3.findItem(oThis.sDiv.substring(1))].fontSize=newStr;
-            $("#fontsize").append("<option>"+newStr+"</option>");
-            $("#fontsize").val(newStr);
+                    $("#fontsize").append("<option>"+newStr+"</option>");
+                    $("#fontsize").val(newStr);
                     
                     
                 }
@@ -2006,8 +2121,8 @@ $("select[name='font-size'] > option").each(function () {
                     //alert(count.length);
                     var inCaseOfDots;
                     if(count>1)
-                        {
-                      /*     inCaseOfDots=CH.VC3.removeAllButLast(temp,".") 
+                    {
+                    /*     inCaseOfDots=CH.VC3.removeAllButLast(temp,".") 
                         temp=inCaseOfDots;*/
                     }
                         
@@ -2041,27 +2156,28 @@ $("select[name='font-size'] > option").each(function () {
                                     }
                                 });
                                 if(success!==undefined)
+                                {
+                                    if(success[0]=="1")
                                     {
-                                if(success[0]=="1")
-                                {$("#divLoad").dialog("close");
-                                    $('.back').css('background-image', 'url()');
-                                    $('.back').hide();
-                                    $('.drop').css('background-image', 'url()');
-                                    $('.drop').hide();
-                                    $('.drop').show();
-                                    $('.back').hide();
-                                    var url = "url(./uploads/"+src+"?"+Math.random()+")";
-                                    $('.drop').css('background-image', url);
-                                    $('.back').css('background-image', url);
-                                    CH.VC3.dropbackground="uploads/"+src;
-                                    fitBackground(CH.VC3.dropbackground);  //zainchange
-                                }
-                                else if(success[0]=="0"){
-                                    alert("Please select a small image or see if the image extension is correct");
-                            $("#divLoad").dialog("close");
-                                    CH.VC3.changeBackground();    
-                            }
+                                        $("#divLoad").dialog("close");
+                                        $('.back').css('background-image', 'url()');
+                                        $('.back').hide();
+                                        $('.drop').css('background-image', 'url()');
+                                        $('.drop').hide();
+                                        $('.drop').show();
+                                        $('.back').hide();
+                                        var url = "url(./uploads/"+src+"?"+Math.random()+")";
+                                        $('.drop').css('background-image', url);
+                                        $('.back').css('background-image', url);
+                                        CH.VC3.dropbackground="uploads/"+src;
+                                        fitBackground(CH.VC3.dropbackground);  //zainchange
                                     }
+                                    else if(success[0]=="0"){
+                                        alert("Please select a small image or see if the image extension is correct");
+                                        $("#divLoad").dialog("close");
+                                        CH.VC3.changeBackground();    
+                                    }
+                                }
                                 else{
                                     alert("Please select a small image or see if the image extension is correct");
                                     $("#divLoad").dialog("close");
@@ -2080,10 +2196,10 @@ $("select[name='font-size'] > option").each(function () {
             }
         });
     },    
-   removeAllButLast:function(string, token) {
-    var parts = string.split(token);
-    return parts.slice(0,-1).join('') + token + parts.slice(-1)
-},
+    removeAllButLast:function(string, token) {
+        var parts = string.split(token);
+        return parts.slice(0,-1).join('') + token + parts.slice(-1)
+    },
     initDrag:function(){
         var oThis=this;
         $(oThis.sDiv+" .drag-image").unbind("mousedown");
@@ -2187,11 +2303,11 @@ $("select[name='font-size'] > option").each(function () {
             CH.VC3.items[CH.VC3.findItem(temp)].xposition=$.trim(" "+roundx);
             CH.VC3.items[CH.VC3.findItem(temp)].yposition=$.trim(" "+roundy);
         }
-if(CH.VC3.items[CH.VC3.findItem(temp)] != undefined)
-    {
-      CH.VC3.items[CH.VC3.findItem(temp)].width=$(proDivId+" span").width()+"";
-    }
-},
+        if(CH.VC3.items[CH.VC3.findItem(temp)] != undefined)
+        {
+            CH.VC3.items[CH.VC3.findItem(temp)].width=$(proDivId+" span").width()+"";
+        }
+    },
     
     initSave:function(){ ///backhere
         var oThis=this;
@@ -2553,49 +2669,11 @@ if(CH.VC3.items[CH.VC3.findItem(temp)] != undefined)
             
     putBackGroundInInitialscreen:function() 
     {
-        loadDesigns(CH.VC3, false, CH.VC3.akType);
+        var oThis=this;
+        loadDesigns(oThis,oThis.packageId,oThis.fillingId);
         
     },       
     
-    putchooseformatforinit:function(){
-        var oThis=this;
-        
-        $.ajax({
-            type: "POST",
-            url: "basicFunctions.php",
-            data: {
-                "type":"getFormatsFromDb"
-            },
-            success:function(data){
-                //here $('.choose-format ul').html(data);
-                
-            /*  $('.format-radio').click(function() {
-                    $(this).find('input[type=radio]').attr('checked', true);
-                    if($('.filling-radio').is(':checked') && $('.format-radio').is(':checked')) 
-                    {
-                        
-                        $(".screens").hide();
-                        $("#content-choosedesignhtml").show();
-                        CH.VC3.putAddressInInitialscreen();
-                        makeCanvas();
-                        
-                    }						
-                });
-                $('.choose-format ul li').click(function() {
-                    $(this).find('input[type=radio]').attr('checked', true);
-                    if($('.filling-radio').is(':checked') && $('.format-radio').is(':checked')) 
-                    {
-                        
-                        $(".screens").hide();
-                        $("#content-choosedesignhtml").show();
-                        CH.VC3.putAddressInInitialscreen();
-                        makeCanvas();
-                        
-                    }						
-                });*/
-            } 
-        });
-    },
     
     findItem:function(itemId){
         for(var i=0;i<CH.VC3.items.length;i++){
@@ -2606,87 +2684,9 @@ if(CH.VC3.items[CH.VC3.findItem(temp)] != undefined)
         return -1;  
     },
     
-    initPagination:function(selector,totalItems){
-        $(selector).pagination({
-            items: totalItems,
-            itemsOnPage: 6,
-            cssStyle: 'light-theme',
-            onClick:function(pageNum){
-                CH.VC3.getPageContent("",pageNum);
-            },
-            callback:function(){
-                CH.VC3.getPageContent("","1");
-            }
-        });
-    },
     
-    getPageContent:function(placingSelector,pageNum){
-        $.ajax({
-            type: "POST",
-            url: "basicFunctions.php",
-            data: {
-                "type":"getPagefillings",
-                subpckg:$("#changeFillingsBusiness").val(),
-                pageNum:pageNum
-            },
-            success:function(data){
-                
-                /**xains code**/
-                
-                $('.choose-filling ul').html(data);
-                $('.filling-radio').click(function() {
-                   						
-                });
-                $('.choose-filling ul li').click(function() {
-                    $(this).find('input[type=radio]').attr('checked', true);
-                    if($('.filling-radio').is(':checked') && $('.format-radio').is(':checked')) 
-                    {
-                    
-                    }						
-                });
-                
-                $('#formatFillingNextButton').click(function() {
-                    if($('.filling-radio').is(':checked'))// && $('.format-radio').is(':checked')) 
-                    {
-                        //$('.content').html("");  
-                        //$('.content').append(choosedesignhtml);
-                        $("#backgroundsForEachPackage ul").html("");
-                        CH.VC3.akType=$("#changeFillingsBusiness").val();
-                        $(".screens").hide();
-                        $("#content-choosedesignhtml").show();
-                        CH.VC3.putBackGroundInInitialscreen();
-                        makeCanvas();
-                    }						
-                });
-                
-                
-                
-                /*
-                $('.choose-format ul li').click(function() {
-                    $(this).find('input[type=radio]').attr('checked', true);
-                    var temp= $(this.getElementsByTagName("input")).prop("value");//$(this).prop("value");
-                    $.ajax({
-                        async: false,
-                        type: "POST",
-                        url:"storesession.php",
-                        data:{
-                            bgsrc:temp
-                        },
-                        success:function(data){
-                            data=data.trim();
-                            CH.VC3.shapeSelected=data;
-                            CH.VC3.initMakeShape();
-                        	   
-                        } 
-                    })
-                });*/
-            /**xains code end**/
-            },
-            error:function(a,b,c){
-                alert("error");
-            }
-        });
-    },
+    
+    
     
     cloneItem:function(obj){
         if (null == obj || "object" != typeof obj) return obj;
@@ -2726,6 +2726,13 @@ if(CH.VC3.items[CH.VC3.findItem(temp)] != undefined)
                 CH.VC3.toRight();
             } 
         });
+    },
+    appendDesignBackgroundUploadBt:function(){
+        if(CH.language=="english"){
+            $('#buttonDiv').html(" <div id='uploadButton'><input id='changebg' style='margin-top: 0px;' type='button' name='submit' class='next-button' value='UPLOAD' onclick='changeBackground();'/></div>");
+        }else if(CH.language=="dutch"){
+            $('#buttonDiv').html("<div id='uploadButton'><input id='changebg' style='margin-top: 0px;' type='button' name='submit' class='next-button' value='Hochladen' onclick='changeBackground();'/></div>");
+        }
     }
     
     
