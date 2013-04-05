@@ -54,7 +54,7 @@ public class EPSAKalender {
     private JSONArray frontSide;
     private String sql;
     private PreparedStatement exeStatement;
-    private static final String propertyString = "message.properties";
+    private String propertyString = "";
     private EpsGraphics imageEps = null;
     private String frontFileToSave;
     private String otherFileToSave;
@@ -65,9 +65,10 @@ public class EPSAKalender {
     private double yAspect = 0;
     private double width = 0;
     private double height = 0;
+    private String goScriptPath;
     private LinkedList<parseFrontJson> parseArray;
 
-    public EPSAKalender(String id) {
+    public EPSAKalender(String id,String propertyString) {
         cardId = id;
         properties = new Properties();
         filenames = new LinkedList<String>();
@@ -85,19 +86,21 @@ public class EPSAKalender {
         yAspect = 0;
         width = 0;
         height = 0;
+        this.propertyString=propertyString;
         getProperties(propertyString);
     }
 
     private int getProperties(String propertiesName) {
         InputStream inputStream = null;
         try {
-            inputStream = EPSAKalender.class.getClassLoader().getResourceAsStream(propertiesName);
+            inputStream =  new FileInputStream(new File(propertiesName));
             if (inputStream != null) {
                 properties.load(inputStream);
                 connect = properties.getProperty("CONNECT");
                 epsPath = properties.getProperty("EPSPATH");
                 imagePath = properties.getProperty("IMAGEPATH");
                 backgroundPath = properties.getProperty("BACKGROUNDPATH");
+                goScriptPath=properties.getProperty("GHOST_SCRIPT_PATH");
                 return 0;
             } else {
                 return 1;
@@ -461,13 +464,13 @@ public class EPSAKalender {
     public int createPng() {
         Process retValue=null;
         try {
-            String command = "/usr/bin/gs -dSAFER -dBATCH -dNOPAUSE -dEPSCrop -sDEVICE=png16m -r250 -sOutputFile="
+            String command = goScriptPath+" -dSAFER -dBATCH -dNOPAUSE -dEPSCrop -sDEVICE=png16m -r250 -sOutputFile="
                     + epsPath + "Front_EPS_" + cardId + ".png " + filenames.get(filenames.indexOf(epsPath + "Front_EPSImage_" + cardId + ".eps"));
 
             String[] cmd = command.split(" ");
             retValue = Runtime.getRuntime().exec(cmd);
             retValue.waitFor();
-            command = "/usr/bin/gs -dSAFER -dBATCH -dNOPAUSE -dEPSCrop -sDEVICE=png16m -r250 -sOutputFile="
+            command = goScriptPath+" -dSAFER -dBATCH -dNOPAUSE -dEPSCrop -sDEVICE=png16m -r250 -sOutputFile="
                     + epsPath + "OtherSides_EPS_" + cardId + ".png " + filenames.get(filenames.indexOf(epsPath + "OtherSides_EPSImage_" + cardId + ".eps"));
 
             cmd = command.split(" ");
@@ -490,7 +493,7 @@ public class EPSAKalender {
         if (idfromphp == null || idfromphp.equals("")) {
             errorMessage = 1;
         } else {
-             EPSAKalender EPSAK = new EPSAKalender(idfromphp);
+             EPSAKalender EPSAK = new EPSAKalender(idfromphp,args[1]);
            errorMessage = EPSAK.getJsonFromDb();
             errorMessage = EPSAK.parseJson();
             errorMessage = EPSAK.renderImage();

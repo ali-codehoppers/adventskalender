@@ -24,6 +24,25 @@ this.textAlign="left"
 
 }; 
 
+
+CH.overlayItem=function(){
+    
+    this.isOverlay=0;
+ this.height="0";
+this.width="0";
+this.xposition="0";
+this.yposition="0";
+
+this.addressHeight="0";
+this.addressWidth="0";
+this.addressXposition="0";
+this.addressYposition="0";
+this.addressRotation="0";
+this.addressText="0";
+    
+
+};
+
 CH.backitem=function(){
     
     this.isheader=0;
@@ -35,16 +54,13 @@ this.xposition="0";
 this.yposition="0";
     
 
-}; 
+};
 
 CH.triangleprop=function(){
-    this.isTri="";
-    this.topx="";
-    this.topy="";
-    this.bottomLeftx="";
-    this.bottomLefty="";
-    this.bottomRightx="";
-    this.bottomRighty="";
+    this.isTri="0";
+    this.imagePath="";
+    this.newBackgroundLeft="";
+    this.newBackgroundTop="";
 }; 
 
 CH.undoredo=function(){

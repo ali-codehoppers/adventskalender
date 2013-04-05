@@ -519,14 +519,15 @@ input {
 }
 .content-upper-address
 {
-    width:962px;
+    width:990px;
     background:url(../img/images/content-inner-bg.png) repeat-x left top #fff;
-    background-color:#FFF;
+    background-color:#FFFFFF;
     border-left:solid 1px #cdcdcd;
     border-right:solid 1px #cdcdcd;
     float:left;
-    padding-top:20px;
-    padding-left:28px;
+    /*padding-top:20px;
+    padding-left:28px;*/
+    color: #000000;
 }
 .content-upper
 {
@@ -749,8 +750,6 @@ input {
     margin-left: 3px;
     float:left;
     border-right:solid 1px #cdcdcd;
-    border-top:solid 1px #cdcdcd;
-    border-bottom:solid 1px #cdcdcd;
     background:#fcfcfc;
 }
 
@@ -771,8 +770,6 @@ input {
     height: 75px;
     float:left;
     border-right:solid 1px #cdcdcd;
-    border-top:solid 1px #cdcdcd;
-    border-bottom:solid 1px #cdcdcd;
     background:#fcfcfc;
     padding-top:5px;
     padding-left:5px;
@@ -819,8 +816,7 @@ input {
     padding-left:10px;
     padding-top:5px;
     height:65px;
-    border-top:solid 1px #cdcdcd;
-    border-bottom:solid 1px #cdcdcd;
+
 }
 
 .form-editor-dropdown1 
@@ -952,7 +948,7 @@ input {
     width:22px;
     height:22px;
     cursor:pointer;
-    background:url(../img/images/p1-editor.png) no-repeat left top;
+    background:url(../img/images/p2-editor.png) no-repeat left top;
     border:none;
     margin-right:5px;
 }
@@ -962,7 +958,7 @@ input {
     width:22px;
     height:22px;
     cursor:pointer;
-    background:url(../img/images/p2-editor.png) no-repeat left top;
+    background:url(../img/images/p1-editor.png) no-repeat left top;
     border:none;
     margin-right:5px;
 }
@@ -992,8 +988,6 @@ input {
 {
     float:left;
     padding-left:10px;
-    border-top:solid 1px #cdcdcd;
-    border-bottom:solid 1px #cdcdcd;
     height:80px;
 }
 
@@ -1098,7 +1092,7 @@ input {
     color:#C1C1C1;
     text-transform:uppercase;
     padding:20px 40px;
-    width:911px;
+    width:913px;
 }
 .address-title{
     border-top-left-radius: 10px;
@@ -1114,7 +1108,7 @@ input {
     color:#C1C1C1;
     text-transform:uppercase;
     padding:20px 40px;
-    width:911px;
+    width:913px;
 }
 .playable-title{
     border-top-left-radius: 10px;
@@ -1130,7 +1124,7 @@ input {
     color:#C1C1C1;
     text-transform:uppercase;
     padding:20px 40px;
-    width:911px;
+    width:913px;
 }
 
 
@@ -3489,7 +3483,7 @@ label.limitboxlabel {
 }
 
 .nav5bar ul li.first {
-    width:239px;
+    width:240px;
     height:59px;
     background:url(../img/images/menu/5menu/choose-package.png) no-repeat left top;
     color: #c1c1c1;
@@ -3498,7 +3492,7 @@ label.limitboxlabel {
 }
 
 .nav5bar ul li.first:hover, .nav5bar ul li#first.active {
-    width:239px;
+    width:240px;
     height:59px;
     background:url(../img/images/menu/5menu/choose-package-hover.png) no-repeat left top;
     color: #c1c1c1;
@@ -3509,7 +3503,7 @@ label.limitboxlabel {
 .nav5bar ul li.second {
     width:247px;
     height:59px;
-    background:url(../img/images/menu/5menu/choose-design.png) no-repeat left top;
+    background:url(../img/images/menu/5menu/format-filling.png) no-repeat left top;
     color: #c1c1c1;
     display: block;
     float: left;
@@ -3519,7 +3513,7 @@ label.limitboxlabel {
 .nav5bar ul li.second:hover, .nav5bar ul li#second.active {
     width:247px;
     height:59px;
-    background:url(../img/images/menu/5menu/choose-design-hover.png) no-repeat left top;
+    background:url(../img/images/menu/5menu/format-filling-hover.png) no-repeat left top;
     color: #c1c1c1;
     display: block;
     float: left;
@@ -3529,7 +3523,7 @@ label.limitboxlabel {
 .nav5bar ul li.third {
     width:227px;
     height:59px;
-    background:url(../img/images/menu/5menu/address.png) no-repeat left top;
+    background:url(../img/images/menu/5menu/choose-design.png) no-repeat left top;
     color: #c1c1c1;
     display: block;
     float: left;
@@ -3539,7 +3533,7 @@ label.limitboxlabel {
 .nav5bar ul li.third:hover, .nav5bar ul li#third.active  {
     width:227px;
     height:59px;
-    background:url(../img/images/menu/5menu/address-hover.png) no-repeat left top;
+    background:url(../img/images/menu/5menu/choose-design-hover.png) no-repeat left top;
     color: #c1c1c1;
     display: block;
     float: left;
@@ -3569,7 +3563,7 @@ label.limitboxlabel {
 .nav5bar ul li.fifth {
     width:170px;
     height:59px;
-    background:url(../img/images/menu/5menu/preview.png) no-repeat left top;
+    background:url(../img/images/menu/5menu/order.png) no-repeat left top;
     color: #c1c1c1;
     display: block;
     float: left;
@@ -3579,7 +3573,7 @@ label.limitboxlabel {
 .nav5bar ul li.fifth:hover, .nav5bar ul li#fifth.active  {
     width:170px;
     height:59px;
-    background:url(../img/images/menu/5menu/preview-hover.png) no-repeat left top;
+    background:url(../img/images/menu/5menu/orderhover.png) no-repeat left top;
     color: #c1c1c1;
     display: block;
     float: left;
@@ -3612,7 +3606,7 @@ label.limitboxlabel {
 }
 
 .nav6bar ul li.first {
-    width:199px;
+    width:197px;
     height:59px;
     background:url(../img/images/menu/6menu/choosepackage.png) no-repeat left top;
     color: #c1c1c1;
@@ -3621,9 +3615,9 @@ label.limitboxlabel {
 }
 
 .nav6bar ul li.first:hover, .nav6bar ul li#first.active {
-    width:199px;
+    width:197px;
     height:59px;
-    background:url(../img/images/menu/6menu/choosepackage-hover.png) no-repeat left top;
+    background:url(../img/images/menu/6menu/choosepackagehover.png) no-repeat left top;
     color: #c1c1c1;
     display: block;
     float: left;
@@ -3632,7 +3626,7 @@ label.limitboxlabel {
 .nav6bar ul li.second {
     width:197px;
     height:59px;
-    background:url(../img/images/menu/6menu/format-filling.png) no-repeat left top;
+    background:url(../img/images/menu/6menu/formatfilling.png) no-repeat left top;
     color: #c1c1c1;
     display: block;
     float: left;
@@ -3642,7 +3636,7 @@ label.limitboxlabel {
 .nav6bar ul li.second:hover, .nav6bar ul li#second.active {
     width:197px;
     height:59px;
-    background:url(../img/images/menu/6menu/format-filling-hover.png) no-repeat left top;
+    background:url(../img/images/menu/6menu/formatfillinghover.png) no-repeat left top;
     color: #c1c1c1;
     display: block;
     float: left;
@@ -3652,7 +3646,7 @@ label.limitboxlabel {
 .nav6bar ul li.third {
     width:207px;
     height:59px;
-    background:url(../img/images/menu/6menu/choose-design.png) no-repeat left top;
+    background:url(../img/images/menu/6menu/choosedesign.png) no-repeat left top;
     color: #c1c1c1;
     display: block;
     float: left;
@@ -3662,7 +3656,7 @@ label.limitboxlabel {
 .nav6bar ul li.third:hover, .nav6bar ul li#third.active  {
     width:207px;
     height:59px;
-    background:url(../img/images/menu/6menu/choose-design-hover.png) no-repeat left top;
+    background:url(../img/images/menu/6menu/choosedesignhover.png) no-repeat left top;
     color: #c1c1c1;
     display: block;
     float: left;
@@ -3670,9 +3664,9 @@ label.limitboxlabel {
 }
 
 .nav6bar ul li.fourth {
-    width:189px;
+    width:191px;
     height:59px;
-    background:url(../img/images/menu/6menu/add-address.png) no-repeat left top;
+    background:url(../img/images/menu/6menu/addaddress.png) no-repeat left top;
     color: #c1c1c1;
     display: block;
     float: left;
@@ -3680,9 +3674,9 @@ label.limitboxlabel {
 }
 
 .nav6bar ul li.fourth:hover, .nav6bar ul li#fourth.active  {
-    width:189px;
+    width:191px;
     height:59px;
-    background:url(../img/images/menu/6menu/add-address-hover.png) no-repeat left top;
+    background:url(../img/images/menu/6menu/addaddresshover.png) no-repeat left top;
     color: #c1c1c1;
     display: block;
     float: left;
@@ -3702,7 +3696,7 @@ label.limitboxlabel {
 .nav6bar ul li.fifth:hover, .nav6bar ul li#fifth.active  {
     width:146px;
     height:59px;
-    background:url(../img/images/menu/6menu/desk-hover.png) no-repeat left top;
+    background:url(../img/images/menu/6menu/deskhover.png) no-repeat left top;
     color: #c1c1c1;
     display: block;
     float: left;
@@ -3712,7 +3706,7 @@ label.limitboxlabel {
 .nav6bar ul li.sixth {
     width:154px;
     height:59px;
-    background:url(../img/images/menu/6menu/preview.png) no-repeat left top;
+    background:url(../img/images/menu/6menu/order.png) no-repeat left top;
     color: #c1c1c1;
     display: block;
     float: left;
@@ -3722,7 +3716,7 @@ label.limitboxlabel {
 .nav6bar ul li.sixth:hover, .nav6bar ul li#sixth.active  {
     width:154px;
     height:59px;
-    background:url(../img/images/menu/6menu/preview-hover.png) no-repeat left top;
+    background:url(../img/images/menu/6menu/orderhover.png) no-repeat left top;
     color: #c1c1c1;
     display: block;
     float: left;
@@ -3756,3 +3750,80 @@ label.limitboxlabel {
     height: 200px;
 }
 
+#dd_addressType{
+    margin: 20px 0px;
+}
+#addressDivindd_bg{
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    border: 1px solid #C9C9C9;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+}
+#addressDivindd_bg input{
+    background-color: #FFFFFF;
+
+    border: 2px solid #A9A9A9;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    font-size: 1.2em;
+    margin-left: 10px;
+    width: 200px;
+    padding:2px 5px;
+    font-family: "calibri,Arial";
+    color: #C9C9C9;
+    font-weight: bold;
+}
+
+#addressDivindd_bg input:focus { 
+    outline:none;
+    font-size: 1.2em;
+    color: #000000;
+    border-color:#9ecaed;
+    box-shadow:0 0 10px #9ecaed;
+    -moz-box-shadow:0 0 10px #9ecaed;
+    -webkit-box-shadow: 0 0 10px #9ecaed;
+    /* For IE 8 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#9ecaed')";
+    /* For IE 5.5 - 7 */
+    filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#9ecaed'); /*not working*/
+
+}
+
+#orderDiv{
+    /*margin-bottom: 10px;*/
+    text-transform: uppercase;
+    border: 1px solid #C9C9C9;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    margin: auto;
+}
+#orderDiv input{
+    background-color: #FFFFFF;
+
+    border: 2px solid #A9A9A9;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    font-size: 1.2em;
+    margin-left: 10px;
+    width: 200px;
+    padding:2px 5px;
+    font-family: "calibri,Arial";
+    color: #C9C9C9;
+    font-weight: bold;
+}
+
+#orderDiv input:focus { 
+    outline:none;
+    font-size: 1.2em;
+    color: #000000;
+    border-color:#9ecaed;
+    box-shadow:0 0 10px #9ecaed;
+    -moz-box-shadow:0 0 10px #9ecaed;
+    -webkit-box-shadow: 0 0 10px #9ecaed;
+    /* For IE 8 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#9ecaed')";
+    /* For IE 5.5 - 7 */
+    filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#9ecaed'); /*not working*/
+
+}
