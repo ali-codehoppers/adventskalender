@@ -28,8 +28,16 @@ $lang = array(
     'ADD YOUR HOUSE OR OFFICE ADDRESS'=>'Fügen Sie Ihre die Adresse hinzu',
     'Use Company Address'=>'Firmenadresse nutzen',
     'Use Home Address'=>'Privatadresse nutzen',
-    'CUSTOMIZE YOUR ADVENTS KALENDER'=>'Bearbeiten Sie Ihren Adventskalender'
+    'CUSTOMIZE YOUR ADVENTS KALENDER'=>'Bearbeiten Sie Ihren Adventskalender',
+    'Company Name'=>'Firmenname',
+    'Road'=>'Straße',
+    'Zip Code and City'=>'PLZ & Stadt',
+    'Phone Number'=>'Telefonnummer',
+    'eMail'=>'eMail',
+    'Website'=>'Website',
+    'Please Fill All The Required Fields'=>'Bitte füllen Sie alle Pflichtfelder'
     
+	
     
 						//'' => '',
                 );

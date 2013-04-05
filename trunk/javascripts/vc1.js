@@ -12,14 +12,19 @@ CH.VC1={
     dropbackground:"",
     currentSide:"Front",
     shapeSelected:"",
+    sideColor:null,
+    formatName:null,
+    fillingName:null,
     formatId:null,
     fillingId:null,
     packageId:1,
+    zoomScale:1,
     fillingsForThisPackage:"changeFillingsStandard",
     init:function(){
         CH.VC2.deinitialize();
         CH.VC1.deinitialize();
         CH.VC3.deinitialize();
+        //this.initOrderAdventKalender();
         this.initButtonToChangeBackground();
         this.initPreBackgroud();    
         this.toBack();
@@ -32,6 +37,8 @@ CH.VC1={
         this.initMakeShape();
         this.initSave();
         this.back=new Array();
+        this.initZoomFunction();
+        
         $(".address-tittle-txt h1").html("Enter Text For Front Side");
     },
     
@@ -47,6 +54,11 @@ CH.VC1={
         $( ".tools #toolbarViewAction button" ).css("opacity","1");
         $( ".tools #Save" ).prop("disabled","");
         $( ".tools #Save" ).css("opacity","1");
+        $( ".tools #ZoomIn" ).prop("disabled","");
+        $( ".tools #ZoomIn" ).css("opacity","1");
+        $( ".tools #ZoomOut" ).prop("disabled","");
+        $( ".tools #ZoomOut" ).css("opacity","1");
+        
     },
     
     /*here from the next here change is only initfillingnextbutton*/ 
@@ -108,6 +120,16 @@ CH.VC1={
     },*/
     
     /*here*/
+    initZoomFunction:function()
+    {
+        $("#ZoomIn").click(function(){
+            zoomInFunction();
+        });
+        $("#ZoomOut").click(function(){
+            zoomOutFunction();
+        });
+        
+    },
     initialScreenTwo:function(){
         $(".screens").hide();
         $("#content-choosefillingshtml").show();
@@ -115,9 +137,10 @@ CH.VC1={
         $("#changeFillingsStandard").show();
         $(".filling-content-lower").css("margin-left","5px");
         $(".nav").hide();
-        $(".nav6bar").show();
+        $(".nav6bar").hide();
+        $(".nav5bar").show();
         buttonToUnactivestate();
-        $(".nav6bar ul #second").prop("class","second active");
+        $(".nav5bar ul #second").prop("class","second active");
         //CH.VC1.getFormats();
         CH.com.VC=this;
         CH.com.getFormats();
@@ -260,6 +283,11 @@ CH.VC1={
         CH.VC1.toFront();
         $( "#epsbutton" ).prop("disabled","");
         $( "#epsbutton" ).css("opacity","1");
+        $( ".tools #ZoomIn" ).prop("disabled","");
+        $( ".tools #ZoomIn" ).css("opacity","1");
+        $( ".tools #ZoomOut" ).prop("disabled","");
+        $( ".tools #ZoomOut" ).css("opacity","1");
+        $("#toolbarImageAction").hide();
        
     },
     
@@ -278,13 +306,14 @@ CH.VC1={
         $("#changebg").unbind("click");
         $("#epsbutton").unbind("click");
         $("#Save").unbind("click");
+        $("#saveAndSend").unbind("click");
     },
     
     initPreviewEps:function(){
         var oThis=this;
         $("#epsbutton").click(function(){
             buttonToUnactivestate();
-            $(".nav6bar ul #sixth").prop("class","sixth active");
+            //$(".nav6bar ul #sixth").prop("class","sixth active");
     
             $("#previeweps").dialog("destroy");
             CH.VC1.saveState("prev");
@@ -320,6 +349,8 @@ CH.VC1={
         $("#rightdivimg").parent().remove();
         $("#clrpikr").parent().remove();
         $("#changebg").remove();
+        //$("#ZoomIn").remove();
+        //$("#ZoomOut").remove();
         
     
     },
@@ -407,15 +438,53 @@ CH.VC1={
             oThis.saveState("save");           
         });
     },
+    initOrderAdventKalender:function(){
+        var oThis=this;
+        $("#OrderAdventKalender").unbind("click");
+        $("#OrderAdventKalender").click(function () {
+            $(".screens").hide();
+                $("#content-orderAdventKalenderhtml").show();
+                buttonToUnactivestate();
+                $(".nav6bar ul #sixth").prop("class","sixth active");
+                $(".nav5bar ul #fifth").prop("class","fifth active");
+                if(CH.language=="english")
+        {
+        
+            $("#orderPageButtonDiv").html("<input id='saveAndSend' class='next-button' style='float:right;' type='button' value='SEND REQUEST' name='submit'><input id='orderBackButton' type='button' name='submit' class='next-button' value='BACK' />");
+        }
+        else if(CH.language=="dutch")
+        {
+            $("#orderPageButtonDiv").html("<input id='saveAndSend' class='next-button' style='float:right;' type='button' value='Anfrage Senden' name='submit'><input id='orderBackButton' type='button' name='submit' class='next-button' value='Zuruck' />");
+        }
+        backButtons();
+        oThis.initSaveAndSend();
+        });
+        
+    },
+    initSaveAndSend:function(){
+        var oThis=this;
+        $("#saveAndSend").unbind("click");
+        $("#saveAndSend").click(function () {
+            oThis.saveState("save");           
+        });
+        
+    },
+    
     saveState:function(state){
         var empty;
         traverseBack();
+        this.sideColor=$("#clrpikr input").val();
+        //alert("side color: "+this.sideColor+"and format is: "+this.formatName+"and the filling is"+this.fillingName);
+        
         var obj={
             "triangle":empty,
             "backSide":this.back,
             "frontSide":[],
             "frontBackground":this.dropbackground,
-            "backBackground":this.dropbackground
+            "backBackground":this.dropbackground,
+            "format":this.formatName,
+            "filling":this.fillingName,
+            "sideColor":this.sideColor
         };
         window.console.log("a="+JSON.stringify(obj));
         this.tosave=JSON.stringify(obj);
@@ -432,10 +501,33 @@ CH.VC1={
                 $('form#submit').hide(function(){
                     $('div.success').fadeIn();
                 });
+                
+                
+                var salutation=$("#orderPageSalutation").val();
+                var lastName=$("#orderPageLastName").val();
+                var firstName=$("#orderPageFirstName").val();
+                var companyName=$("#orderPageCompanyName").val();
+                var road=$("#orderPageRoad").val();
+                var zipCode=$("#orderPageZipCode").val();
+                var place=$("#orderPagePlace").val();
+                var desiredAmount=$("#orderPageDesiredAmount").val();
+                
+                
+                
                 $.ajax({ 
                     type: "POST",
                     url: "execjar.php",
-                    data: {},
+                    data: {
+                      salutation:salutation,
+                lastName:lastName,
+                firstName:firstName,
+                companyName:companyName,
+                road:road,
+                zipCode:zipCode,
+                place:place,
+                desiredAmount:desiredAmount
+                
+                    },
                     success: function(data){
                         if(state=="prev"){  
                             var imgEPS = new Image();
@@ -453,9 +545,9 @@ CH.VC1={
                             };
                             if(CH.VC1.currentSide=="Front")
                                 imgEPS.src='./EPSIMAGE/Front_EPS_'+data+'.png';
-                            else 
+                            /*else 
                                 imgEPS.src='./EPSIMAGE/Back_EPS_'+data+'.png';
-                            $("#previeweps").html(imgEPS);
+                            $("#previeweps").html(imgEPS);*/
                         }else if(state=="save"){
                             //window.location.pathname="/adventscalender/EPSIMAGE/Front_EPSImage_"+data+".eps";
                             window.location.pathname="/adventscalender/EPSIMAGE/outfile_"+data+".zip";

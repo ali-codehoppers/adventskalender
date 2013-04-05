@@ -12,6 +12,8 @@ CH.backgroundSelected;
 CH.isFillingAndFormatSelected;
 CH.isCompanyAddress=true;
 CH.textConstantToAddForVerticalImages=0;
+CH.FIXED_DPI=0;
+CH.selectedBar;
 
 CH.com={
     VC:null,//current vc
@@ -25,8 +27,10 @@ CH.com={
                 packageType:oThis.VC.packageId
             },
             success:function(data){
+                
                 $("#dd_format").html(data);    
                 oThis.initFormatChange();
+                
             } 
         });
     },
@@ -41,6 +45,7 @@ CH.com={
     },
     formatChanged:function(formatId){
         var oThis=this;
+        oThis.VC.formatName=$("#dd_format :selected").text();
         $.ajax({
             type: "POST",
             url: "basicFunctions.php",
@@ -83,13 +88,20 @@ CH.com={
     },
     initFillingSelect:function(){
         var oThis=this;
+        
         $('.choose-filling ul li').unbind("click");
         $('.choose-filling ul li').click(function() {
             $(this).find('input[type=radio]').attr('checked', true);
             var fillingId=$(this).find('input[type=radio]').prop("id");
             fillingId=fillingId.substr(fillingId.indexOf("-")+1,fillingId.length);
             oThis.VC.fillingId=fillingId;
+            //xain's
+            oThis.VC.fillingName=$("input[name='filling']:checked").parent().parent().attr("title");
         });
+        //select first by default
+        if($(".choose-filling ul li").length>0){
+            $(".choose-filling ul li :first").click(); 
+        }
     },
     getPageContent:function(pageNum){
         var oThis=this;
@@ -165,6 +177,7 @@ CH.com={
         eval(command);*/
     },
     loadDesigns:function(){
+        //alert(CH.selectedBar);
         var oThis=this;
         $(".screens").hide();
         $("#content-choosedesignhtml").show();
@@ -182,7 +195,9 @@ CH.com={
             success:function(data){    
                 data=eval("("+data+")");
                 buttonToUnactivestate(); //checkthis1
-                $(".nav6bar ul #third").prop("class","third active");
+                $(CH.selectedBar+" ul #third").prop("class","third active");
+                $(CH.selectedBar+" ul #third").prop("class","third active");
+                
                 $("#content-choosedesignhtml #pagination").html("");
                 oThis.afterLoadDesignData(data.data);
                 if(data.pagination){
@@ -196,6 +211,13 @@ CH.com={
         $('.content-upper ul').html(data);
         $('.content-upper ul li img').css("border","4px solid grey");
         $('.content-upper ul li img').first().css("border","4px solid orange");
+        
+        var bgId=$('.content-upper ul li').first().attr("id");
+        bgId=bgId.substr(bgId.indexOf("_")+1,bgId.length);
+        this.VC.backgroundId=bgId;
+        this.VC.bgOriginalWidth=$('.content-upper ul li img').first().attr("owidth");
+        this.VC.bgOriginalHeight=$('.content-upper ul li img').first().attr("oheight");
+        
         var temp=($('.content-upper ul li img').first().prop("src"));  //src of img clicked
         temp = temp.replace("img/bgimgs/thumbs/", "img/bgimgs/");
         var str = temp,
@@ -211,7 +233,7 @@ CH.com={
         CH.currentPackage.backgroundSelected=filename;
         CH.currentPackage.result=CH.currentPackage.backgroundSelected;
         CH.backgroundSelected=backgroundSelected;
-    
+        
         $('#buttonDiv').html("");
         $('#uploadButton').html("");
         this.VC.appendDesignBackgroundUploadBt(); //appending upload buttons
@@ -221,8 +243,14 @@ CH.com={
         $("#chooseDesignNextButton").click(function(e){	
             if(CH.backgroundSelected!=null)
             {   
+                if(CH.currentPackage.packageId != "1")
+                    {
                 $("#radioCompanyAddress").attr('checked','checked');
                 putAddressIndd();
+                    }
+                    else{
+                        fromAddressToDesk();
+                    }
             }
         }); 
         backButtons();
@@ -241,7 +269,7 @@ CH.com={
             delimiter = '/',
             start = 4,
             tokens = str.split(delimiter).slice(start),
-                
+            
             backgroundSelected = tokens.join(delimiter);
             oThis.VC.dropbackground=backgroundSelected;
             var bg=$(this).prop("src");
@@ -250,6 +278,13 @@ CH.com={
             CH.currentPackage.backgroundSelected=filename;
             CH.currentPackage.result=CH.currentPackage.backgroundSelected;
             CH.backgroundSelected=backgroundSelected;
+            
+            var bgId=$(this).parent().parent().attr("id");
+            bgId=bgId.substr(bgId.indexOf("_")+1,bgId.length);
+            oThis.VC.backgroundId=bgId;
+            oThis.VC.bgOriginalWidth=$(this).attr("owidth");
+            oThis.VC.bgOriginalHeight=$(this).attr("oheight");
+            
             return false;
         });
     },
@@ -264,6 +299,29 @@ CH.com={
             $('#buttonDiv').append("<div id='back-button-div'><input id='chooseDesignBackButton' style='margin-top: 0px;' type='button' name='submit' class='next-button' value='Zuruck' /></div>");
         }
         $('#buttonDiv').append("<div class='clearBoth'></div>");
+    },
+    checkDPI:function(currentWidth,currentHeight,originalWidth,originalHeight, bgWidth, bgHeight,divWidth){
+        
+        var UIBgWidth=divWidth;
+        var uiWidthFactor= currentWidth/UIBgWidth;
+    
+        var UIBgHeight=bgHeight*(divWidth/bgWidth);
+        var uiHeightFactor= currentHeight/UIBgHeight;
+    
+        var cInchesWidth = uiWidthFactor*(bgWidth/CH.FIXED_DPI);
+        var cInchesHeight = uiHeightFactor*(bgHeight/CH.FIXED_DPI);
+    
+        var xDPI=originalWidth/cInchesWidth;
+        var yDPI=originalHeight/cInchesHeight;
+    
+        window.console.log(xDPI,yDPI+" dpi");
+    
+        if(xDPI<CH.FIXED_DPI && yDPI<CH.FIXED_DPI){
+            return false;
+        }else{
+            return true;
+        }
+    
     }
     
 }
@@ -392,8 +450,95 @@ function getURLParameter(name) {
         (RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1]
         );
 }
-
-function changeBackground(){ 
+function changeBackground(){  
+        var oThis=this;
+        $("#imageform2").replaceWith("");
+        var formStr = " <form id='imageform2' method='post' style='display:none;' enctype='multipart/form-data' action='./basicFunctions.php?type=uploadBackground&formatId="+this.formatId+"'>"+
+        "<input type='file' name='photoimg2' id='photoimg2' />"+
+        "<input type='hidden' name='rand1' value='"+Math.random()+"' />" +
+        "</form>";
+    
+        $("#outer").html("");
+        $("#outer").html(formStr);
+        $("#imageform2").dialog("destroy");
+        $("#imageform2").dialog({
+            title:"Upload Background Image",
+            modal: true,
+            resizable: false,
+            open:function(event, ui){
+            },
+            buttons: {
+                Ok: function() {
+                    
+                    var temp=($("#imageform2 #photoimg2").val());
+                    var count =(temp.split(".").length - 1)
+                    //alert(count.length);
+                    var inCaseOfDots;
+                    if(count>1)
+                    {
+                    /*     inCaseOfDots=CH.VC3.removeAllButLast(temp,".") 
+                        temp=inCaseOfDots;*/
+                    }
+                    
+                    var result = temp.substring(temp.lastIndexOf("."));
+                    if(result.toLowerCase()==".jpg"||result.toLowerCase()==".tiff")
+                    {
+                        $("#divLoad").dialog("open");
+                        $("#imageform2").ajaxForm(
+                        {
+                            success:    function(responseText, statusText, xhr, $form) { 
+                                var resp=responseText.split(',');
+                                var src=resp[0];
+                                var success=resp[1];
+                                
+                                var actualval="./uploads/"+src;
+                                
+                                
+                                if(success!=null && success=="1")
+                                {
+                                    $("#divLoad").dialog("close");
+                                    $('.back').css('background-image', 'url()');
+                                    $('.back').hide();
+                                    $('.drop').css('background-image', 'url()');
+                                    $('.drop').hide();
+                                    $('.drop').show();
+                                    $('.back').hide();
+                                    var url = "url(./uploads/"+src+"?"+Math.random()+")";
+                                    $('.drop').css('background-image', url);
+                                    $('.back').css('background-image', url);
+                                    CH.VC3.dropbackground="uploads/"+src;
+                                    CH.backgroundSelected="uploads/"+src;
+                                    fitBackground(CH.VC3.dropbackground);  //zainchange
+                                    oThis.bgOriginalWidth=parseInt(resp[2]);
+                                    oThis.bgOriginalHeight=parseInt(resp[3]);
+                                    oThis.backgroundId=null;
+                                     oThis.putAddressIndd();
+                                }
+                                else if(success!=null && success=="0"){
+                                    alert(src);
+                                    $("#divLoad").dialog("close");
+                                    CH.VC3.changeBackground();    
+                                }
+                            /*}
+                                else{
+                                    alert("Please select a small image or see if the image extension is correct");
+                                    $("#divLoad").dialog("close");
+                                    CH.VC3.changeBackground();
+                                }*/
+                            } 
+                        }).submit();
+                        $( this ).dialog( "close" );
+                    }
+                    else{
+                        $( this ).dialog( "close" );
+                        alert("Please Select jpg or png image for background");
+                        CH.VC3.changeBackground();
+                    }
+                }
+            }
+        });
+    }
+/*function changeBackground(){ 
     $("#imageform2").replaceWith("");
     var formStr = " <form id='imageform2' method='post' style='display:none;' enctype='multipart/form-data' action='./basicFunctions.php?type=uploadBackground'>"+
     "<input type='file' name='photoimg2' id='photoimg2' />"+
@@ -477,10 +622,10 @@ function changeBackground(){
             }
         }
     });
-}
+}*/
 //fine till here
 
-function populateLeftBarOnFront()
+/*function populateLeftBarOnFront()
 {
     $(".front-form").show();
     $(".address-form").hide();
@@ -488,18 +633,22 @@ function populateLeftBarOnFront()
     for(var i=0;i<CH.VC3.items.length;i++){
         $(".front-form-inside-div").append("<input type='text' id='"+CH.VC3.items[i].id+"-LeftDiv' class='txtbox'  value='" + CH.VC3.items[i].innertxt + "'/>")
     }
-}
+}*/
 function restoreAll()
 {
     $(".drop").html("");
     $(".back").html("");
     $(".left").html("");
     $(".right").html("");
-    $(".tools").html("<div id='toolbarCommonAction' class='editor-icon' style='width: auto; height: 40px;'><button id='Save' class='form-editor-save'></button><button id='removeButton' class='form-editor-delete'></button><button id='UndoButton' class='form-editor-undo'></button><button id='RedoButton' class='form-editor-redo'></button><button id='CopyButton' class='form-editor-copy'></button><button id='PasteButton' class='form-editor-paste'></button></div><div id='toolbarImageAction' class='editor-icon1' style='width: auto; height: 35px;'><button id='addButton' class='form-editor-t'></button><button id='upphot' class='form-editor-cam'></button><button id='changebg' class='form-editor-f'></button></div><div  id='toolbarFontAction' class='form-editor' style='width: auto; height: 35px;'><select id='font1' name='font' class='form-editor-dropdown1'><option style='font-family: Arial;'>Arial</option><!--<option style='font-family: Tangerine;'>Tangerine</option>--><option style='font-family: Georgia;'>Georgia</option><option style='font-family: Verdana;'>Verdana</option><option style='font-family: Times New Roman;'>Times New Roman</option><!--<option style='font-family: Lucida Grande;'>Lucida Grande</option>--><option style='font-family: Lucida Sans Unicode;'>Lucida Sans Unicode</option><option style='font-family: Courier New;'>Courier New</option></select><select id='fontsize' name='font-size' class='form-editor-dropdown2'><option>10</option><option>12</option><option>14</option><option>16</option><option>18</option><option>20</option><option>22</option><option>24</option><option>28</option><option>32</option><option>38</option></select><input type='hidden' id='colpick' name='color1' class='color-picker' size='6' autocomplete='on' maxlength='10' /><button id='boldbutton' class='form-editor-btnb' ></button><button id='italicbutton' class='form-editor-btni'></button><button id='underlinebutton' class='form-editor-btnu' ></button><button id='Lalignbutton' class='form-editor-btnp1' ></button><button id='Calignbutton' class='form-editor-btnp2'></button><button id='Ralignbutton' class='form-editor-btnp3'></button></div><ul id='toolbarViewAction' class='editor-shape' style='width: 224px; height: 40px;'><li><div id='frontdivimg' class='toolbarBtn'><img src='img/images/shape1-editor.png' alt='shape1' />Front</div></li><li><div id='backdivimg' class='toolbarBtn'><img src='img/images/shape2-editor.png' alt='shape2' />Back</div></li><li><div id='leftdivimg' class='toolbarBtn'><img src='img/images/shape3-editor.png' alt='shape3' />Left</div></li><li><div id='rightdivimg' class='toolbarBtn'><img src='img/images/shape4-editor.png' alt='shape4' />Right</div></li><li><div id='clrpikr'><input type='hidden' id='colpickfordiv' name='color1' class='color-picker-for-background' size='6' autocomplete='on' maxlength='10' /></div></li></ul></form>");
+    //$(".tools").html("<div id='toolbarCommonAction' class='editor-icon' style='width: auto; height: 40px;'><button id='Save' class='form-editor-save'></button><button id='removeButton' class='form-editor-delete'></button><button id='UndoButton' class='form-editor-undo'></button><button id='RedoButton' class='form-editor-redo'></button><button id='CopyButton' class='form-editor-copy'></button><button id='PasteButton' class='form-editor-paste'></button><button id='ZoomIn' class='form-editor-zoomin'></button><button id='ZoomOut' class='form-editor-zoomout'></button></div><div id='toolbarImageAction' class='editor-icon1' style='width: auto; height: 35px;'><button id='addButton' class='form-editor-t'></button><button id='upphot' class='form-editor-cam'></button><button id='changebg' class='form-editor-f'></button></div><div  id='toolbarFontAction' class='form-editor' style='width: auto; height: 35px;'><select id='font1' name='font' class='form-editor-dropdown1'><option style='font-family: Arial;'>Arial</option><!--<option style='font-family: Tangerine;'>Tangerine</option>--><option style='font-family: Georgia;'>Georgia</option><option style='font-family: Verdana;'>Verdana</option><option style='font-family: Times New Roman;'>Times New Roman</option><!--<option style='font-family: Lucida Grande;'>Lucida Grande</option>--><option style='font-family: Lucida Sans Unicode;'>Lucida Sans Unicode</option><option style='font-family: Courier New;'>Courier New</option></select><select id='fontsize' name='font-size' class='form-editor-dropdown2'><option>10</option><option>12</option><option>14</option><option>16</option><option>18</option><option>20</option><option>22</option><option>24</option><option>28</option><option>32</option><option>38</option></select><input type='hidden' id='colpick' name='color1' class='color-picker' size='6' autocomplete='on' maxlength='10' /><button id='boldbutton' class='form-editor-btnb' ></button><button id='italicbutton' class='form-editor-btni'></button><button id='underlinebutton' class='form-editor-btnu' ></button><button id='Lalignbutton' class='form-editor-btnp1' ></button><button id='Calignbutton' class='form-editor-btnp2'></button><button id='Ralignbutton' class='form-editor-btnp3'></button></div><ul id='toolbarViewAction' class='editor-shape' style='width: 224px; height: 40px;'><li><div id='frontdivimg' class='toolbarBtn'><img src='img/images/shape1-editor.png' alt='shape1' />Front</div></li><li><div id='backdivimg' class='toolbarBtn'><img src='img/images/shape2-editor.png' alt='shape2' />Back</div></li><li><div id='leftdivimg' class='toolbarBtn'><img src='img/images/shape3-editor.png' alt='shape3' />Left</div></li><li><div id='rightdivimg' class='toolbarBtn'><img src='img/images/shape4-editor.png' alt='shape4' />Right</div></li><li><div id='clrpikr'><input type='hidden' id='colpickfordiv' name='color1' class='color-picker-for-background' size='6' autocomplete='on' maxlength='10' /></div></li></ul></form>");
+    $(".tools").html("<div id='toolbarCommonAction' class='editor-icon' style='width: auto; height: 40px;'><button id='Save' class='form-editor-save'></button><button id='removeButton' class='form-editor-delete'></button><button id='UndoButton' class='form-editor-undo'></button><button id='RedoButton' class='form-editor-redo'></button><button id='CopyButton' class='form-editor-copy'></button><button id='PasteButton' class='form-editor-paste'></button><button id='ZoomIn' class='form-editor-zoomin'></button><button id='ZoomOut' class='form-editor-zoomout'></button></div><div id='toolbarImageAction' class='editor-icon1' style='width: auto; height: 35px;'><button id='addButton' class='form-editor-t'></button><button id='upphot' class='form-editor-cam'></button><button id='changebg' class='form-editor-f'></button></div><div  id='toolbarFontAction' class='form-editor' style='width: auto; height: 35px;'><select id='font1' name='font' class='form-editor-dropdown1'><option style='font-family: Arial;'>Arial</option><!--<option style='font-family: Tangerine;'>Tangerine</option>--><option style='font-family: Georgia;'>Georgia</option><option style='font-family: Verdana;'>Verdana</option><option style='font-family: Times New Roman;'>Times New Roman</option><!--<option style='font-family: Lucida Grande;'>Lucida Grande</option>--><option style='font-family: Lucida Sans Unicode;'>Lucida Sans Unicode</option><option style='font-family: Courier New;'>Courier New</option></select><select id='fontsize' name='font-size' class='form-editor-dropdown2'><option>10</option><option>12</option><option>14</option><option>16</option><option>18</option><option>20</option><option>22</option><option>24</option><option>28</option><option>32</option><option>38</option></select><input type='hidden' id='colpick' name='color1' class='color-picker' size='6' autocomplete='on' maxlength='10' /><button id='boldbutton' class='form-editor-btnb' ></button><button id='italicbutton' class='form-editor-btni'></button><button id='underlinebutton' class='form-editor-btnu' ></button><button id='Lalignbutton' class='form-editor-btnp1' ></button><button id='Calignbutton' class='form-editor-btnp2'></button><button id='Ralignbutton' class='form-editor-btnp3'></button></div><ul id='toolbarViewAction' class='editor-shape' style='width: 224px; height: 40px;'><li><div id='frontdivimg' class='toolbarBtn'><img src='img/images/shape1-editor.png' alt='shape1' /></div></li><li><div id='backdivimg' class='toolbarBtn'><img src='img/images/shape2-editor.png' alt='shape2' /></div></li><li><div id='leftdivimg' class='toolbarBtn'><img src='img/images/shape3-editor.png' alt='shape3' />Left</div></li><li><div id='rightdivimg' class='toolbarBtn'><img src='img/images/shape4-editor.png' alt='shape4' />Right</div></li><li><div id='clrpikr'><input type='hidden' id='colpickfordiv' name='color1' class='color-picker-for-background' size='6' autocomplete='on' maxlength='10' /></div></li></ul></form>");
     CH.backgroundSelected=null;
     CH.currentPackage=null;
     CH.isFillingAndFormatSelected=false;
-    
+    $("#content-choosedesignhtml .content-upper ul").html("");
+    $(".right-contentfilling .choose-filling ul").html("");
+    $("#dd_format").html("");
+    $(".formatImage").html("");
 }
 
 
@@ -510,6 +659,7 @@ function setBackGroundImageInDrop(sourceOfImage)
     backButtons();
     buttonToUnactivestate();
     $(".nav6bar ul #fifth").prop("class","fifth active");
+    $(".nav5bar ul #fourth").prop("class","#fourth active");
     $( ".tools button" ).prop("disabled","");
     $( ".tools input" ).prop("disabled","");
     $( ".tools select" ).prop("disabled","");//here
@@ -534,7 +684,7 @@ function setActiveButtonsInToolsAccordingToPackage()
 }
 
 function loadAddressFromAddressScreen(){
-    if(CH.isCompanyAddress==true)
+    /*if(CH.isCompanyAddress==true)
     {
         document.getElementById("backaddress1input").value="werbungxyz";
         document.getElementById("backaddress2input").value="78xyz";
@@ -542,14 +692,15 @@ function loadAddressFromAddressScreen(){
         document.getElementById("backwebsiteinput").value="www.werbungxyz.com";
     }
     else
-    {
-        document.getElementById("backaddress1input").value=$("#addressDivindd_bg input").val();
-        document.getElementById("backaddress2input").value=$("#dd_bgaddress2input").val();
-        document.getElementById("backtelephoneinput").value=$("#dd_bgtelephoneinput").val();
-        document.getElementById("backwebsiteinput").value=$("#dd_bgwebsiteinput").val();
-    }
+    {*/
+        $("#deskPageCompanyNameInput").val($("#addressPageCompanyName").val());
+        $("#deskPageRoadInput").val($("#addressPageRoad").val());
+        $("#deskPageZipCodeInput").val($("#addressPageZipCode").val());
+        $("#deskPagePhoneNumberInput").val($("#addressPagePhoneNumber").val());
+        $("#deskPageEMailInput").val($("#addressPageEMail").val());
+        $("#deskPageWebsiteInput").val($("#addressPageWebsite").val());
+    /*}*/
         
-    
 }
 
 function putAddressIndd()
@@ -559,54 +710,112 @@ function putAddressIndd()
     $("#content-chooseaddresshtml").show();
     backButtons();
     buttonToUnactivestate();
-    
     $(".nav6bar ul #fourth").prop("class","fourth active");
-    
-    //$('.dd_BG_top').html("<div style='padding-top:10px'>Enter text for back side</div>");
-    //$('.dd_BG').html("<div id='addressDivindd_bg' style='text-align:left;padding-left:15px;'><div>Address Line 1</div><div id='dd_bgaddress1' style='margin-bottom:4px'><input id='dd_bgaddress1input' type='text' name='addrline1' size='35' /></div><div>Address Line 2</div><div  id='dd_bgaddress2' style='margin-bottom:4px'><input id='dd_bgaddress2input' type='text' name='addrline2' size='35' /></div><div>Telephone</div><div  id='dd_bgtelephone' style='margin-bottom:4px'><input id='dd_bgtelephoneinput' type='text' name='telephone' size='25' /></div><div>Website</div><div  id='dd_bgwebsite' style='margin-bottom:4px'><input id='dd_bgwebsiteinput' type='text' name='website' size='35' /></div></div>");
-    $('.addressRadio').click(function() {
-        //alert("ddd");
-        $(this).find('input[type=radio]').attr('checked','checked');
-        if(($(this).attr("id"))=="radioCompanyAddress")
-        {
-            $("#addressDivindd_bg").hide();
-            CH.isCompanyAddress=true;
-        }
-        else if(($(this).attr("id"))=="radioHomeAddress")
-        {
+    $("#dd_addressType").unbind("change");
+    $("#dd_addressType").change(function(){
+       /* if($(this).prop("selectedIndex")==0){
+            $("#addressDivindd_bg").hide();//zain
+            $("#dd_bgaddress1input").val("werbungxyz");
+            $("#dd_bgaddress2input").val("78xyz");
+            $("#dd_bgtelephoneinput").val("+49 (0) 7643 80 10");
+            $("#dd_bgwebsiteinput").val("www.werbungxyz.com");
+            $("#addressDivindd_bg input").attr("readonly", true);//zain
+            //CH.isCompanyAddress=true;
+        }else{
+            $("#addressDivindd_bg input").val("");
             $("#addressDivindd_bg").show();
-            CH.isCompanyAddress=false;
-        }
+            $("#addressDivindd_bg input").removeAttr("readonly");//zain
+            //CH.isCompanyAddress=false;
+        }*/
     });
     
-    $("#addressDivindd_bg").hide();
+    $("#dd_addressType").prop("selectedIndex",0);
+    $("#dd_addressType").change();
+    
+    
+    /*$("#addressDivindd_bg").hide();*///zain
     //$('.content-upper-address').html("<div id='addressDivindd_bg' style='text-align:left;padding-left:15px;'><div>Address Line 1</div><div id='dd_bgaddress1' style='margin-bottom:4px'><input id='dd_bgaddress1input' type='text' name='addrline1' size='35' /></div><div>Address Line 2</div><div  id='dd_bgaddress2' style='margin-bottom:4px'><input id='dd_bgaddress2input' type='text' name='addrline2' size='35' /></div><div>Telephone</div><div  id='dd_bgtelephone' style='margin-bottom:4px'><input id='dd_bgtelephoneinput' type='text' name='telephone' size='25' /></div><div>Website</div><div  id='dd_bgwebsite' style='margin-bottom:4px'><input id='dd_bgwebsiteinput' type='text' name='website' size='35' /></div><br/><input id='AddressNextButton' type='button' name='submit' class='next-button' value='NEXT' /></div>");
     stepToDesk();
 
 }
 function stepToDesk()
 {
+    var oThis=this;
+    $("#AddressNextButton").unbind("click"); //awais
     $("#AddressNextButton").click(function(e){
+    if($("#addressPageCompanyName").val()!="" && $("#addressPageRoad").val()!="" && $("#addressPageZipCode").val()!="")
+    {
+        $("#errorMessage").hide();
+        oThis.fromAddressToDesk();
+    }
+    else
+        {
+            $("#errorMessage").show();
+        }
+});
+}
+
+
+function fromAddressToDesk()
+{
         $(".drop").html("");
         $(".screens").hide();
         $("#content-playablehtml").show();
+        CH.VC3.addInitialDivs = true;
         //backButtons();
         setBackGroundImageInDrop(CH.backgroundSelected);
+        /*triangle check start */
+        //alert(CH.currentPackage.formatId);
+        $.ajax({
+            type: "POST",
+            url: "basicFunctions.php",
+            data: {
+                "type":"checkIfImageIsTriangle",
+                formatId:CH.currentPackage.formatId,
+                imageSrc:CH.backgroundSelected
+            },
+            success:function(data){
+                if(data[0]=="0")
+                {
+                    CH.currentPackage.isTriangle=0;
+                    $("#moveback-button-div").remove();
+                //alert(data)
+                }
+                else if(data[0]=="1"){
+                    //alert(data)
+                    CH.currentPackage.isTriangle=1;
+                    var imagePath = data.split(',')[7];
+                    CH.currentPackage.overlayImagePath=imagePath;
+                    $("#drop").append("<img id='triImage' src='./"+imagePath+"' style='width:100%';>");//heree
+                    //function to make triangle border for drag.
+                    CH.currentPackage.makeTriangleTorestrictDrag(data.split(',')[1],data.split(',')[2],data.split(',')[3],data.split(',')[4],data.split(',')[5],data.split(',')[6]);
+                    //function to move all elements inside the triangle
+                    CH.currentPackage.moveTextAccordinglyIntoTriangle(data.split(',')[8],data.split(',')[9]);
+                    CH.VC3.initMoveBackground();
+                }
+                else{
+                    alert("ERROR WITH CURRENT FORMAT!");    
+                }
+            } 
+        });
+         
+         
+        /*triangle check end*/
         loadAddressFromAddressScreen();
         $("#epsbutton").remove();
         
         //if ( $(window).width() < 960)
-        
+        /*
         if( $("#bottomButtonsFinalScreen").length != 1)
         {
                 
             if(CH.language=="english")
             {
-                $("#playableButtonDiv").append("<div id='bottomButtonsFinalScreen'><div id='next-button-div'><input id='epsbuttonothersides' type='button' name='submit' class='next-button' value='PREVIEW-OTHERSIDES' /></div><div id='next-button-div'><input id='epsbutton' type='button' name='submit' class='next-button' value='PREVIEW-FRONTSIDE' /></div><div id='next-button-div'><input id='finalBackButton' type='button' name='submit' class='next-button' value='BACK' /></div></div>");
+                $("#playableButtonDiv").append("<div id='bottomButtonsFinalScreen'><div id='order-button-div'><input id='OrderAdventKalender' type='button' name='submit' class='next-button' value='ORDER' /></div><div id='moveback-button-div'><input id='moveBack' type='button' name='submit' class='next-button' value='MOVE BACKGROUND' /></div><div id='save-button-div'><input id='saveAndSend' type='button' name='submit' class='next-button' value='SAVE & SEND' /></div><div id='preview-button-div'><input id='epsbutton' type='button' name='submit' class='next-button' value='PREVIEW-FRONTSIDE' /></div><div id='back-button-div'><input id='deskBackButton' type='button' name='submit' class='next-button' value='BACK' /></div></div>");
             }
             else if(CH.language=="dutch")
             {
-                $("#playableButtonDiv").append("<div id='bottomButtonsFinalScreen'><div id='next-button-div'><input id='epsbuttonothersides' type='button' name='submit' class='next-button' value='PREVIEW-OTHERSIDES' /></div><div id='next-button-div'><input id='epsbutton' type='button' name='submit' class='next-button' value='Vorschau' /></div><div id='next-button-div'><input id='finalBackButton' type='button' name='submit' class='next-button' value='Zuruck' /></div></div>");
+                $("#playableButtonDiv").append("<div id='bottomButtonsFinalScreen'><div id='order-button-div'><input id='OrderAdventKalender' type='button' name='submit' class='next-button' value='BESTELLEN' /></div><div id='moveback-button-div'><input id='moveBack' type='button' name='submit' class='next-button' value='MOVE BACKGROUND' /></div><div id='save-button-div'><input id='saveAndSend' type='button' name='submit' class='next-button' value='SPEICHEN & ABSENDEN' /></div><div id='preview-button-div'><input id='epsbutton' type='button' name='submit' class='next-button' value='Vorschau' /></div><div id='back-button-div'><input id='deskBackButton' type='button' name='submit' class='next-button' value='Zuruck' /></div></div>");
             }        
        
         }
@@ -615,26 +824,53 @@ function stepToDesk()
             
             if(CH.language=="english")
             {   
-                $("#playableButtonDiv").append("<div id='bottomButtonsFinalScreen'><div id='next-button-div'><input id='epsbuttonothersides' type='button' name='submit' class='next-button' value='PREVIEW-OTHERSIDES' /></div><div id='next-button-div'><input id='epsbutton' type='button' name='submit' class='next-button' value='PREVIEW-FRONTSIDE' /></div><div id='next-button-div'><input id='finalBackButton' type='button' name='submit' class='next-button' value='BACK' /></div></div>");
+                $("#playableButtonDiv").append("<div id='bottomButtonsFinalScreen'><div id='order-button-div'><input id='OrderAdventKalender' type='button' name='submit' class='next-button' value='ORDER' /></div><div id='moveback-button-div'><input id='moveBack' type='button' name='submit' class='next-button' value='MOVE BACKGROUND' /></div><div id='save-button-div'><input id='saveAndSend' type='button' name='submit' class='next-button' value='SAVE & SEND' /></div><div id='preview-button-div'><input id='epsbutton' type='button' name='submit' class='next-button' value='PREVIEW-FRONTSIDE' /></div><div id='back-button-div'><input id='deskBackButton' type='button' name='submit' class='next-button' value='BACK' /></div></div>");
             }
             else if(CH.language=="dutch")
             {
-                $("#playableButtonDiv").append("<div id='bottomButtonsFinalScreen'><div id='next-button-div'><input id='epsbuttonothersides' type='button' name='submit' class='next-button' value='PREVIEW-OTHERSIDES' /></div><div id='next-button-div'><input id='epsbutton' type='button' name='submit' class='next-button' value='Vorschau' /></div><div id='next-button-div'><input id='finalBackButton' type='button' name='submit' class='next-button' value='Zuruck' /></div></div>");
+                $("#playableButtonDiv").append("<div id='bottomButtonsFinalScreen'><div id='order-button-div'><input id='OrderAdventKalender' type='button' name='submit' class='next-button' value='BESTELLEN' /></div><div id='moveback-button-div'><input id='moveBack' type='button' name='submit' class='next-button' value='MOVE BACKGROUND' /></div><div id='save-button-div'><input id='saveAndSend' type='button' name='submit' class='next-button' value='SPEICHEN & ABSENDEN' /></div><div id='preview-button-div'><input id='epsbutton' type='button' name='submit' class='next-button' value='Vorschau' /></div><div id='back-button-div'><input id='deskBackButton' type='button' name='submit' class='next-button' value='Zuruck' /></div></div>");
             }          
     
+        }          
+    */
+   if( $("#bottomButtonsFinalScreen").length != 1)
+        {
+                
+            if(CH.language=="english")
+            {
+                $("#playableButtonDiv").append("<div id='bottomButtonsFinalScreen'><div id='order-button-div'><input id='OrderAdventKalender' type='button' name='submit' class='next-button' value='ORDER' /></div><div id='moveback-button-div'><input id='moveBack' type='button' name='submit' class='next-button' value='MOVE BACKGROUND' /></div><div id='preview-button-div'><input id='epsbutton' type='button' name='submit' class='next-button' value='PREVIEW-FRONTSIDE' /></div><div id='back-button-div'><input id='deskBackButton' type='button' name='submit' class='next-button' value='BACK' /></div></div>");
+            }
+            else if(CH.language=="dutch")
+            {
+                $("#playableButtonDiv").append("<div id='bottomButtonsFinalScreen'><div id='order-button-div'><input id='OrderAdventKalender' type='button' name='submit' class='next-button' value='BESTELLEN' /></div><div id='moveback-button-div'><input id='moveBack' type='button' name='submit' class='next-button' value='MOVE BACKGROUND' /></div><div id='preview-button-div'><input id='epsbutton' type='button' name='submit' class='next-button' value='Vorschau' /></div><div id='back-button-div'><input id='deskBackButton' type='button' name='submit' class='next-button' value='Zuruck' /></div></div>");
+            }        
+       
+        }
+        else{
+            $("#bottomButtonsFinalScreen").remove();
+            
+            if(CH.language=="english")
+            {   
+                $("#playableButtonDiv").append("<div id='bottomButtonsFinalScreen'><div id='order-button-div'><input id='OrderAdventKalender' type='button' name='submit' class='next-button' value='ORDER' /></div><div id='moveback-button-div'><input id='moveBack' type='button' name='submit' class='next-button' value='MOVE BACKGROUND' /></div><div id='preview-button-div'><input id='epsbutton' type='button' name='submit' class='next-button' value='PREVIEW-FRONTSIDE' /></div><div id='back-button-div'><input id='deskBackButton' type='button' name='submit' class='next-button' value='BACK' /></div></div>");
+            }
+            else if(CH.language=="dutch")
+            {
+                $("#playableButtonDiv").append("<div id='bottomButtonsFinalScreen'><div id='order-button-div'><input id='OrderAdventKalender' type='button' name='submit' class='next-button' value='BESTELLEN' /></div><div id='moveback-button-div'><input id='moveBack' type='button' name='submit' class='next-button' value='MOVE BACKGROUND' /></div><div id='preview-button-div'><input id='epsbutton' type='button' name='submit' class='next-button' value='Vorschau' /></div><div id='back-button-div'><input id='deskBackButton' type='button' name='submit' class='next-button' value='Zuruck' /></div></div>");
             }          
     
-        
+        }   
+        CH.currentPackage.initOrderAdventKalender();
+        CH.currentPackage.initSaveAndSend();
         if(CH.currentPackage.packageId == "1")
-           { 
-               $("#epsbutton").remove();
+        { 
+            $("#epsbutton").remove();
         }
         CH.currentPackage.initPreviewEps();
         backButtons();
     //CH.currentPackage.putBackGroundInInitialscreen();
-    });
+    
+    
 }
-
 
 function makeCanvas()
 {
@@ -665,7 +901,11 @@ function makeCanvas()
 function makeBack(){
     $(".sider").append("<div id='back' class='back'></div>");
     //$(".back").css("background-image","url("+CH.currentPackage.dropbackground+"?"+Math.random()+")");
-    $(".sider .back").html("<div id='addressDivonback' style='width:260px; position:absolute; text-align:left;padding-left:15px;'><div>Address Line 1</div><div id='backaddress1' style='margin-bottom:4px'><input id='backaddress1input' type='text' name='addrline1' size='35' /></div><div>Address Line 2</div><div  id='backaddress2' style='margin-bottom:4px'><input  id='backaddress2input' type='text' name='addrline2' size='35' /></div><div>Telephone</div><div  id='backtelephone' style='margin-bottom:4px'><input  id='backtelephoneinput' type='text' name='telephone' size='25' /></div><div>Website</div><div  id='backwebsite' style='margin-bottom:4px'><input  id='backwebsiteinput' type='text' name='website' size='35' /></div></div>");
+    $(".sider .back").html("<div id='addressDivonback' style='width:260px; position:absolute; text-align:left;padding-left:15px;'><div>Company Name</div><div id='deskPageCompanyName' style='margin-bottom:4px'><input id='deskPageCompanyNameInput' type='text' name='deskPageCompanyName' size='35' /></div><div>Road</div><div  id='deskPageRoad' style='margin-bottom:4px'><input  id='deskPageRoadInput' type='text' name='deskPageRoad' size='35' /></div><div>Zip Code</div><div  id='deskPageZipCode' style='margin-bottom:4px'><input  id='deskPageZipCodeInput' type='text' name='deskPageZipCodeInput' size='25' /></div><div>Phone Number</div><div  id='deskPagePhoneNumber' style='margin-bottom:4px'><input  id='deskPagePhoneNumberInput' type='text' name='deskPagePhoneNumberInput' size='35' /></div><div>E Mail</div><div  id='deskPageEMail' style='margin-bottom:4px'><input  id='deskPageEMailInput' type='text' name='deskPageEMailInput' size='35' /></div><div>Website</div><div  id='deskPageWebsite' style='margin-bottom:4px'><input  id='deskPageWebsiteInput' type='text' name='deskPageWebsiteInput' size='35' /></div></div>");
+    if(CH.currentPackage.packageId!="1")
+        {
+    CH.currentPackage.initUpdateAddress();
+        }
     loadAddressFromAddressScreen()
     $(".back").hide();
 }
@@ -688,13 +928,17 @@ function comingToBack(pckg) {
     $( ".tools button" ).css("opacity","0.5");
     $( ".tools select" ).prop("disabled","disabled");
     $( ".tools #toolbarViewAction button" ).prop("disabled","");
-    $( ".tools #toolbarViewAction button" ).css("opacity","1");
-    
+    $( ".tools #toolbarViewAction button" ).css("opacity","1");   
     $( "#epsbutton" ).show();
     CH.currentPackage.currentSide="Back";
     $(".address-form").show();
     $(".front-form").hide();
     $(".address-tittle-txt h1").html("Enter Text For Back Side");
+    $("#toolbarCommonAction").css("display","none");
+    if(CH.currentPackage.packageId=="2"){
+        $("#toolbarImageAction").hide();
+        $("#toolbarFontAction").hide();
+    }
 
 }
 
@@ -715,8 +959,16 @@ function comingToFront(pckg)
     
     CH.currentPackage.currentSide="Front";
     $(".address-tittle-txt h1").html("Enter Text For Front Side");
-
-    populateLeftBarOnFront();
+    $("#toolbarCommonAction").css("display","block");
+    //populateLeftBarOnFront();
+    if(CH.currentPackage.packageId=="2"){
+        $("#toolbarImageAction").show();
+        $("#toolbarFontAction").show();
+        $("#ZoomIn" ).prop("disabled","");
+    $("#ZoomIn").css("opacity","1");
+    $("#ZoomOut").prop("disabled","");
+    $("#ZoomOut").css("opacity","1");
+    }
 }
   
 function matchAddressFromBack(){
@@ -804,14 +1056,17 @@ function initialScreenOne(){
         if($(this).prop("id")=="basicButton")
         {
             CH.currentPackage=CH.VC1;
+            CH.selectedBar=".nav5bar";
         }
         else if($(this).prop("id")=="standardButton")
         {
             CH.currentPackage=CH.VC2;
+            CH.selectedBar=".nav6bar";
         }
         else if($(this).prop("id")=="businessButton")
         {
             CH.currentPackage=CH.VC3;
+            CH.selectedBar=".nav6bar";
         }  
         CH.currentPackage.initialScreenTwo();
     });
@@ -824,6 +1079,12 @@ function buttonToUnactivestate(){
     $(".nav6bar ul #fourth").prop("class","fourth");
     $(".nav6bar ul #fifth").prop("class","fifth");
     $(".nav6bar ul #sixth").prop("class","sixth");
+    $(".nav5bar ul #first").prop("class","first");
+    $(".nav5bar ul #second").prop("class","second");
+    $(".nav5bar ul #third").prop("class","third");
+    $(".nav5bar ul #fourth").prop("class","fourth");
+    $(".nav5bar ul #fifth").prop("class","fifth");
+    
     
 }
 
@@ -843,8 +1104,9 @@ function backButtons(){
     $('#formatFillingBackButton').click(function(){ 
         $(".screens").hide();
         $("#content-choosepackagehtml").show();
+        restoreAll()
         buttonToUnactivestate();
-        $(".nav6bar ul #first").prop("class","first active");
+        $(CH.selectedBar+" ul #first").prop("class","first active");
     });
     $('#chooseDesignBackButton').click(function(){ 
         $(".screens").hide();
@@ -853,7 +1115,7 @@ function backButtons(){
     
         $("#"+CH.currentPackage.fillingsForThisPackage).show();
         buttonToUnactivestate();
-        $(".nav6bar ul #second").prop("class","second active");
+        $(CH.selectedBar+" ul #second").prop("class","second active");
     });
     $('#AddressBackButton').click(function(){ 
         $(".screens").hide();
@@ -861,17 +1123,43 @@ function backButtons(){
         buttonToUnactivestate();
         $(".nav6bar ul #third").prop("class","third active");
     });
-    $('#finalBackButton').click(function(){ 
+    $('#deskBackButton').click(function(){ 
         $(".screens").hide();
+        if(CH.currentPackage.packageId != "1")
+            {
         $("#content-chooseaddresshtml").show();
+        //$("#drop").show();
         buttonToUnactivestate();
         $(".nav6bar ul #fourth").prop("class","fourth active");
+            }
+         else{
+             $("#content-choosedesignhtml").show();
+             buttonToUnactivestate();
+        $(".nav5bar ul #third").prop("class","third active");
+         }   
+    });
+    $('#orderBackButton').click(function(){ 
+        $(".screens").hide();
+        if(CH.currentPackage.packageId != "1")
+            {
+        $("#content-playablehtml").show();
+        //$("#drop").show();
+        buttonToUnactivestate();
+        $(".nav6bar ul #fifth").prop("class","fifth active");
+            }
+         else{
+             $("#content-playablehtml").show();
+             buttonToUnactivestate();
+        $(".nav5bar ul #fourth").prop("class","fourth active");
+         }   
     });
 
 }
 
 
 function fitBackground(dropbackground){  //zain change
+    
+    $("#divLoad").dialog("open");
     $.ajax({
         type: "POST",
         url: "basicFunctions.php",
@@ -883,30 +1171,79 @@ function fitBackground(dropbackground){  //zain change
         {
             $('.drop').css("margin-left", "0px");
             $('.back').css("margin-left", "0px");
-            $('.drop').css("width", CH.WIDTHOFDROP+"px");
-            $('.back').css("width", CH.WIDTHOFDROP+"px");
-            $('.drop').css("height", "750px");
-            $('.back').css("height", "750px");
+            //$('.drop').css("width", CH.WIDTHOFDROP+"px");
+            //$('.back').css("width", CH.WIDTHOFDROP+"px");
+            //$('.drop').css("height", "750px");
+            //$('.back').css("height", "750px");
             var field = data.split(' ')[1];
             var addval=field-CH.HEIGHTOFDROP;
             CH.paddding = CH.WIDTHOFDROP-field;
             CH.paddding = CH.paddding/2;
             var heightOrwidth=data.split(' ')[0];
-            var heightacratio=CH.WIDTHOFDROP/data.split(' ')[2];
-            if(heightOrwidth=="width100%")
-            {
-                $('.drop').css("background-width", "100%");
-                $('.back').css("background-width", "100%");
-                $('.drop').css("height", heightacratio+"px");
-                $('.back').css("height", heightacratio+"px");
+            //var heightacratio=CH.WIDTHOFDROP/data.split(' ')[2];
+            var width=data.split(' ')[1];
+            var height=data.split(' ')[2];
+
+            /*if(heightOrwidth=="width100%")
+            {*/
+            if(heightOrwidth=="widthgreater")
+            { 
+                $('.drop').css("width", CH.WIDTHOFDROP+"px");
+                $('.back').css("width", CH.WIDTHOFDROP+"px");
+                $('.drop').css("height", height+"px");
+                $('.back').css("height", height+"px");
+                $('.drop').css("background-size", "100% auto");
+                $('.back').css("background-size", "100% auto");
+                //$('.drop').css("height", height+"px");
+                //$('.back').css("height", height+"px");
                 $('.drop').css("background-repeat","no-repeat");
                 $('.back').css("background-repeat","no-repeat");
-                //may be required/$(".edit-design-content").height(CH.HEIGHTOFDROP+230+"");  //"580"
-                $(".add-address").height(CH.HEIGHTOFDROP+255+""); //"605"
-                //$(".sider").css("height",$('.drop').css("height"));
-        $(".sider").css("height",$('.drop').height()+10+"px");    
+                $(".sider").css("height",$('.drop').height()+10+"px");    
             }
-            else if(heightOrwidth=="height100%")
+            else if(heightOrwidth=="widthlesser")
+            {
+                $('.drop').css("width", width+"px" );
+                $('.back').css("width", width+"px");
+                $('.drop').css("height", height+"px");
+                $('.back').css("height", height+"px");
+                $('.drop').css("background-size", width+"px auto" );
+                $('.back').css("background-size", width+"px auto");
+                //$('.drop').css("background-height", height+"px");
+                //$('.back').css("background-height", height+"px");
+                $('.drop').css("height", height+"px");
+                $('.back').css("height", height+"px");
+                var padding = (980-(Math.ceil(width)))/2;
+                $('.drop').css("margin-left",padding+"px");
+                $('.drop').css("background-position","center");
+                $('.back').css("background-position","center"); 
+                $('.drop').css("background-repeat","no-repeat");
+                $('.back').css("background-repeat","no-repeat");
+                //may be required/$(".edit-design-content").height(CH.HEIGHTOFDROP+250+"");
+                //$(".add-address").height(CH.HEIGHTOFDROP+275+"");
+                $(".sider").css("height",$('.drop').height()+10+"px");
+                var url = $('.drop').css('background-image').replace('url(', '').replace(')', '').replace("'", '').replace('"', '');
+                $('.drop').append("<div id='forImageWidth'></div>");
+                var bgImg = $('<img />');
+                //$('.drop').append(bgImg);
+                bgImg.hide();
+                bgImg.bind('load', function()
+                {
+                    /*var originalWidth = $(this).width();
+                    CH.textConstantToAddForVerticalImages=(980-(Math.ceil(originalWidth)))/2;
+                    dragbound();
+                    moveDropElementsAccordingToBackground();*///zain
+                    
+                    
+                    });
+                $('#forImageWidth').append(bgImg);
+
+                bgImg.attr('src', url);
+                
+                       
+            }
+               
+            //}
+            /*else if(heightOrwidth=="height100%")
             {
                 $('.drop').css("background-size", "auto 100%");
                 $('.back').css("background-size", "auto 100%");
@@ -946,7 +1283,13 @@ function fitBackground(dropbackground){  //zain change
             //var CH.WIDTHOFDROP=580;
             //var CH.HEIGHTOFDROP=350;        
             
-            }
+            }*/
+            $("#divLoad").dialog("close");
+             /*$("#drop").attr("background").load(function(){
+            $("#divLoad").dialog("close");
+        });
+            */
+            
         }
     });
 }
@@ -958,6 +1301,13 @@ function moveDropElementsAccordingToBackground(){
     });
 
 }
+/*function dragbound(){
+    $("#drop div").draggable({
+    containment: [CH.textConstantToAddForVerticalImages,0, 980-(CH.textConstantToAddForVerticalImages*2), 150]
+});
+    
+}*/
+
 function applyGermanProgressBar(){
     $(".nav6bar ul li.first").css("background", "url('img/images/menu/6menu/german/choosepackage.png')");
     $(".nav6bar ul li.first").css("width","150px");
@@ -984,4 +1334,16 @@ function applyGermanProgressBar(){
     $(".nav6bar ul li.fifth.active").css("width","225px");
     $(".nav6bar ul li.sixth.active").css("background", "url('img/images/menu/6menu/german/preview-hover.png')");
     $(".nav6bar ul li.sixth.active").css("width","129px");
+}
+function zoomInFunction()
+{
+  CH.currentPackage.zoomScale=1.3;
+    $("#content-playablehtml").addClass("zoomIn");
+    $("#content-playablehtml").removeClass("zoomOut");
+}
+function zoomOutFunction()
+{
+  CH.currentPackage.zoomScale=1;
+    $("#content-playablehtml").removeClass("zoomIn");
+    $("#content-playablehtml").addClass("zoomOut");
 }

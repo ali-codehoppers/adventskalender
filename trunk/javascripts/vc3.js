@@ -18,6 +18,7 @@ CH.VC3={
     jcrop_api:0,
     boundx:0,
     boundy:0,
+    obj:{},
     dirname:"img/bgimgs/business_bgimgs/",
     divforbgcolorchange:"left",
     leftsidebgcolor:"",
@@ -38,11 +39,27 @@ CH.VC3={
     currentfilling:"",
     currentSide:"Front",
     shapeSelected:"",
+    sideColor:null,
+    formatName:null,
+    fillingName:null,
     formatId:null,
     fillingId:null,
     packageId:3,
     fillingsForThisPackage:"changeFillingsBusiness",
-    formatId:"",
+    //formatId:null,
+    backgroundId:null,
+    bgOriginalWidth:null,
+    bgOriginalHeight:null,
+    addInitialDivs:true,
+    A:{},
+    B:{},
+    C:{},
+    isTriangle:0,
+    oldPositionLeft:0,
+    oldPositionTop:0,
+    oldSize:0,
+    overlayImagePath:"",
+    zoomScale:1,
     
     init:function(){
         CH.VC2.deinitialize();
@@ -54,68 +71,70 @@ CH.VC3={
         var backside=new Array();
         
         
-        
-        if(CH.language=="english")
+        if(CH.VC3.addInitialDivs == true)
         {
+            if(CH.language=="english")
+            {
         
-            $("#drop").append("<div class='demo' id='demo1' align='right' ><img class='rotate-image' src='img/imagesapp/rotateimg.png' width='20' height='20' /><img class='drag-image' src='img/imagesapp/move.png' width='20' height='20' /><img class='delete-image' src='img/imagesapp/del.png' width='20' height='20' /><span id='span1'>Company-Name</span></div>	<div class='demo' id='demo2' align='right' ><img class='rotate-image' src='img/imagesapp/rotateimg.png' width='20' height='20' /><img class='drag-image' src='img/imagesapp/move.png' width='20' height='20' /><img class='delete-image' src='img/imagesapp/del.png' width='20' height='20' /><span id='span2'>Name</span></div> <div class='demo' id='demo3' align='right' ><img class='rotate-image' src='img/imagesapp/rotateimg.png' width='20' height='20' /><img class='drag-image' src='img/imagesapp/move.png' width='20' height='20' /><img class='delete-image' src='img/imagesapp/del.png' width='20' height='20' /><span id='span3'>Telephone</span></div> <div class='demo' id='demo4' align='right' ><img class='rotate-image' src='img/imagesapp/rotateimg.png' width='20' height='20' /><img class='drag-image' src='img/imagesapp/move.png' width='20' height='20' /><img class='delete-image' src='img/imagesapp/del.png' width='20' height='20' /><span id='span4'>E mail</span></div>");
+                $("#drop").append("<div class='demo' id='demo1' align='right' ><img class='rotate-image' src='img/imagesapp/rotateimg.png' width='20' height='20' /><img class='drag-image' src='img/imagesapp/move.png' width='20' height='20' /><img class='delete-image' src='img/imagesapp/del.png' width='20' height='20' /><span id='span1'>Company-Name</span></div>	<div class='demo' id='demo2' align='right' ><img class='rotate-image' src='img/imagesapp/rotateimg.png' width='20' height='20' /><img class='drag-image' src='img/imagesapp/move.png' width='20' height='20' /><img class='delete-image' src='img/imagesapp/del.png' width='20' height='20' /><span id='span2'>Name</span></div> <div class='demo' id='demo3' align='right' ><img class='rotate-image' src='img/imagesapp/rotateimg.png' width='20' height='20' /><img class='drag-image' src='img/imagesapp/move.png' width='20' height='20' /><img class='delete-image' src='img/imagesapp/del.png' width='20' height='20' /><span id='span3'>Telephone</span></div> <div class='demo' id='demo4' align='right' ><img class='rotate-image' src='img/imagesapp/rotateimg.png' width='20' height='20' /><img class='drag-image' src='img/imagesapp/move.png' width='20' height='20' /><img class='delete-image' src='img/imagesapp/del.png' width='20' height='20' /><span id='span4'>E mail</span></div>");
         
-            this.items= new Array();
-            var it= new CH.item();
-            this.items.push(it);
-            CH.VC3.items[0].id="demo1";
-            CH.VC3.items[0].innertxt="Company-Name";
-            CH.VC3.items[0].fontSize="23";
-            it= new CH.item();
-            this.items.push(it);// hard cord properties of first 4 divs
-            CH.VC3.items[1].id="demo2";
-            CH.VC3.items[1].innertxt="Name";
-            CH.VC3.items[1].fontSize="21";
-            it= new CH.item();
-            this.items.push(it);
-            CH.VC3.items[2].id="demo3";
-            CH.VC3.items[2].innertxt="Telephone";
-            CH.VC3.items[2].fontSize="18";
-            it= new CH.item();
-            this.items.push(it);
-            CH.VC3.items[3].id="demo4";
-            CH.VC3.items[3].innertxt="E mail";
-            CH.VC3.items[3].fontSize="18";
-        }
-        else if(CH.language=="dutch")
-        {
+                this.items= new Array();
+                var it= new CH.item();
+                this.items.push(it);
+                CH.VC3.items[0].id="demo1";
+                CH.VC3.items[0].innertxt="Company-Name";
+                CH.VC3.items[0].fontSize="23";
+                it= new CH.item();
+                this.items.push(it);// hard cord properties of first 4 divs
+                CH.VC3.items[1].id="demo2";
+                CH.VC3.items[1].innertxt="Name";
+                CH.VC3.items[1].fontSize="21";
+                it= new CH.item();
+                this.items.push(it);
+                CH.VC3.items[2].id="demo3";
+                CH.VC3.items[2].innertxt="Telephone";
+                CH.VC3.items[2].fontSize="18";
+                it= new CH.item();
+                this.items.push(it);
+                CH.VC3.items[3].id="demo4";
+                CH.VC3.items[3].innertxt="E mail";
+                CH.VC3.items[3].fontSize="18";
+            }
+            else if(CH.language=="dutch")
+            {
                             
-            $("#drop").append("<div class='demo' id='demo1' align='right' ><img class='rotate-image' src='img/imagesapp/rotateimg.png' width='20' height='20' /><img class='drag-image' src='img/imagesapp/move.png' width='20' height='20' /><img class='delete-image' src='img/imagesapp/del.png' width='20' height='20' /><span id='span1'>Firmenname</span></div>	<div class='demo' id='demo2' align='right' ><img class='rotate-image' src='img/imagesapp/rotateimg.png' width='20' height='20' /><img class='drag-image' src='img/imagesapp/move.png' width='20' height='20' /><img class='delete-image' src='img/imagesapp/del.png' width='20' height='20' /><span id='span2'>Name</span></div> <div class='demo' id='demo3' align='right' ><img class='rotate-image' src='img/imagesapp/rotateimg.png' width='20' height='20' /><img class='drag-image' src='img/imagesapp/move.png' width='20' height='20' /><img class='delete-image' src='img/imagesapp/del.png' width='20' height='20' /><span id='span3'>Telephon</span></div> <div class='demo' id='demo4' align='right' ><img class='rotate-image' src='img/imagesapp/rotateimg.png' width='20' height='20' /><img class='drag-image' src='img/imagesapp/move.png' width='20' height='20' /><img class='delete-image' src='img/imagesapp/del.png' width='20' height='20' /><span id='span4'>E mail</span></div>");
+                $("#drop").append("<div class='demo' id='demo1' align='right' ><img class='rotate-image' src='img/imagesapp/rotateimg.png' width='20' height='20' /><img class='drag-image' src='img/imagesapp/move.png' width='20' height='20' /><img class='delete-image' src='img/imagesapp/del.png' width='20' height='20' /><span id='span1'>Firmenname</span></div>	<div class='demo' id='demo2' align='right' ><img class='rotate-image' src='img/imagesapp/rotateimg.png' width='20' height='20' /><img class='drag-image' src='img/imagesapp/move.png' width='20' height='20' /><img class='delete-image' src='img/imagesapp/del.png' width='20' height='20' /><span id='span2'>Name</span></div> <div class='demo' id='demo3' align='right' ><img class='rotate-image' src='img/imagesapp/rotateimg.png' width='20' height='20' /><img class='drag-image' src='img/imagesapp/move.png' width='20' height='20' /><img class='delete-image' src='img/imagesapp/del.png' width='20' height='20' /><span id='span3'>Telephon</span></div> <div class='demo' id='demo4' align='right' ><img class='rotate-image' src='img/imagesapp/rotateimg.png' width='20' height='20' /><img class='drag-image' src='img/imagesapp/move.png' width='20' height='20' /><img class='delete-image' src='img/imagesapp/del.png' width='20' height='20' /><span id='span4'>E mail</span></div>");
         
-            this.items= new Array();
-            var it= new CH.item();
-            this.items.push(it);
-            CH.VC3.items[0].id="demo1";
-            CH.VC3.items[0].innertxt="Firmenname";
-            CH.VC3.items[0].fontSize="23";
-            it= new CH.item();
-            this.items.push(it);// hard cord properties of first 4 divs
-            CH.VC3.items[1].id="demo2";
-            CH.VC3.items[1].innertxt="Name";
-            CH.VC3.items[1].fontSize="21";
-            it= new CH.item();
-            this.items.push(it);
-            CH.VC3.items[2].id="demo3";
-            CH.VC3.items[2].innertxt="Telephon";
-            CH.VC3.items[2].fontSize="18";
-            it= new CH.item();
-            this.items.push(it);
-            CH.VC3.items[3].id="demo4";
-            CH.VC3.items[3].innertxt="E mail";
-            CH.VC3.items[3].fontSize="18";
+                this.items= new Array();
+                var it= new CH.item();
+                this.items.push(it);
+                CH.VC3.items[0].id="demo1";
+                CH.VC3.items[0].innertxt="Firmenname";
+                CH.VC3.items[0].fontSize="23";
+                it= new CH.item();
+                this.items.push(it);// hard cord properties of first 4 divs
+                CH.VC3.items[1].id="demo2";
+                CH.VC3.items[1].innertxt="Name";
+                CH.VC3.items[1].fontSize="21";
+                it= new CH.item();
+                this.items.push(it);
+                CH.VC3.items[2].id="demo3";
+                CH.VC3.items[2].innertxt="Telephon";
+                CH.VC3.items[2].fontSize="18";
+                it= new CH.item();
+                this.items.push(it);
+                CH.VC3.items[3].id="demo4";
+                CH.VC3.items[3].innertxt="E mail";
+                CH.VC3.items[3].fontSize="18";
+            }
         }
-        
         
         
         CH.VC3.getXAndYPosition("#demo1");
         CH.VC3.getXAndYPosition("#demo2");
         CH.VC3.getXAndYPosition("#demo3");
         CH.VC3.getXAndYPosition("#demo4");
+            
         this.undos= new Array();
         this.redos= new Array();
         this.triangle=new Array();
@@ -137,6 +156,7 @@ CH.VC3={
         this.initImageEdit();
         this.initResizeForImage();
         this.initResizeForText();
+        this.initSaveAndSend();
         this.initDrag();
         this.initSave();
         this.initrotatedivs();
@@ -155,12 +175,13 @@ CH.VC3={
         matchAddressFromBack();
         this.makeLeft();
         this.makeRight();
-        populateLeftBarOnFront();
+      //  populateLeftBarOnFront();
         this.initTextOfLeftOfFrontSideChange();
         this.initPreviewEps();
         this.initMakeShape();
         this.initUnselectIfShape();
         this.initButtonToChangeBackground();
+        this.initZoomFunction();
         CH.VC3.triback= $(".back").html();
         $(".address-tittle-txt h1").html("Enter Text For Front Side");
         $(".back").css("background-color",CH.VC3.leftrightbackbgcol);
@@ -171,7 +192,47 @@ CH.VC3={
         this.initRemoveUnusedButton();
         
     },
-    
+    initOrderAdventKalender:function(){
+        var oThis=this;
+        $("#OrderAdventKalender").unbind("click");
+        $("#OrderAdventKalender").click(function () {
+            for(var i=1;i<=CH.VC3.totalcount;i++)
+            {
+                CH.VC3.getXAndYPosition("#demo"+i+"");
+            }
+            CH.VC3.beforeSaveState();
+            $(".screens").hide();
+                $("#content-orderAdventKalenderhtml").show();
+                buttonToUnactivestate();
+                $(".nav6bar ul #sixth").prop("class","sixth active");
+                $(".nav5bar ul #fifth").prop("class","fifth active");
+                
+                
+                if(CH.language=="english")
+        {
+        
+            $("#orderPageButtonDiv").html("<input id='saveAndSend' class='next-button' style='float:right;' type='button' value='SEND REQUEST' name='submit'><input id='orderBackButton' type='button' name='submit' class='next-button' value='BACK' />");
+        }
+        else if(CH.language=="dutch")
+        {
+            $("#orderPageButtonDiv").html("<input id='saveAndSend' class='next-button' style='float:right;' type='button' value='Anfrage Senden' name='submit'><input id='orderBackButton' type='button' name='submit' class='next-button' value='Zuruck' />");
+        }
+        backButtons();
+        oThis.initSaveAndSend();
+        });
+        
+    },
+    initUpdateAddress:function()
+    {
+    $("#addressDivonback input").change(function(){
+         $("#addressPageCompanyName").val($("#deskPageCompanyNameInput").val());
+         $("#addressPageRoad").val($("#deskPageRoadInput").val());
+         $("#addressPageZipCode").val($("#deskPageZipCodeInput").val());
+         $("#addressPagePhoneNumber").val($("#deskPagePhoneNumberInput").val());
+         $("#addressPageEMail").val($("#deskPageEMailInput").val());
+         $("#addressPageWebsite").val($("#deskPageWebsiteInput").val());
+    });
+},
     initMakeShape:function(){
         
         $(".drop").find(".shapeOfAC").remove();
@@ -204,6 +265,17 @@ CH.VC3={
             $(".right").append(test);
         }
     },
+    initZoomFunction:function()
+    { 
+        $("#ZoomIn").click(function(){
+            zoomInFunction();
+        });
+        $("#ZoomOut").click(function(){
+            zoomOutFunction();
+        });
+        
+    },
+    
     preparingFront:function(){
         $('#leftdivimg').show();
         $('#rightdivimg').show();
@@ -286,6 +358,7 @@ CH.VC3={
         $("#changeFillingsBusiness").show();
         $(".filling-content-lower").css("margin-left","5px");
         $(".nav").hide();
+        $(".nav5bar").hide();
         $(".nav6bar").show();
         buttonToUnactivestate();
         $(".nav6bar ul #second").prop("class","second active");
@@ -407,12 +480,13 @@ CH.VC3={
     initPreviewEps:function(){
         $("#epsbutton").click(function(){
             buttonToUnactivestate();
-            $(".nav6bar ul #sixth").prop("class","sixth active");
+            //$(".nav6bar ul #sixth").prop("class","sixth active");
             for(var i=1;i<=CH.VC3.totalcount;i++)
             {
                 CH.VC3.getXAndYPosition("#demo"+i+"");
             }
             $("#previeweps").dialog("destroy");
+            CH.VC3.beforeSaveState();
             CH.VC3.saveState("prev");
         });
         $("#backepsbutton").click(function(){
@@ -511,6 +585,7 @@ CH.VC3={
         $("#Load").unbind("click");
         $(".drop div .rotate-image").unbind("mousedown");
         $("#epsbutton").unbind("click");
+        $("#saveAndSend").unbind("click");
     },
     
     initDestroyDrop:function(){
@@ -727,30 +802,33 @@ CH.VC3={
         {
             var temp=$(this.sDiv).children('span').css("color");
             $(".form-editor .miniColors-trigger").css("background-color",temp);
+            
+            
+            var tempFontName=$(this.sDiv).children('span').css("font-family");
+            if(tempFontName != undefined)
+            {
+                $("#font1").val(tempFontName);
+            }
             var temp2=$(this.sDiv).children('span').css("font-size");
-            temp2=temp2.substring(0, temp2.length-2);
-            temp2=parseInt(temp2);
-            temp2=$(temp2).toUnit("pt");
-            temp2=Math.ceil(temp2);
-            window.console.log(temp2);
-            
+            if(temp2 != undefined)
+            {
+                temp2=temp2.substring(0, temp2.length-2);
+                temp2=parseInt(temp2);
+                temp2=$(temp2).toUnit("pt");
+                temp2=Math.ceil(temp2);
+                window.console.log(temp2);
     
-            $("#fontsize").append("<option>"+temp2+"</option>");
-    
-    
-    
-            var fontsizes = {};
-            $("select[name='font-size'] > option").each(function () {
-                if(fontsizes[this.text]) {
-                    $(this).remove();
-                } else {
-                    fontsizes[this.text] = this.value;
-                }
-            });
-            $("#fontsize").val(temp2);
-    
-
-            
+                $("#fontsize").append("<option>"+temp2+"</option>");
+                var fontsizes = {};
+                $("select[name='font-size'] > option").each(function () {
+                    if(fontsizes[this.text]) {
+                        $(this).remove();
+                    } else {
+                        fontsizes[this.text] = this.value;
+                    }
+                });
+                $("#fontsize").val(temp2);
+            }
         //CH.VC3.initResizeForText();
         }
         else
@@ -1289,41 +1367,6 @@ CH.VC3={
             CH.VC3.items[CH.VC3.findItem(item.id)].textAlign=item.textAlign;
         }
     },
-    Lalign:function(proDivId,flag){
-        if(proDivId.length>0){
-            if(flag==0)
-            {
-                var undo=new CH.undoredo;
-                this.undos.push(undo);
-                CH.VC3.redos=[];
-            }
-            if($(proDivId).hasClass("centeralign")){
-                if(flag==0){
-                    this.undos[this.undos.length-1].lastvalue="Calign";
-                }
-                $(proDivId).removeClass("centeralign");
-            }
-            if($(proDivId).hasClass("rightalign")){
-                if(flag==0){
-                    this.undos[this.undos.length-1].lastvalue="Ralign";
-                }
-                $(proDivId).removeClass("rightalign");
-            }
-            $(proDivId).addClass("leftalign");
-            CH.VC3.items[this.selecteditem].isRightAligned=0;
-            CH.VC3.items[this.selecteditem].isCenterAligned=0;
-            CH.VC3.items[this.selecteditem].isLeftAligned=1;
-            
-            if(flag==0){
-                this.undos[this.undos.length-1].id=proDivId;
-                this.undos[this.undos.length-1].lastaction="Lalign";
-            }
-        }
-        else
-        {
-            alert("Please select any text field before applying effects");
-        }
-    },
     
     initBtRalign:function(){    
         var oThis=this;
@@ -1341,40 +1384,6 @@ CH.VC3={
         });
     },
     
-    Ralign:function(proDivId,flag){
-        if(proDivId.length>0){
-            if(flag==0){
-                var undo=new CH.undoredo;
-                this.undos.push(undo);
-                CH.VC3.redos=[];
-            }
-            if($(proDivId).hasClass("centeralign")){
-                if(flag==0){
-                    this.undos[this.undos.length-1].lastvalue="Calign";
-                }
-                $(proDivId).removeClass("centeralign");
-            
-            }
-            if($(proDivId).hasClass("leftalign")){
-                if(flag==0){
-                    this.undos[this.undos.length-1].lastvalue="Lalign";
-                }
-                $(proDivId).removeClass("leftalign");
-            }
-            $(proDivId).addClass("rightalign");
-            CH.VC3.items[this.selecteditem].isLeftAligned=0;
-            CH.VC3.items[this.selecteditem].isCenterAligned=0;
-            CH.VC3.items[this.selecteditem].isRightAligned=1;
-            if(flag==0){
-                this.undos[this.undos.length-1].id=proDivId;
-                this.undos[this.undos.length-1].lastaction="Ralign";
-            }
-        }
-        else
-        {
-            alert("Please select any text field before applying effects");
-        }
-    },
     initBtCalign:function(){    
         var oThis=this;
         $("#Calignbutton").unbind("click");
@@ -1389,7 +1398,7 @@ CH.VC3={
             }
         });
     },
-    Calign:function(proDivId,flag){
+   /* Calign:function(proDivId,flag){
         if(proDivId.length>0){
             if(flag==0){
                 var undo=new CH.undoredo;
@@ -1409,6 +1418,9 @@ CH.VC3={
                 $(proDivId).removeClass("rightalign");
             }
             $(proDivId).addClass("centeralign");
+            CH.VC3.items[CH.VC3.findItem(proDivId.substring(1))].isLeftAligned=0; 
+            CH.VC3.items[CH.VC3.findItem(proDivId.substring(1))].isCenterAligned=1;
+            CH.VC3.items[CH.VC3.findItem(proDivId.substring(1))].isRightAligned=0;
             CH.VC3.items[this.selecteditem].isRightAligned=0;
             CH.VC3.items[this.selecteditem].isLeftAligned=0;
             CH.VC3.items[this.selecteditem].isCenterAligned=1;
@@ -1421,7 +1433,7 @@ CH.VC3={
         {
             alert("Please select any text field before applying effects");
         }
-    },
+    },*/
     
     
     initBtColorPickerForbackground:function(){
@@ -1499,7 +1511,7 @@ CH.VC3={
     
     addImage:function(){
         var oThis=this;
-        $("#outer").html(" <form id='imageform' method='post' enctype='multipart/form-data' action='./basicFunctions.php?type=uploadPicture'><input type='file' name='photoimg' id='photoimg' /></form>");
+        $("#outer").html(" <form id='imageform' method='post' enctype='multipart/form-data' action='./basicFunctions.php?type=uploadPicture&bgId="+oThis.backgroundId+"&formatId="+oThis.formatId+"'><input type='file' name='photoimg' id='photoimg' /></form>");
         this.imageortext=1;
         $("#outer").dialog({
             title:"Upload your image",
@@ -1511,7 +1523,7 @@ CH.VC3={
                 Ok: function() {
                     var temp=($("#imageform #photoimg").val());
                     var result = temp.substring(temp.lastIndexOf("."));
-                    if(result.toLowerCase()==".jpg"||result.toLowerCase()==".png")
+                    if(result.toLowerCase()==".jpg"||result.toLowerCase()==".tiff")
                     {
                         oThis.addField(0,"");
                         $(".drop #demo"+CH.VC3.idCounter+" span").html('');
@@ -1519,21 +1531,18 @@ CH.VC3={
                         $(".drop #demo"+CH.VC3.idCounter+" .drag-image").hide();
                         $(".drop #demo"+CH.VC3.idCounter+" .rotate-image").hide();
                         
-                        
                         //$(".drop #demo"+CH.VC3.idCounter+" span").css("display","inline-block");
                         $(".drop #demo"+CH.VC3.idCounter+" span").html('<img src="img/imagesapp/loading.gif" alt="Uploading...."/>');
                         $(".drop #demo"+CH.VC3.idCounter+" span img").attr("style", "max-width: 100%");
                         $("#imageform").ajaxForm({
-                            success:       oThis.showResponse
+                            success:oThis.showResponse
                         //target: $(".drop #demo"+CH.VC3.idCounter+" span")
                         }).submit();
-                        
                         $( this ).dialog( "close" );
-                    
                     }
                     else{
                         $( this ).dialog( "close" );
-                        alert("Please Select jpg or png image to upload");
+                        alert("Please Select jpg or tiff image to upload");
                         CH.VC3.addImage();
                     }
                 }    
@@ -1541,45 +1550,46 @@ CH.VC3={
         });
     },
     showResponse:function (responseText, statusText, xhr, $form)  { 
+        var oThis=this;
+        var data=responseText.split(",");
         
+        if(data[0]=="1"){
+            $(".drop #demo"+CH.VC3.idCounter+" span").html(data[3]);
+            var width = data[1];
+            var height = data[2];
+            var asp=width/height;
+            var newheight=150/asp;
+            $("#outer").html("");
+            var temp="#demo"+CH.VC3.idCounter;
+            $(temp+" span img").attr("style", "width:150px");
+            $(temp+" span img").attr("style", "max-width: 100%");
         
-        $(".drop #demo"+CH.VC3.idCounter+" span").html(responseText.split('@@@')[2]);
-        window.console.log(responseText);
-        
-        var width = responseText.split('@@@')[0];
-        var height = responseText.split('@@@')[1];
-        var asp=width/height;
-        var newheight=150/asp;
-        $("#outer").html("");
-        var temp="#demo"+CH.VC3.idCounter;
-        $(temp+" span img").attr("style", "width:150px");
-        $(temp+" span img").attr("style", "max-width: 100%");
-        
-        var ind= CH.VC3.findItem(temp.substring(1));
-        CH.VC3.items[ind].fontSize= "0";
-        CH.VC3.items[ind].height= newheight+"";
-        CH.VC3.items[ind].width= "150";
-        $(temp).resizable( "destroy" );
-        var url=$(temp+" span img").prop("src");
-        var filename = url.substring(url.lastIndexOf('/'));
-        ind=CH.VC3.findItem("demo"+CH.VC3.idCounter);
-        if(ind!=-1){
-                  
-                  
-            var databaseIdOfTheImage= responseText.split('@@@')[3];
-            CH.VC3.initImageEdit();
-            CH.VC3.items[ind].innertxt=$.trim(databaseIdOfTheImage)+","+filename;
-            CH.VC3.items[ind].istxt=0;
-            populateLeftBarOnFront();
-            CH.VC3.selectElement("#"+CH.VC3.items[ind].id);
-            CH.VC3.initResizeForImage();//here
-            CH.VC3.initTextOfLeftOfFrontSideChange();
+            var ind= CH.VC3.findItem(temp.substring(1));
+            CH.VC3.items[ind].fontSize= "0";
+            CH.VC3.items[ind].height= newheight+"";
+            CH.VC3.items[ind].width= "150";
+            $(temp).resizable( "destroy" );
+            var url=$(temp+" span img").prop("src");
+            var filename = url.substring(url.lastIndexOf('/'));
+            ind=CH.VC3.findItem("demo"+CH.VC3.idCounter);
+            if(ind!=-1){
+                var databaseIdOfTheImage= data[4];
+                CH.VC3.initImageEdit();
+                CH.VC3.items[ind].innertxt=$.trim(databaseIdOfTheImage)+","+filename;
+                CH.VC3.items[ind].istxt=0;
+               // populateLeftBarOnFront();
+                CH.VC3.selectElement("#"+CH.VC3.items[ind].id);
+                CH.VC3.initResizeForImage();//here
+                CH.VC3.initTextOfLeftOfFrontSideChange();
 
-            CH.VC3.getXAndYPosition("#"+CH.VC3.items[ind].id);
+                CH.VC3.getXAndYPosition("#"+CH.VC3.items[ind].id);
+            }else{
+                alert("undefine index");
+            }
         }else{
-            alert("udefine index");
-        }
-            
+            alert("unable to load image: "+data[1]);
+            $("#demo"+CH.VC3.idCounter).remove();    
+        }   
         
     }, 
     
@@ -1687,6 +1697,14 @@ CH.VC3={
                 it.id="demo"+CH.VC3.idCounter;
                 var temp_html="<div id='demo"+ CH.VC3.idCounter +"' class='demo' align='right'><img class='rotate-image' src='img/imagesapp/rotateimg.png' width='20' height='20' /><img class='drag-image' src='img/imagesapp/move.png' width='20' height='20' /><img class='delete-image' src='img/imagesapp/del.png' width='20' height='20' /><span id='span"+CH.VC3.idCounter +"'>Enter Text Here</span></div>";
                 $(".drop").append(temp_html);
+                if(oThis.isTriangle==1){
+                    var totalWidthHalf=$("#drop").width()/2;
+                    var totalHeightHalf=$("#drop").height()/2;
+                    $("#demo"+CH.VC3.idCounter).css("left",totalWidthHalf+"px");
+                    $("#demo"+CH.VC3.idCounter).css("top",totalHeightHalf+"px");
+                
+                //$("#demo"+CH.VC3.idCounter).css("left",oThis.A.);    
+                }
                 var temp=$("#demo"+CH.VC3.idCounter).css("font-size");
                 temp=temp.substring(0, temp.length-2);
                 temp=parseInt(temp);
@@ -1727,7 +1745,8 @@ CH.VC3={
                 $("#"+elemId).css("font-size",html.fontSize+"pt");
                 CH.VC3.items.push(html);
                 CH.VC3.getXAndYPosition("#"+elemId);
-            //    window.console.log("down");
+                CH.VC3.selectElement("#"+elemId);
+            //      window.console.log("down");
             }
             oThis.initSelection();
             oThis.initDrag();
@@ -1740,7 +1759,7 @@ CH.VC3={
             //CH.VC3.selectElement();
             window.console.log(elemId);
             
-            populateLeftBarOnFront();
+           // populateLeftBarOnFront();
             CH.VC3.initTextOfLeftOfFrontSideChange();
         }
     },    
@@ -1778,7 +1797,7 @@ CH.VC3={
             $("#"+it.id).remove();
             CH.VC3.items.splice(CH.VC3.findItem(it.id),1);
             CH.VC3.sDiv="";
-            populateLeftBarOnFront();
+          //  populateLeftBarOnFront();
             CH.VC3.initTextOfLeftOfFrontSideChange();
         }
     },
@@ -1822,28 +1841,32 @@ CH.VC3={
         temp=$(temp).css("font-size");
         temp2=$(temp2).css("color");
         temp3=$(temp3).css("font-family");
-        if((temp3.substring(0, 1)=="'")||(temp3.substring(0, 1)=="\""))
+        if(temp3 != undefined)
         {
-            temp3 = temp3.substring(1, temp3.length-1);
+            if((temp3.substring(0, 1)=="'")||(temp3.substring(0, 1)=="\""))
+            {
+                temp3 = temp3.substring(1, temp3.length-1);
+            }
+            
+            var divwid=$(this.sDiv).css("width");
+            divwid = divwid.substring(0, divwid.length-2);
+            // divwid=divwid-45;
+            divwid=divwid+"px"
+            var tartalom=$(oThis.sDiv+" span").html();
+            $(oThis.sDiv).children(" span")
+            .empty()
+            .append("<input type='text' id='input2' style='background-color:transparent;width:"+divwid+";font-size:"+temp+";color:"+temp2+";font-family:"+temp3+"' value='" + tartalom + "'>")
+            .addClass('inputMode');
+            $("#input2").mouseout(function() {
+                $(this).parent().html($(this).val())
+                .removeClass('inputMode');
+                CH.VC3.items[CH.VC3.findItem(oThis.sDiv.substring(1))].innertxt=$(this).val();
+             //   populateLeftBarOnFront();
+                CH.VC3.initTextOfLeftOfFrontSideChange();
+            
+                return false;                    
+            });
         }
-        var divwid=$(this.sDiv).css("width");
-        divwid = divwid.substring(0, divwid.length-2);
-        // divwid=divwid-45;
-        divwid=divwid+"px"
-        var tartalom=$(oThis.sDiv+" span").html();
-        $(oThis.sDiv).children(" span")
-        .empty()
-        .append("<input type='text' id='input2' style='background-color:transparent;width:"+divwid+";font-size:"+temp+";color:"+temp2+";font-family:"+temp3+"' value='" + tartalom + "'>")
-        .addClass('inputMode');
-        $("#input2").mouseout(function() {
-            $(this).parent().html($(this).val())
-            .removeClass('inputMode');
-            CH.VC3.items[CH.VC3.findItem(oThis.sDiv.substring(1))].innertxt=$(this).val();
-            populateLeftBarOnFront();
-            CH.VC3.initTextOfLeftOfFrontSideChange();
-            return false;                    
-        });
-        
     },
     
     initImageEdit:function(){
@@ -1908,11 +1931,51 @@ CH.VC3={
                             } ,
                             success:function(){
                                 $(img).prop('id',"upimg_crop");
-                                $(img).prop('src',updatedfilename);    //here                    
+                                $(img).prop('src',updatedfilename);    //here 
+                                //alert(oThis.sDiv);
+                                $(img).load(function(){
+                                    var index=CH.VC3.findItem(oThis.sDiv.substr(1));
+                                    CH.VC3.items[index].width=$(oThis.sDiv).width();
+                                    CH.VC3.items[index].height=$(oThis.sDiv).height();   
+                                    //window.console.log(CH.VC3.items[index].width+"*"+CH.VC3.items[index].height);
+                                    
+                                });
+                                //var index=($(oThis.sDiv).prop("id")).subs.tr($(oThis.sDiv).prop("id").length-1);//
+                                
+                                //alert(findItem("demobs1"));
+                                var index=CH.VC3.findItem(oThis.sDiv.substr(1));
+                                var tempPreviousPath=(CH.VC3.items[index].innertxt);
+                                var start_pos = tempPreviousPath.indexOf(',/') + 2;
+                                tempPreviousPath=tempPreviousPath.substring(0,start_pos);
+                                start_pos = updatedfilename.indexOf('./uploads/')+10;
+                                var tempNewPath;
+                                tempNewPath = updatedfilename.substring(start_pos,updatedfilename.length);
+                                updatedfilename=tempPreviousPath+tempNewPath;
+                                CH.VC3.items[index].innertxt=(updatedfilename);
+                                //alert();
+                                temp = tempPreviousPath.split(',');
+                                $(oThis.sDiv).css("height","auto");
+                                //alert(temp[0]);
+                                //alert(tempNewPath);
+                                $.ajax({
+                                    type: "POST",
+                                    url: "basicFunctions.php",
+                                    data: {
+                                        "type":"changeNameInUploads",
+                                        imageId:temp[0], //here
+                                        newName:tempNewPath
+                                    } 
+                                });
+                            //here    
+                    
+                            //
                             }
                         });
-                        oThis.jcrop_api.destroy();    
+                        oThis.jcrop_api.destroy();
                         $( this ).dialog( "close" );
+                        
+                    //alert(CH.VC3.items[index].width+"*"+CH.VC3.items[index].height);
+                        
                     }
                 }
             });
@@ -1999,23 +2062,53 @@ CH.VC3={
             {
                 divIdForResize="#"+CH.VC3.items[i].id;
             }
-                
-   
-   
-   
-   
-   
-            
-        
-        
+           
+           
+            /*    
+           
+           $(this).resizable({
+    minWidth: -(contentElem.width()) * 10,  // these need to be large and negative
+    minHeight: -(contentElem.height()) * 10, // so we can shrink our resizable while scaled
+    resize: function(event, ui) {
+
+        var changeWidth = ui.size.width - ui.originalSize.width; // find change in width
+        var newWidth = ui.originalSize.width + changeWidth / zoomScale; // adjust new width by our zoomScale
+
+        var changeHeight = ui.size.height - ui.originalSize.height; // find change in height
+        var newHeight = ui.originalSize.height + changeHeight / zoomScale; // adjust new height by our zoomScale
+
+        ui.size.width = newWidth;
+        ui.size.height = newHeight;
+
+    }
+});*/
+           
+           
+           
+           
             $(divIdForResize).resizable({
                 aspectRatio:false,
                 containment: "parent",
                 minWidth: 40,
                 minHeight: 40,
+                //minWidth: -(40) * 10,  // these need to be large and negative
+                //minHeight: -(40) * 10, // so we can shrink our resizable while scaled
+                
                 resize:function(event, ui) {
                     if(!resizeTimerSet) 
                     {
+                        if(oThis.zoomScale>1)
+                        {
+                            var changeWidth = ui.size.width - ui.originalSize.width; // find change in width
+                            var newWidth = ui.originalSize.width + changeWidth / ( oThis.zoomScale ); // adjust new width by our zoomScale
+
+                            var changeHeight = ui.size.height - ui.originalSize.height; // find change in height
+                            var newHeight = ui.originalSize.height + changeHeight / ( oThis.zoomScale ); // adjust new height by our zoomScale
+
+                            ui.size.width = newWidth;
+                            ui.size.height = newHeight;
+                        }
+                        
                         window.setTimeout (function(){
                             fontResize(oThis.sDiv, oThis.selecteditem);
                         }, 100);
@@ -2023,6 +2116,9 @@ CH.VC3={
                     }
                 },
                 start:function(u,e){
+                    if(oThis.isTriangle==1){
+                        oThis.oldSize=$(oThis.sDiv).css("font-size");
+                    }
                     var divid=$(oThis.sDiv).prop("id");
                     var undo=new CH.undoredo;
                     undo.id=divid;
@@ -2035,7 +2131,7 @@ CH.VC3={
                     CH.VC3.undos.push(undo);
                     CH.VC3.redos=[];
                 },
-                stop:function(e,u)
+                stop:function(e,ui)
                 {
                     var fonttemp=$(oThis.sDiv+" span").css("font-size");
                     var newStr = fonttemp.substring(0, fonttemp.length-2);
@@ -2048,10 +2144,86 @@ CH.VC3={
                     $("#fontsize").append("<option>"+newStr+"</option>");
                     $("#fontsize").val(newStr);
                     
+                    if(oThis.isTriangle==1){
+                        p1={
+                            x:ui.position.left,
+                            y:ui.position.top
+                            };
+                        p2={
+                            x:ui.position.left+$(oThis.sDiv).width(),
+                            y:ui.position.top
+                            };
+                        p3={
+                            x:ui.position.left+$(oThis.sDiv).width(),
+                            y:ui.position.top+$(oThis.sDiv).height()
+                            };
+                        p4={
+                            x:ui.position.left,
+                            y:ui.position.top+$(oThis.sDiv).height()
+                            };
+                    
+                        oThis.checkAndRevertSizeOfTheElement(p1,p2,p3,p4);
+                        
+                    }
+                    
+                    
+                    
                     
                 }
             
             });
+        }
+    },
+    
+    checkAndRevertSizeOfTheElement:function(p1,p2,p3,p4){
+        var oThis=this;
+        if(oThis.isInsideTriangle(A,B,C,p1)){
+            $(oThis.sDiv).css("height","auto");
+            $(oThis.sDiv).css("width","auto");
+                    
+        }else{
+                        
+            $(oThis.sDiv+" span").animate({
+                "font-size":oThis.oldSize
+            });
+            $(oThis.sDiv).css("height","auto");
+            $(oThis.sDiv).css("width","auto");
+        }
+        if(oThis.isInsideTriangle(A,B,C,p2)){
+            $(oThis.sDiv).css("height","auto");
+            $(oThis.sDiv).css("width","auto");
+                    
+        }else{
+                        
+            $(oThis.sDiv+" span").animate({
+                "font-size":oThis.oldSize
+            });
+            $(oThis.sDiv).css("height","auto");
+            $(oThis.sDiv).css("width","auto");
+        }
+        if(oThis.isInsideTriangle(A,B,C,p3)){
+            $(oThis.sDiv).css("height","auto");
+            $(oThis.sDiv).css("width","auto");
+                    
+        }else{
+                        
+            $(oThis.sDiv+" span").animate({
+                "font-size":oThis.oldSize
+            });
+            $(oThis.sDiv).css("height","auto");
+            $(oThis.sDiv).css("width","auto");
+        }
+        if(oThis.isInsideTriangle(A,B,C,p4)){
+            $(oThis.sDiv).css("height","auto");
+            $(oThis.sDiv).css("width","auto");
+                    
+        }else{
+                        
+            $(oThis.sDiv+" span").animate({
+                "font-size":oThis.oldSize
+            });
+            $(oThis.sDiv).css("height","auto");
+            $(oThis.sDiv).css("width","auto");
         }
     },
     
@@ -2064,6 +2236,8 @@ CH.VC3={
     initResizeForImage:function(){
         var oThis=this;
         oThis.destroyDragResize();
+        var oldWidth;
+        var oldHeight;
         window.console.log("In image resize: "+oThis.sDiv);
         if(oThis.sDiv!="")
         {
@@ -2072,11 +2246,30 @@ CH.VC3={
                 containment: "parent",
                 minWidth: 40,
                 minHeight: 40,
+                start:function(eve,ui){
+                    oldWidth=$(".drop "+oThis.sDiv).width();
+                    oldHeight=$(".drop "+oThis.sDiv).height();
+                },
                 resize:function(event, ui) {},
                 stop:function(e,u)
                 {
                     CH.VC3.items[CH.VC3.findItem(oThis.sDiv.substring(1))].width=$(oThis.sDiv).width()+"";
                     CH.VC3.items[CH.VC3.findItem(oThis.sDiv.substring(1))].height=$(oThis.sDiv).height()+"";
+                    var oWidth=$(oThis.sDiv+" span img").attr("owidth");
+                    var oHeight=$(oThis.sDiv+" span img").attr("oheight");
+                    var cWidth=$(oThis.sDiv+" span img").width();
+                    var cHeight=$(oThis.sDiv+" span img").height();
+                    var dropWidth=$(".drop").width();
+                    CH.com.VC=oThis;
+                    if(!CH.com.checkDPI(cWidth,cHeight,oWidth,oHeight, oThis.bgOriginalWidth, oThis.bgOriginalHeight,dropWidth)){
+                        $(".drop "+oThis.sDiv).animate({
+                            "width":oldWidth,
+                            "height":oldHeight
+                        },function(){
+                            alert("Image DPI becomes less than "+CH.FIXED_DPI)
+                        });
+                    }
+                    
                 }
             });
         }
@@ -2089,20 +2282,14 @@ CH.VC3={
             oThis.changeBackground();    
         });
     },
-    checkImageDPI:function(){
-        
-        
-            
-    },
     
     changeBackground:function(){ 
+        var oThis=this;
         $("#imageform2").replaceWith("");
-        var formStr = " <form id='imageform2' method='post' style='display:none;' enctype='multipart/form-data' action='./basicFunctions.php?type=uploadBackground'>"+
+        var formStr = " <form id='imageform2' method='post' style='display:none;' enctype='multipart/form-data' action='./basicFunctions.php?type=uploadBackground&formatId="+this.formatId+"'>"+
         "<input type='file' name='photoimg2' id='photoimg2' />"+
         "<input type='hidden' name='rand1' value='"+Math.random()+"' />" +
         "</form>";
-    
-    
     
         $("#outer").html("");
         $("#outer").html(formStr);
@@ -2125,24 +2312,21 @@ CH.VC3={
                     /*     inCaseOfDots=CH.VC3.removeAllButLast(temp,".") 
                         temp=inCaseOfDots;*/
                     }
-                        
-    
+                    
                     var result = temp.substring(temp.lastIndexOf("."));
-                    if(result.toLowerCase()==".jpg"||result.toLowerCase()==".png")
+                    if(result.toLowerCase()==".jpg"||result.toLowerCase()==".tiff")
                     {
-                        
-                        //var url = "url(./img/imagesapp/loading.gif?"+Math.random()+")";
                         $("#divLoad").dialog("open");
-                        //$('.drop').css('background-image', url);//     .html('<img src="img/imagesapp/loading.gif" alt="Uploading...."/>');
-                        //$('.back').css('background-image', url);
                         $("#imageform2").ajaxForm(
                         {
                             success:    function(responseText, statusText, xhr, $form) { 
-                                var src=responseText.split(',')[0];
-                                var success=responseText.split(',')[1];
+                                var resp=responseText.split(',');
+                                var src=resp[0];
+                                var success=resp[1];
+                                
                                 var actualval="./uploads/"+src;
                                 
-                                    
+                                /*    
                                 $.ajax({ 
                                     type: "POST",
                                     url: "checkImageDpi.php",
@@ -2155,34 +2339,39 @@ CH.VC3={
                                         window.console.log(data);
                                     }
                                 });
-                                if(success!==undefined)
+                                */
+                                
+                                /* if(success!==undefined)
+                                {*/
+                                if(success!=null && success=="1")
                                 {
-                                    if(success[0]=="1")
-                                    {
-                                        $("#divLoad").dialog("close");
-                                        $('.back').css('background-image', 'url()');
-                                        $('.back').hide();
-                                        $('.drop').css('background-image', 'url()');
-                                        $('.drop').hide();
-                                        $('.drop').show();
-                                        $('.back').hide();
-                                        var url = "url(./uploads/"+src+"?"+Math.random()+")";
-                                        $('.drop').css('background-image', url);
-                                        $('.back').css('background-image', url);
-                                        CH.VC3.dropbackground="uploads/"+src;
-                                        fitBackground(CH.VC3.dropbackground);  //zainchange
-                                    }
-                                    else if(success[0]=="0"){
-                                        alert("Please select a small image or see if the image extension is correct");
-                                        $("#divLoad").dialog("close");
-                                        CH.VC3.changeBackground();    
-                                    }
+                                    $("#divLoad").dialog("close");
+                                    $('.back').css('background-image', 'url()');
+                                    $('.back').hide();
+                                    $('.drop').css('background-image', 'url()');
+                                    $('.drop').hide();
+                                    $('.drop').show();
+                                    $('.back').hide();
+                                    var url = "url(./uploads/"+src+"?"+Math.random()+")";
+                                    $('.drop').css('background-image', url);
+                                    $('.back').css('background-image', url);
+                                    CH.VC3.dropbackground="uploads/"+src;
+                                    fitBackground(CH.VC3.dropbackground);  //zainchange
+                                    oThis.bgOriginalWidth=parseInt(resp[2]);
+                                    oThis.bgOriginalHeight=parseInt(resp[3]);
+                                    oThis.backgroundId=null;
                                 }
+                                else if(success!=null && success=="0"){
+                                    //alert(src);
+                                    $("#divLoad").dialog("close");
+                                    CH.VC3.changeBackground();    
+                                }
+                            /*}
                                 else{
                                     alert("Please select a small image or see if the image extension is correct");
                                     $("#divLoad").dialog("close");
                                     CH.VC3.changeBackground();
-                                }
+                                }*/
                             } 
                         }).submit();
                         $( this ).dialog( "close" );
@@ -2212,51 +2401,127 @@ CH.VC3={
         var oThis=this;
         $(".drop div").draggable({
             containment: "parent",
-            drag: function(){
+            drag: function(event, ui){
                 $(".drop div .delete-image").hide();
                 $(".drop div .rotate-image").hide();
+                var changeLeft = ui.position.left - ui.originalPosition.left; // find change in left
+                var newLeft = ui.originalPosition.left + changeLeft / (( oThis.zoomScale )); // adjust new left by our zoomScale
+
+                var changeTop = ui.position.top - ui.originalPosition.top; // find change in top
+                var newTop = ui.originalPosition.top + changeTop / oThis.zoomScale; // adjust new top by our zoomScale
+
+                ui.position.left = newLeft;
+                ui.position.top = newTop;
             },
-            start:function(u,e){
-                var divid=$(oThis.sDiv).prop("id");
-                var undo=new CH.undoredo;
-                undo.id=divid;
-                undo.lastaction="Drag";
-                var ind=CH.VC3.findItem(divid);
-                CH.VC3.getXAndYPosition(oThis.sDiv);
-                var it = {};
-                $.extend(it,CH.VC3.items[ind]);
-                undo.item=it;
-                CH.VC3.undos.push(undo);
-                CH.VC3.redos=[];
-            },
-            stop:function(ui,eve){
-                var obj=document.getElementById("drop");
-                var curtop=0;
-                var curleft=0;
-                var curright=0;
-                if (obj.offsetParent) {
-                    do {
-                        if(curright==0)
-                        {
-                            curright = obj.offsetWidth;
-                        }
-                        curleft += obj.offsetLeft;
-                        curtop += obj.offsetTop;
-                    } while (obj = obj.offsetParent);
+            start:function(event, ui){
+                if(oThis.zoomScale > 1)
+                {
+                    ui.position.left = 0;
+                    ui.position.top = 0;
                 }
-                var offset = $(this).offset();
-                var divid="#"+$(this).prop("id");
-                var xPos = offset.left;
-                var yPos = offset.top;
-                var roundx=$.trim(" "+(xPos-curleft));
-                var roundy=$.trim(" "+(yPos-curtop));
-                var ind=CH.VC3.findItem(divid.substring(1));
-                CH.VC3.items[ind].xposition=$.trim(" "+roundx);
-                CH.VC3.items[ind].yposition=$.trim(" "+roundy);
+                
+                var divid=$(oThis.sDiv).prop("id");
+                if(oThis.isTriangle == 0)
+                {
+                    var undo=new CH.undoredo;
+                    undo.id=divid;
+                    undo.lastaction="Drag";
+                    var ind=CH.VC3.findItem(divid);
+                    CH.VC3.getXAndYPosition(oThis.sDiv);
+                    var it = {};
+                    $.extend(it,CH.VC3.items[ind]);
+                    undo.item=it;
+                    CH.VC3.undos.push(undo);
+                    CH.VC3.redos=[];
+                }
+                else 
+                {
+                    //alert(divid);
+                    oThis.oldPositionLeft=$("#"+divid).css("left");
+                    oThis.oldPositionTop=$("#"+divid).css("top");
+                    
+                //window.console.log("left"+oThis.oldPosition.left);
+                //window.console.log("top"+oThis.oldPosition.top);
+                    
+                //alert(oThis.oldPosition)
+                }
+            
+            },
+            stop:function(eve,ui){
+                if(oThis.isTriangle == 0)
+                {
+                    var dropOffset=$("#drop").offset();
+                    var dropLeft=dropOffset.left;
+                    var dropTop=dropOffset.top;
+                    var offset = $(this).offset();
+                    var divid=$(this).prop("id");
+                    var xPos = offset.left;
+                    var yPos = offset.top;
+                    var roundx=(""+(xPos-dropLeft));
+                    var roundy=(""+(yPos-dropTop));
+                    var ind=CH.VC3.findItem(divid);
+                    CH.VC3.items[ind].xposition=roundx;
+                    CH.VC3.items[ind].yposition=roundy;
+                }
+                else{
+
+                    p1={
+                        x:ui.position.left,
+                        y:ui.position.top
+                        };
+                    p2={
+                        x:ui.position.left+$(oThis.sDiv).width(),
+                        y:ui.position.top
+                        };
+                    p3={
+                        x:ui.position.left+$(oThis.sDiv).width(),
+                        y:ui.position.top+$(oThis.sDiv).height()
+                        };
+                    p4={
+                        x:ui.position.left,
+                        y:ui.position.top+$(oThis.sDiv).height()
+                        };
+                    
+                    oThis.checkAndMoveBackTheElement(p1,p2,p3,p4);
+                }
             }
         }) ;
     },
     
+    checkAndMoveBackTheElement:function(p1,p2,p3,p4){
+        var oThis=this;
+        if(oThis.isInsideTriangle(A,B,C,p1)){
+        }else{
+            $("#"+$(oThis.sDiv).prop("id")).animate({
+                "left":oThis.oldPositionLeft,
+                "top":oThis.oldPositionTop
+            });
+        }
+        if(oThis.isInsideTriangle(A,B,C,p2)){
+        }else{
+            $("#"+$(oThis.sDiv).prop("id")).animate({
+                "left":oThis.oldPositionLeft,
+                "top":oThis.oldPositionTop
+            });
+        }
+        if(oThis.isInsideTriangle(A,B,C,p3)){
+        }else{
+            $("#"+$(oThis.sDiv).prop("id")).animate({
+                "left":oThis.oldPositionLeft,
+                "top":oThis.oldPositionTop
+            });
+        }
+        if(oThis.isInsideTriangle(A,B,C,p4)){
+        }else{
+            $("#"+$(oThis.sDiv).prop("id")).animate({
+                "left":oThis.oldPositionLeft,
+                "top":oThis.oldPositionTop
+            });
+        }
+    },
+
+
+
     getXAndYPosition:function(proDivId){   //proDivId is div name
         var obj=document.getElementById("drop");
         var curtop=0;
@@ -2316,8 +2581,22 @@ CH.VC3={
             oThis.saveState("save");           
         });
     },
+    initSaveAndSend:function(){
+        var oThis=this;
+        $("#saveAndSend").unbind("click");
+        $("#saveAndSend").click(function () {
+            oThis.saveState("save");           
+        });
+        
+    },
     
-    saveState:function(state){
+    beforeSaveState:function(){
+        var oThis=this;
+        
+        var empty;
+        this.sideColor=$("#clrpikr input").val();
+        //alert("side color: "+this.sideColor+"and format is: "+this.formatName+"and the filling is"+this.fillingName);
+        
         var i;
         for(i=1;i<=CH.VC3.totalcount;i++)
         {
@@ -2332,17 +2611,30 @@ CH.VC3={
         temp2=temp2.substring(1,temp2.length);
         CH.VC3.rightsidebgcolor=temp2;
         traverseBack();   
-        if(CH.VC3.isTri=="1")
+        if(CH.VC3.isTriangle=="1")
         {
+            
+            var tempBackgroundLeftAndTop=$(".drop").css("background-position");
+            //alert(temp);
+            var parts = tempBackgroundLeftAndTop.split(' ');
+            var backLeft=parts[0];
+            var backTop=parts[1];
+            backLeft=backLeft.substring(0, backLeft.length-2);
+            backTop=backTop.substring(0, backTop.length-2);
+            
             var tri=new CH.triangleprop;
+            
             CH.VC3.triangle.push(tri);
-            CH.VC3.triangle[CH.VC3.triangle.length-1].isTri=1;
-            CH.VC3.triangle[CH.VC3.triangle.length-1].topx="300";
+            CH.VC3.triangle[CH.VC3.triangle.length-1].isTri="1";
+            CH.VC3.triangle[CH.VC3.triangle.length-1].imagePath=oThis.overlayImagePath;
+            CH.VC3.triangle[CH.VC3.triangle.length-1].newBackgroundLeft=backLeft;
+            CH.VC3.triangle[CH.VC3.triangle.length-1].newBackgroundTop=backTop;
+        /*CH.VC3.triangle[CH.VC3.triangle.length-1].topx="300";
             CH.VC3.triangle[CH.VC3.triangle.length-1].topy="0";
             CH.VC3.triangle[CH.VC3.triangle.length-1].bottomLeftx="100";
             CH.VC3.triangle[CH.VC3.triangle.length-1].bottomLefty="500";
             CH.VC3.triangle[CH.VC3.triangle.length-1].bottomRightx="500";
-            CH.VC3.triangle[CH.VC3.triangle.length-1].bottomRighty="500";
+            CH.VC3.triangle[CH.VC3.triangle.length-1].bottomRighty="500";*/
         }
         else
         {
@@ -2350,7 +2642,7 @@ CH.VC3={
             CH.VC3.triangle.push(tri);
             CH.VC3.triangle[CH.VC3.triangle.length-1].isTri=0;
         }
-        var obj={
+        CH.VC3.obj={
             "triangle":this.triangle,
             "backSide":this.back,
             "frontSide":this.items,
@@ -2358,11 +2650,18 @@ CH.VC3={
             "rightSide":""+this.rightsidebgcolor,
             "frontBackground":this.dropbackground,
             //"frontBackground":"back.png",
-            "backBackground":this.dropbackground
+            "backBackground":this.dropbackground,
+            "format":this.formatName,
+            "filling":this.fillingName,
+            "sideColor":this.sideColor
         };
-        
-        window.console.log("a="+JSON.stringify(obj));
-        this.tosave=JSON.stringify(obj);
+    },
+    
+    saveState:function(state){
+        var oThis=this;
+        window.console.log("a="+JSON.stringify(CH.VC3.obj));
+        this.tosave=JSON.stringify(CH.VC3.obj);
+        //alert(this.tosave);
         $.ajax({ 
             type: "POST",
             url: "basicFunctions.php",
@@ -2418,6 +2717,45 @@ CH.VC3={
             //End of Commented by zain 5-10-2012
             }
         });  
+    },
+    
+    
+    initMoveBackground:function(){
+        var oThis=this;
+        $("#moveback-button-div").click (function(){
+            oThis.moveBackground();
+        });
+    },
+    
+    moveBackground:function(){
+        var oThis=this;
+        
+        if(IsTriFlag== false){
+            oThis.deinitialize();
+            CH.VC3.addInitialDivs = false;
+            $("#save-button-div").hide();
+            $("#preview-button-div").hide();
+            //$("#back-button-div").hide();
+            $("#deskBackButton").hide();
+            $("#moveBack").val("BACK TO EDITING");
+            $(".demo div").draggable('destroy');
+            $(".drop").bind('mousedown mouseup mouseleave', handle);
+            $(".drop").bind('dblclick', reset);
+        }
+
+        if(IsTriFlag== true){
+            $("#save-button-div").show();
+            $("#preview-button-div").show();
+            //$("#back-button-div").show();
+            $("#deskBackButton").show();
+            $("#moveBack").val("MOVE BACKGROUND");
+            $(".drop").unbind('mousedown mouseup mouseleave');
+            $(".drop").unbind('dblclick');
+            oThis.init();
+        }
+        //alert (IsTriFlag);
+        IsTriFlag=!IsTriFlag;
+        
     },
     
     initLoad:function(){
@@ -2733,7 +3071,61 @@ CH.VC3={
         }else if(CH.language=="dutch"){
             $('#buttonDiv').html("<div id='uploadButton'><input id='changebg' style='margin-top: 0px;' type='button' name='submit' class='next-button' value='Hochladen' onclick='changeBackground();'/></div>");
         }
+    },
+    makeTriangleTorestrictDrag:function(ax,ay,bx,by,cx,cy){
+        
+            
+        $(".drop").append("<div id='a' style='position:absolute; display:none; left:"+ax+"px;top:"+ay+"px;'>A</div><div id='b' style='position:absolute;display:none; left:"+bx+"px;top:"+by+"px;'>B</div><div id='c' style='position:absolute;display:none; left:"+cx+"px;top:"+cy+"px;'>C</div>");
+        A={
+            y:parseInt(ay),
+            x:parseInt(ax)
+        };
+        B={
+            y:parseInt(by),
+            x:parseInt(bx)
+        };
+        C={
+            y:parseInt(cy),
+            x:parseInt(cx)
+        };
+        $("#a").css("top",A.y);
+        $("#a").css("left",A.x);
+			
+        $("#b").css("top",B.y);
+        $("#b").css("left",B.x);
+			
+        $("#c").css("top",C.y);
+        $("#c").css("left",C.x);
+        
+        
+    },
+    moveTextAccordinglyIntoTriangle:function(firstdivX,firstdivY){
+        var oThis=this;
+        var variablePadding = 0;
+        var variableY = parseInt(firstdivY);
+        var count=0;
+        while(count<oThis.items.length)
+        {
+            variableY=variableY+variablePadding;
+            var temp="#"+oThis.items[count].id
+            $(temp).css("left",firstdivX+"px");
+            $(temp).css("top",variableY+"px");        
+            
+            variablePadding=variablePadding+25;
+            count++;
+        }
+    },
+    isInsideTriangle:function (A,B,C,P){
+        var oThis=this;
+        var planeAB = (A.x-P.x)*(B.y-P.y)-(B.x-P.x)*(A.y-P.y);
+        var planeBC = (B.x-P.x)*(C.y-P.y)-(C.x - P.x)*(B.y-P.y);
+        var planeCA = (C.x-P.x)*(A.y-P.y)-(A.x - P.x)*(C.y-P.y);
+        return oThis.sign(planeAB)==oThis.sign(planeBC) && oThis.sign(planeBC)==oThis.sign(planeCA);
+    },
+    sign: function (n){
+        return Math.abs(n)/n;
     }
+    
     
     
     

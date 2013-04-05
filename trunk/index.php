@@ -10,7 +10,7 @@
         <link rel="stylesheet" href="css/ui-lightness/jquery-ui-1.8.23.custom.css" /><!--add s to run this to put right corner-->
         <script type="text/javascript" src="./javascripts/jquery-1.7.2.min.js"></script>        
         <script type="text/javascript" src="./javascripts/js/jquery-ui-1.8.23.custom.min.js"></script>
-
+        <!--<script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js" type="text/javascript"></script>-->
         <script type="text/javascript" src="./javascripts/plugins/jquery.unitconversion.js"></script><!--/for unit conversion-->
         <script src="./javascripts/plugins/croping/js/jquery.Jcrop.js" type="text/javascript"></script><!--/for cropping-->
         <script src="./javascripts/plugins/croping/js/jquery.color.js" type="text/javascript"></script><!--/for cropping-->
@@ -24,12 +24,26 @@
         <script type="text/javascript" src="javascripts/plugins/jquery.form.js"></script><!--/for file upload-->
         <link rel="stylesheet" href="css/default.css" />
         <link id="style_css" href="./css/style.css" rel="stylesheet" type="text/css" />
+        <link id="german_style_css" href="" rel="stylesheet" type="text/css" />
         <script src="./javascripts/common.js" type="text/javascript"></script>
         <script src="./javascripts/vc1.js" type="text/javascript"></script>
         <script src="./javascripts/vc2.js" type="text/javascript"></script>
         <script src="./javascripts/vc3.js" type="text/javascript"></script>
         <script src="./javascripts/objectClasses.js" type="text/javascript"></script>
+<style type="text/css">
+		    
 
+            
+            /*.bgImage
+            {
+              background-image:url('110108300-W003.jpg');    
+              width: 1453px;
+              height:1028px;
+              *//*width: 500px;
+              height: 500px;
+              background-color: Gray;*/
+            /*}*/
+		</style>
         <!--end of my C-->
 
         <!--[if IE 7]>
@@ -49,11 +63,13 @@
 
             include('de.php');
         }
+        $ini = parse_ini_file('config.ini', false);
+        $FIXED_DPI = $ini['imageDPI'];
         ?>
         <script type="text/javascript">
-                                                                                                                        
             var jproducts_bookmarks_url='/en/products/?task=bookmarks';
             $(document).ready(function(){
+                
                 $("#divLoad").dialog({
                     autoOpen: false,
                     //closeOnEscape: false,
@@ -65,27 +81,69 @@
                     //open: function() { $(this).parent().children().children('.ui-dialog-titlebar-close').hide(); }
                 });
                 
-                //temp
-                /*$("#addBgFromAdmin ").click(function(){
                     
-                    $.ajax({
-                            type: "POST",
-                            url: "tempadmin.php",
-                            data: {
-                                tt1:$("#changeFillingsBusiness").val(), //here
-                                tt2:$("#adminAddBgImage").val()
-                            } ,
-                            success:function(){
-                                    //here                    
-                            }
-                        });
-                    
-                   //alert($("#changeFillingsBusiness").val());
-                   //alert($("#adminAddBgImage").val());
-                });*/
-				
-            });
-			
+    <?php echo "CH.FIXED_DPI=$FIXED_DPI;";?>
+	
+//myObject.draggable( 'disable' )	
+});
+
+            //var $bg = $('.drop'),
+        origin = {x: 0, y: 0},
+        start = {x: 0, y: 0},
+        movecontinue = false;
+    IsTriFlag = false;
+	
+    function move (e){
+        
+		//var temp =$(e.currentTarget).attr("id");
+		if(IsTriFlag==false)
+		{
+		mousecontinue=false;
+		}
+		var moveby = {
+            x: origin.x - e.clientX, 
+            y: origin.y - e.clientY
+        };
+        
+        if (movecontinue === true) {
+            start.x = start.x - moveby.x;
+            start.y = start.y - moveby.y;
+            
+            $(this).css('background-position', start.x + 'px ' + start.y + 'px');
+        }
+        
+        origin.x = e.clientX;
+        origin.y = e.clientY;
+        
+        e.stopPropagation();
+        return false;
+    }
+	
+    
+    function handle (e){
+        movecontinue = false;
+        $('.drop').unbind('mousemove', move);
+        
+        if (e.type == 'mousedown') {
+            origin.x = e.clientX;
+            origin.y = e.clientY;
+            movecontinue = true;
+            $('.drop').bind('mousemove', move);
+        } else {
+            $(document.body).focus();
+        }
+        
+        e.stopPropagation();
+        return false;
+    }
+    
+    function reset (){
+        start = {x: 0, y: 0};
+        $(this).css('backgroundPosition', '0 0');
+    }
+                         
+                         
+                         
 			
                             
             var bannertemphtml;
@@ -114,7 +172,7 @@
                 if(language=="english")
                 {
                     $(".lang-block .flag-en").prop("class","flag-en lang-active");
-                    //$(".format-tittle h1").html("<?php //echo mb_convert_encoding($lang['Choose a background image'], "UTF-8");          ?>");
+                    //$(".format-tittle h1").html("<?php //echo mb_convert_encoding($lang['Choose a background image'], "UTF-8");             ?>");
                     //$(".choose-filling-tittle h1").html("choose a filling");
                                         
                                         
@@ -122,12 +180,8 @@
                 else if(language=="dutch")
                 {
                     $(".lang-block .flag-de").prop("class","flag-de lang-active");
-                    $("#style_css").attr("href","./css/germanstyle.css");
-                    //applyGermanProgressBar(); 
-                                       
-                    //
-                    //$(".format-tittle h1").html("Format wählen");
-                    //$(".choose-filling-tittle h1").append("Füllung wählen");
+                    $("#german_style_css").attr("href","./css/germanstyle.css");
+                    
                 }
                 else if(language=="french")
                 {
@@ -150,7 +204,18 @@
                     //initialScreenOne();			
                 });
 
-			
+		$(".nav5bar #first").click(function(){
+                    
+                    
+                    $(".nav6bar").show();
+                    buttonToUnactivestate();
+                    $(".nav6bar #first").prop("class","first active");
+                    //alert("here");
+                    window.location.reload();
+
+                    //restoreAll()
+                    //initialScreenOne();			
+                });	
                 
                 
                 
@@ -185,6 +250,38 @@
                     }
                 
                 });
+                $(".nav5bar #second ").click(function(){	
+                    if(CH.currentPackage.packagename)
+                    {
+                        buttonToUnactivestate();
+                        $(".nav5bar #second").prop("class","second active");
+                        $(".screens").hide();
+                        $("#content-choosefillingshtml").show();
+                        if(CH.currentPackage.packagename=="business"){
+                            
+                            CH.currentPackage.putchooseformatforinit();
+                            $(function() {
+                                $.ajax({
+                                    type: "POST",
+                                    url: "basicFunctions.php",
+                                    data: {
+                                        "type":"getTotalFillings"
+                                    },
+                                    success:function(data){
+                                        data=$.trim(data);
+                                        CH.VC3.initPagination("#pagination",data);
+                                    },
+                                    error:function(a,b,c){
+                                        alert("error");
+                                    }
+                                });
+                            });
+                            CH.selected=1;
+                        }
+                    }
+                
+                });
+                
                 $(".nav6bar #third ").click(function(){	
                     if((CH.currentPackage.packagename)&&(CH.isFillingAndFormatSelected))
                     {
@@ -194,6 +291,17 @@
                         $("#content-choosedesignhtml").show();
                     }
                 });
+                
+                $(".nav5bar #third ").click(function(){	
+                    if((CH.currentPackage.packagename)&&(CH.isFillingAndFormatSelected))
+                    {
+                        buttonToUnactivestate();
+                        $(".nav5bar #third").prop("class","third active");
+                        $(".screens").hide();
+                        $("#content-choosedesignhtml").show();
+                    }
+                });
+                
                 
                 
                 $(".nav6bar #fourth ").click(function(){	
@@ -206,7 +314,27 @@
                     }
                 });
                 
+                $(".nav5bar #fourth ").click(function(){	
+                    if((CH.currentPackage.packagename)&&(CH.isFillingAndFormatSelected))
+                    {
+                        buttonToUnactivestate();
+                        $(".nav5bar #fourth").prop("class","fourth active");
+                        $(".screens").hide();
+                        $("#content-playablehtml").show();
+                    }
+                });
                 
+                
+                
+                $(".nav6bar #fifth ").click(function(){	
+                    if((CH.currentPackage.packagename)&&(CH.backgroundSelected!=null))
+                    {
+                        buttonToUnactivestate();
+                        $(".nav6bar #fifth").prop("class","fifth active");
+                        $(".screens").hide();
+                        $("#content-playablehtml").show();
+                    }
+                });
                 
         
                 initialScreenOne(); //screen for package
@@ -399,7 +527,16 @@
                 </ul>
             </div> 
 
-
+<div class="nav5bar">
+                <ul>
+                    <li id="first" class="first active"><a href="#" ></a></li>
+                    <li id="second" class="second"><a href="#" ></a></li>
+                    <li id="third" class="third"><a href="#"></a></li>
+                    <li id="fourth" class="fourth"><a href="#" ></a></li>
+                    <li id="fifth" class="fifth"><a href="#"></a></li>
+                    
+                </ul>
+            </div>
 
             <div class="nav6bar">
                 <ul>
@@ -488,7 +625,7 @@
                                         <center>
                                             <div class='choose-format'>
                                                 <select id="dd_format">
-                                                    
+
                                                 </select>
                                                 <!--<select id="changeFormat" name="dynamicFillings" class="dynamicFillings"></select>
                                                 <select id="changeFillingsStandard" name="dynamicFillings" class="dynamicFillings">
@@ -502,9 +639,9 @@
                                                 </ul>-->
                                             </div>
                                             <div class="formatImage">
-                                                
+
                                             </div>
-                                            
+
                                         </center>
                                     </div>
                                     <div class='right-contentfilling'>
@@ -528,7 +665,7 @@
                     </div>
                 </div>
 
-                
+
                 <div id="content-choosedesignhtml" class="screens">
                     <div class="tiitle">
                         <div class='design-title'>
@@ -543,50 +680,118 @@
                     </div>
                     <div id="buttonDiv" style="clear:both; padding-top:20px;">
                         <div id="uploadButton"></div>
-<!--                        <div id="backAndNextButtons"></div>-->
+                        <!--                        <div id="backAndNextButtons"></div>-->
                     </div>
                 </div>
+                <div id="content-orderAdventKalenderhtml" class="screens">
+                    <div class="tiitle">
+                        <div class='design-title'>
+                            <?php //echo mb_convert_encoding($lang['Choose a design'], "UTF-8"); ?>
+                        ORDER NOW
+                        </div>
+
+                        <div style="clear:both"></div>
+                    </div>
+                    <div class='content-upper' style="border-bottom: 1px solid #C9C9C9; padding-bottom: 10px; border-radius: 0 0 5px 5px;">
+                        <table border="0" id='orderDiv' cellspacing="10px">
+                                        <tr>
+                                            <td>Salutation</td>
+                                            <td>&nbsp;&nbsp;&nbsp;<select id='orderPageSalutation'><option>Mr.</option><option>Ms.</option></select></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Last Name</td>
+                                            <td><input id='orderPageLastName' type='text' name='LastName' size='35' /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>First Name</td>
+                                            <td><input id='orderPageFirstName' type='text' name='FirstName' size='25' /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Company</td>
+                                            <td><input id='orderPageCompanyName' type='text' name='Company' size='35' /></td>
+                                        </tr>
+                            <tr>
+                                            <td>Road</td>
+                                            <td><input id='orderPageRoad' type='text' name='Road' size='35' /></td>
+                                        </tr>
+                            <tr>
+                                            <td>Zip Code</td>
+                                            <td><input id='orderPageZipCode' type='text' name='ZipCode' size='35' /></td>
+                                        </tr>
+                            <tr>
+                                            <td>Place</td>
+                                            <td><input id='orderPagePlace' type='text' name='Place' size='35' /></td>
+                                        </tr>
+                            <tr>
+                                            <td>Desired Amount Of The Calender</td>
+                                            <td><input id='orderPageDesiredAmount' type='text' name='DesiredAmount' size='35' /></td>
+                                        </tr>
+                                        
+                                    </table>
+                        
+                    </div>
+                    <div id="orderPageButtonDiv">
+                        
+                        </div>
+                    
+                </div>
+                
 
 
                 <!--SCREEN-CHOOSE-ADDRESS-->
                 <div id="content-chooseaddresshtml" class="screens">
                     <div class='tiitle'>
-                        
+
                         <div class='address-title'>
                             <?php echo mb_convert_encoding($lang['ADD YOUR HOUSE OR OFFICE ADDRESS'], "UTF-8"); ?>
                         </div>
-                        
+
                     </div>
                     <div class='chose-format'>
                         <div class='content-upper-address' style="border-bottom: 1px solid #C9C9C9; border-radius: 0 0 5px 5px;">
-                            <div id="radioForAddress">
-                                <input type="radio" id="radioCompanyAddress" class="addressRadio" name="radio" checked="checked"/><label for="radioCompanyAddress"><?php echo mb_convert_encoding($lang['Use Company Address'], "UTF-8"); ?></label><br/>
-                                <input type="radio" id="radioHomeAddress" class="addressRadio" name="radio"  /><label for="radioHomeAddress"><?php echo mb_convert_encoding($lang['Use Home Address'], "UTF-8"); ?></label>
-                                <br/>
-                            </div>
-                            <div id="homeAddress">
+                            <center>
+                                <select id="dd_addressType">
+                                    <option><?php echo mb_convert_encoding($lang['Use Company Address'], "UTF-8"); ?></option>
+                                    <option><?php echo mb_convert_encoding($lang['Use Home Address'], "UTF-8"); ?></option>
+                                </select>
 
-
-                                <div id='addressDivindd_bg' style='text-align:left;padding-left:150px;'>
-
-                                    <div>Address Line 1</div>
-                                    <div id='dd_bgaddress1' style='margin-bottom:4px'><input id='dd_bgaddress1input' type='text' name='addrline1' size='35' /></div>
-                                    <div>Address Line 2</div>
-                                    <div  id='dd_bgaddress2' style='margin-bottom:4px'><input id='dd_bgaddress2input' type='text' name='addrline2' size='35' /></div>
-                                    <div>Telephone</div>
-                                    <div  id='dd_bgtelephone' style='margin-bottom:4px'><input id='dd_bgtelephoneinput' type='text' name='telephone' size='25' /></div>
-                                    <div>Website</div>
-                                    <div  id='dd_bgwebsite' style='margin-bottom:4px'><input id='dd_bgwebsiteinput' type='text' name='website' size='35' /></div>
+                                <div id="homeAddress">
+                                    <table border="0" id='addressDivindd_bg' cellspacing="10px">
+                                        <tr>
+                                            <td><?php echo mb_convert_encoding($lang['Company Name'], "UTF-8"); ?>*</td>
+                                            <td><input id='addressPageCompanyName' type='text' name='addrline1' size='35' /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><?php echo mb_convert_encoding($lang['Road'], "UTF-8"); ?>*</td>
+                                            <td><input id='addressPageRoad' type='text' name='addrline2' size='35' /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><?php echo mb_convert_encoding($lang['Zip Code and City'], "UTF-8"); ?>*</td>
+                                            <td><input id='addressPageZipCode' type='text' name='telephone' size='25' /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><?php echo mb_convert_encoding($lang['Phone Number'], "UTF-8"); ?></td>
+                                            <td><input id='addressPagePhoneNumber' type='text' name='website' size='35' /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><?php echo mb_convert_encoding($lang['eMail'], "UTF-8"); ?></td>
+                                            <td><input id='addressPageEMail' type='text' name='website' size='35' /></td>
+                                        </tr>
+                                        <tr>
+                                            <td><?php echo mb_convert_encoding($lang['Website'], "UTF-8"); ?></td>
+                                            <td><input id='addressPageWebsite' type='text' name='website' size='35' /></td>
+                                        </tr>
+                                        
+                                    </table>
+                                    <div style="color:red; display:none;" id="errorMessage"> Please fill all the required(*) fields</div>
                                 </div>
-                                <br/>
-                               
-                            </div>
+                            </center>
                         </div>
                     </div>
-                    
+
                     <div id="buttonDiv" style="clear:both; padding-top:20px;">
-                         <div class='next-button-div'><input id='AddressNextButton' type='button' name='submit' class='next-button' value='<?php echo mb_convert_encoding($lang['NEXT'], "UTF-8"); ?>' /></div>
-                                <div class='back-button-div'><input id='AddressBackButton' type='button' name='submit' class='next-button' value='<?php echo mb_convert_encoding($lang['BACK'], "UTF-8"); ?>' /></div>
+                        <div class='next-button-div'><input id='AddressNextButton' type='button' name='submit' class='next-button' value='<?php echo mb_convert_encoding($lang['NEXT'], "UTF-8"); ?>' /></div>
+                        <div class='back-button-div'><input id='AddressBackButton' type='button' name='submit' class='next-button' value='<?php echo mb_convert_encoding($lang['BACK'], "UTF-8"); ?>' /></div>
                     </div>
                 </div>
 
@@ -594,12 +799,12 @@
                 <!---->
                 <div id="content-playablehtml" class="screens">
                     <div class='tiitle'>
-                        
+
                         <div class='playable-title'>
                             <?php echo mb_convert_encoding($lang['CUSTOMIZE YOUR ADVENTS KALENDER'], "UTF-8"); ?>
                         </div>
-                        
-                        
+
+
                     </div>
                     <div class='chose-format'>
                         <div class='content-upper-playable' style="border-bottom: 1px solid #C9C9C9; width: auto; height:auto; border-radius: 0 0 5px 5px;">
@@ -614,6 +819,8 @@
                                             <button id="RedoButton" class="form-editor-redo"></button>
                                             <button id="CopyButton" class="form-editor-copy"></button>
                                             <button id="PasteButton" class="form-editor-paste"></button>
+                                            <button id="ZoomIn" class="form-editor-zoomin"></button>
+                                            <button id="ZoomOut" class="form-editor-zoomout"></button>
                                         </div>
 
                                         <div id="toolbarImageAction" class="editor-icon1" style="width: auto; height: 35px;">
@@ -634,9 +841,9 @@
                                             <button id="Ralignbutton" class="form-editor-btnp3"></button>
                                         </div>
 
-                                        <ul id="toolbarViewAction" class="editor-shape" style="width: 224px; height: 40px;">
-                                            <li><div id="frontdivimg" class="toolbarBtn"><img src="img/images/shape1-editor.png" alt="shape1" />Front</div></li>
-                                            <li><div id="backdivimg" class="toolbarBtn"><img src="img/images/shape2-editor.png" alt="shape2" />Back</div></li>
+                                        <ul id="toolbarViewAction" class="editor-shape" style="width: 124px; height: 40px;">
+                                            <li><div id="frontdivimg" class="toolbarBtn"><img src="img/images/shape1-editor.png" alt="shape1" /><!--Front--></div></li>
+                                            <li><div id="backdivimg" class="toolbarBtn"><img src="img/images/shape2-editor.png" alt="shape2" /><!--Back--></div></li>
                                             <li><div id="leftdivimg" class="toolbarBtn"><img src="img/images/shape3-editor.png" alt="shape3" />Left</div></li>
                                             <li><div id="rightdivimg" class="toolbarBtn"><img src="img/images/shape4-editor.png" alt="shape4" />Right</div></li>
                                             <li><div id="clrpikr"><input type="hidden" id="colpickfordiv" name="color1" class="color-picker-for-background" size="6" autocomplete="on" maxlength="10" /></div></li>
@@ -651,53 +858,29 @@
                                 <div class="edit-design-content" style=" height: auto;">
                                     <!---->
                                     <div id="outer" style="display: none;">
-
                                     </div>
                                     <div class="maindiv" style="margin-left:5px">
                                         <div class="sider" style="margin-top:3px;   width:980px; height: 750px;">
                                             <div class="drop" id="drop" >
                                             </div>                                                
                                         </div>
-
                                     </div>
-
-
-
-
                                     <div id="tempo"></div>
-
-
                                     <div style="display:none;">
                                         <div id="dialogBox1"><textarea rows="2" cols="15" id="myTextarea"> </textarea></div>
                                     </div> 
-
-
-
-
-
                                     <div id="cropper" style="display:none;"><br/>
-
-
-                                        <div id="target"></div>
-
-
+                                    <div id="target"></div>
                                         <div id="previeweps"  style="display:none;"> <div class="prev-content"></div></div>
                                         <div id="display"  style="display:none;"><h1>Predefined Background img/imagesapp</h1></div>
-
-
-
                                         <div id="packagesrc"  style="display:none;"><h1>Choose your package first</h1></div>
-
                                     </div>
                                 </div>
-
                                 <div style="clear: both;"></div>
                             </div>
                         </div>
                     </div>
-                    <div id="playableButtonDiv" style="clear:both; padding-top:20px;">
-                         
-                    </div>
+                    <div id="playableButtonDiv" style="clear:both; padding-top:20px;"></div>
                 </div>
 
 
