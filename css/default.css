@@ -130,7 +130,7 @@ div.menuSeparator
 }
 .overlaydb {
     opacity:1;
-    filter: alpha(opacity = 0);
+    filter: alpha(opacity = 100);
     position:absolute;
     top:150;
     bottom:0;
@@ -300,7 +300,7 @@ text-align: left;
 
 .demobs{
     
-        position: relative;
+        position: absolute;
        
         display: inline-block;
       width: auto;
@@ -348,12 +348,11 @@ text-align: left;
 
 .highlight
 {
-
     border :2px solid #0599FC;
-
-
 }
-
+.errorHighlight{
+    border :2px solid red;
+}
 .antihighlight
 {
 

@@ -8,7 +8,9 @@
         <title>Choose Package</title>
         <!--my C-->
         <link rel="stylesheet" href="css/ui-lightness/jquery-ui-1.8.23.custom.css" /><!--add s to run this to put right corner-->
-        <script type="text/javascript" src="./javascripts/jquery-1.7.2.min.js"></script>        
+        <!--<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />-->
+        <!--<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>-->
+        <script type="text/javascript" src="./javascripts/jquery-1.7.2.min.js"></script>
         <script type="text/javascript" src="./javascripts/js/jquery-ui-1.8.23.custom.min.js"></script>
         <!--<script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js" type="text/javascript"></script>-->
         <script type="text/javascript" src="./javascripts/plugins/jquery.unitconversion.js"></script><!--/for unit conversion-->
@@ -30,20 +32,20 @@
         <script src="./javascripts/vc2.js" type="text/javascript"></script>
         <script src="./javascripts/vc3.js" type="text/javascript"></script>
         <script src="./javascripts/objectClasses.js" type="text/javascript"></script>
-<style type="text/css">
-		    
+        <style type="text/css">
 
-            
+
+
             /*.bgImage
             {
               background-image:url('110108300-W003.jpg');    
               width: 1453px;
               height:1028px;
-              *//*width: 500px;
-              height: 500px;
-              background-color: Gray;*/
+            *//*width: 500px;
+            height: 500px;
+            background-color: Gray;*/
             /*}*/
-		</style>
+        </style>
         <!--end of my C-->
 
         <!--[if IE 7]>
@@ -82,42 +84,42 @@
                 });
                 
                     
-    <?php echo "CH.FIXED_DPI=$FIXED_DPI;";?>
+<?php echo "CH.FIXED_DPI=$FIXED_DPI;"; ?>
 	
-//myObject.draggable( 'disable' )	
-});
+            //myObject.draggable( 'disable' )
+        });
 
-            //var $bg = $('.drop'),
+        //var $bg = $('.drop'),
         origin = {x: 0, y: 0},
         start = {x: 0, y: 0},
         movecontinue = false;
-    IsTriFlag = false;
+        IsTriFlag = false;
 	
-    function move (e){
+        function move (e){
         
-		//var temp =$(e.currentTarget).attr("id");
-		if(IsTriFlag==false)
-		{
-		mousecontinue=false;
-		}
-		var moveby = {
-            x: origin.x - e.clientX, 
-            y: origin.y - e.clientY
-        };
+            //var temp =$(e.currentTarget).attr("id");
+            if(IsTriFlag==false)
+            {
+                mousecontinue=false;
+            }
+            var moveby = {
+                x: origin.x - e.clientX,
+                y: origin.y - e.clientY
+            };
         
-        if (movecontinue === true) {
-            start.x = start.x - moveby.x;
-            start.y = start.y - moveby.y;
+            if (movecontinue === true) {
+                start.x = start.x - moveby.x;
+                start.y = start.y - moveby.y;
             
-            $(this).css('background-position', start.x + 'px ' + start.y + 'px');
+                $(this).css('background-position', start.x + 'px ' + start.y + 'px');
+            }
+        
+            origin.x = e.clientX;
+            origin.y = e.clientY;
+        
+            e.stopPropagation();
+            return false;
         }
-        
-        origin.x = e.clientX;
-        origin.y = e.clientY;
-        
-        e.stopPropagation();
-        return false;
-    }
 	
     
     function handle (e){
@@ -133,214 +135,214 @@
             $(document.body).focus();
         }
         
-        e.stopPropagation();
-        return false;
-    }
+    e.stopPropagation();
+    return false;
+}
     
-    function reset (){
-        start = {x: 0, y: 0};
-        $(this).css('backgroundPosition', '0 0');
-    }
+function reset (){
+    start = {x: 0, y: 0};
+    $(this).css('backgroundPosition', '0 0');
+}
                          
                          
                          
 			
                             
-            var bannertemphtml;
-            var selected=0;   
-            $(document).ready(function() { 
-                $(".nav5bar").hide();
-                $(".nav").hide();
+var bannertemphtml;
+var selected=0;   
+$(document).ready(function() { 
+    $(".nav5bar").hide();
+    $(".nav").hide();
             
-                //This is all for navigation bar   
+    //This is all for navigation bar
                 
-                buttonToUnactiveFlag();
-                $(".flag-de a").click(function(){
-                    window.location='./index.php?language=dutch';
-                    $(".lang-block .flag-de").prop("class","flag-de lang-active");
-                });
-                $(".flag-en a").click(function(){
-                    window.location='./index.php?language=english';
-                    $(".lang-block .flag-en").prop("class","flag-en lang-active");
+    buttonToUnactiveFlag();
+    $(".flag-de a").click(function(){
+        window.location='./index.php?language=dutch';
+        $(".lang-block .flag-de").prop("class","flag-de lang-active");
+    });
+    $(".flag-en a").click(function(){
+        window.location='./index.php?language=english';
+        $(".lang-block .flag-en").prop("class","flag-en lang-active");
 				
-                });
-                $(".flag-fr a").click(function(){
+    });
+    $(".flag-fr a").click(function(){
 				
-                    //$.get("fr.php");
-                });
-                var language = getURLParameter("language");
-                if(language=="english")
-                {
-                    $(".lang-block .flag-en").prop("class","flag-en lang-active");
-                    //$(".format-tittle h1").html("<?php //echo mb_convert_encoding($lang['Choose a background image'], "UTF-8");             ?>");
-                    //$(".choose-filling-tittle h1").html("choose a filling");
+        //$.get("fr.php");
+    });
+    var language = getURLParameter("language");
+    if(language=="english")
+    {
+        $(".lang-block .flag-en").prop("class","flag-en lang-active");
+        //$(".format-tittle h1").html("<?php //echo mb_convert_encoding($lang['Choose a background image'], "UTF-8");              ?>");
+        //$(".choose-filling-tittle h1").html("choose a filling");
                                         
                                         
-                }
-                else if(language=="dutch")
-                {
-                    $(".lang-block .flag-de").prop("class","flag-de lang-active");
-                    $("#german_style_css").attr("href","./css/germanstyle.css");
+    }
+    else if(language=="dutch")
+    {
+        $(".lang-block .flag-de").prop("class","flag-de lang-active");
+        $("#german_style_css").attr("href","./css/germanstyle.css");
                     
-                }
-                else if(language=="french")
-                {
-                    $(".lang-block .flag-fr").prop("class","flag-fr lang-active");
-                }
+    }
+    else if(language=="french")
+    {
+        $(".lang-block .flag-fr").prop("class","flag-fr lang-active");
+    }
                                 
                                 
 				
 				
-                $(".nav6bar #first").click(function(){
+    $(".nav6bar #first").click(function(){
                     
                     
-                    $(".nav6bar").show();
-                    buttonToUnactivestate();
-                    $(".nav6bar #first").prop("class","first active");
-                    //alert("here");
-                    window.location.reload();
+        $(".nav6bar").show();
+        buttonToUnactivestate();
+        $(".nav6bar #first").prop("class","first active");
+        //alert("here");
+        window.location.reload();
 
-                    //restoreAll()
-                    //initialScreenOne();			
-                });
+        //restoreAll()
+        //initialScreenOne();
+    });
 
-		$(".nav5bar #first").click(function(){
+    $(".nav5bar #first").click(function(){
                     
                     
-                    $(".nav6bar").show();
-                    buttonToUnactivestate();
-                    $(".nav6bar #first").prop("class","first active");
-                    //alert("here");
-                    window.location.reload();
+        $(".nav6bar").show();
+        buttonToUnactivestate();
+        $(".nav6bar #first").prop("class","first active");
+        //alert("here");
+        window.location.reload();
 
-                    //restoreAll()
-                    //initialScreenOne();			
-                });	
+        //restoreAll()
+        //initialScreenOne();
+    });
                 
                 
                 
-                $(".nav6bar #second ").click(function(){	
-                    if(CH.currentPackage.packagename)
-                    {
-                        buttonToUnactivestate();
-                        $(".nav6bar #second").prop("class","second active");
-                        $(".screens").hide();
-                        $("#content-choosefillingshtml").show();
-                        if(CH.currentPackage.packagename=="business"){
+    $(".nav6bar #second ").click(function(){
+        if(CH.currentPackage.packagename)
+        {
+            buttonToUnactivestate();
+            $(".nav6bar #second").prop("class","second active");
+            $(".screens").hide();
+            $("#content-choosefillingshtml").show();
+            if(CH.currentPackage.packagename=="business"){
                             
-                            CH.currentPackage.putchooseformatforinit();
-                            $(function() {
-                                $.ajax({
-                                    type: "POST",
-                                    url: "basicFunctions.php",
-                                    data: {
-                                        "type":"getTotalFillings"
-                                    },
-                                    success:function(data){
-                                        data=$.trim(data);
-                                        CH.VC3.initPagination("#pagination",data);
-                                    },
-                                    error:function(a,b,c){
-                                        alert("error");
-                                    }
-                                });
-                            });
-                            CH.selected=1;
+                CH.currentPackage.putchooseformatforinit();
+                $(function() {
+                    $.ajax({
+                        type: "POST",
+                        url: "basicFunctions.php",
+                        data: {
+                            "type":"getTotalFillings"
+                        },
+                        success:function(data){
+                            data=$.trim(data);
+                            CH.VC3.initPagination("#pagination",data);
+                        },
+                        error:function(a,b,c){
+                            alert("error");
                         }
-                    }
-                
+                    });
                 });
-                $(".nav5bar #second ").click(function(){	
-                    if(CH.currentPackage.packagename)
-                    {
-                        buttonToUnactivestate();
-                        $(".nav5bar #second").prop("class","second active");
-                        $(".screens").hide();
-                        $("#content-choosefillingshtml").show();
-                        if(CH.currentPackage.packagename=="business"){
+                CH.selected=1;
+            }
+        }
+                
+    });
+    $(".nav5bar #second ").click(function(){
+        if(CH.currentPackage.packagename)
+        {
+            buttonToUnactivestate();
+            $(".nav5bar #second").prop("class","second active");
+            $(".screens").hide();
+            $("#content-choosefillingshtml").show();
+            if(CH.currentPackage.packagename=="business"){
                             
-                            CH.currentPackage.putchooseformatforinit();
-                            $(function() {
-                                $.ajax({
-                                    type: "POST",
-                                    url: "basicFunctions.php",
-                                    data: {
-                                        "type":"getTotalFillings"
-                                    },
-                                    success:function(data){
-                                        data=$.trim(data);
-                                        CH.VC3.initPagination("#pagination",data);
-                                    },
-                                    error:function(a,b,c){
-                                        alert("error");
-                                    }
-                                });
-                            });
-                            CH.selected=1;
+                CH.currentPackage.putchooseformatforinit();
+                $(function() {
+                    $.ajax({
+                        type: "POST",
+                        url: "basicFunctions.php",
+                        data: {
+                            "type":"getTotalFillings"
+                        },
+                        success:function(data){
+                            data=$.trim(data);
+                            CH.VC3.initPagination("#pagination",data);
+                        },
+                        error:function(a,b,c){
+                            alert("error");
                         }
-                    }
-                
+                    });
                 });
+                CH.selected=1;
+            }
+        }
                 
-                $(".nav6bar #third ").click(function(){	
-                    if((CH.currentPackage.packagename)&&(CH.isFillingAndFormatSelected))
-                    {
-                        buttonToUnactivestate();
-                        $(".nav6bar #third").prop("class","third active");
-                        $(".screens").hide();
-                        $("#content-choosedesignhtml").show();
-                    }
-                });
+    });
                 
-                $(".nav5bar #third ").click(function(){	
-                    if((CH.currentPackage.packagename)&&(CH.isFillingAndFormatSelected))
-                    {
-                        buttonToUnactivestate();
-                        $(".nav5bar #third").prop("class","third active");
-                        $(".screens").hide();
-                        $("#content-choosedesignhtml").show();
-                    }
-                });
+    $(".nav6bar #third ").click(function(){
+        if((CH.currentPackage.packagename)&&(CH.isFillingAndFormatSelected))
+        {
+            buttonToUnactivestate();
+            $(".nav6bar #third").prop("class","third active");
+            $(".screens").hide();
+            $("#content-choosedesignhtml").show();
+        }
+    });
                 
-                
-                
-                $(".nav6bar #fourth ").click(function(){	
-                    if((CH.currentPackage.packagename)&&(CH.backgroundSelected!=null))
-                    {
-                        buttonToUnactivestate();
-                        $(".nav6bar #fourth").prop("class","fourth active");
-                        $(".screens").hide();
-                        $("#content-chooseaddresshtml").show();
-                    }
-                });
-                
-                $(".nav5bar #fourth ").click(function(){	
-                    if((CH.currentPackage.packagename)&&(CH.isFillingAndFormatSelected))
-                    {
-                        buttonToUnactivestate();
-                        $(".nav5bar #fourth").prop("class","fourth active");
-                        $(".screens").hide();
-                        $("#content-playablehtml").show();
-                    }
-                });
+    $(".nav5bar #third ").click(function(){
+        if((CH.currentPackage.packagename)&&(CH.isFillingAndFormatSelected))
+        {
+            buttonToUnactivestate();
+            $(".nav5bar #third").prop("class","third active");
+            $(".screens").hide();
+            $("#content-choosedesignhtml").show();
+        }
+    });
                 
                 
                 
-                $(".nav6bar #fifth ").click(function(){	
-                    if((CH.currentPackage.packagename)&&(CH.backgroundSelected!=null))
-                    {
-                        buttonToUnactivestate();
-                        $(".nav6bar #fifth").prop("class","fifth active");
-                        $(".screens").hide();
-                        $("#content-playablehtml").show();
-                    }
-                });
+    $(".nav6bar #fourth ").click(function(){
+        if((CH.currentPackage.packagename)&&(CH.backgroundSelected!=null))
+        {
+            buttonToUnactivestate();
+            $(".nav6bar #fourth").prop("class","fourth active");
+            $(".screens").hide();
+            $("#content-chooseaddresshtml").show();
+        }
+    });
+                
+    $(".nav5bar #fourth ").click(function(){
+        if((CH.currentPackage.packagename)&&(CH.isFillingAndFormatSelected))
+        {
+            buttonToUnactivestate();
+            $(".nav5bar #fourth").prop("class","fourth active");
+            $(".screens").hide();
+            $("#content-playablehtml").show();
+        }
+    });
+                
+                
+                
+    $(".nav6bar #fifth ").click(function(){
+        if((CH.currentPackage.packagename)&&(CH.backgroundSelected!=null))
+        {
+            buttonToUnactivestate();
+            $(".nav6bar #fifth").prop("class","fifth active");
+            $(".screens").hide();
+            $("#content-playablehtml").show();
+        }
+    });
                 
         
-                initialScreenOne(); //screen for package
-            });
+    initialScreenOne(); //screen for package
+});
                 
-            /*  
+/*  
            window.addEvent('domready', function() {
             var slide2=0;
             $('clickslide2').addEvent('click', function(){
@@ -364,9 +366,9 @@
                 }
             });
         });
-             */
+ */
 
-            /*window.addEvent('domready', function() {
+/*window.addEvent('domready', function() {
             var slide1=0;
             $('clickslide1').addEvent('click', function(){
                     if(slide1==0){
@@ -511,7 +513,8 @@
                             <input name="task" value="contact.fastsend" type="hidden"/>
                             <input name="return" value="http://www.suesse-werbung.de/en/" type="hidden"/>
                             <input name="skey" class="required" id="fastsend_skey" value="" type="hidden"/>
-                            <input name="823b52d6db2b50de9b2ebc8e13b09004" value="1" type="hidden"/></form>
+                            <input name="823b52d6db2b50de9b2ebc8e13b09004" value="1" type="hidden"/>
+                        </form>
 
 
 
@@ -527,14 +530,14 @@
                 </ul>
             </div> 
 
-<div class="nav5bar">
+            <div class="nav5bar">
                 <ul>
                     <li id="first" class="first active"><a href="#" ></a></li>
                     <li id="second" class="second"><a href="#" ></a></li>
                     <li id="third" class="third"><a href="#"></a></li>
                     <li id="fourth" class="fourth"><a href="#" ></a></li>
                     <li id="fifth" class="fifth"><a href="#"></a></li>
-                    
+
                 </ul>
             </div>
 
@@ -555,35 +558,6 @@
                 <!--SCREEN-CHOOSE-PACKAGE-->
                 <div id="content-choosepackagehtml" class="screens">
                     <div class='packge-content'>
-                        <div class='left-contentpackge'>
-                            <div class='packge-standard-tittle'>
-                                <h1>Standard</h1>
-                            </div>
-                            <div class='packge-standard'>
-                                <img src='img/images/standard-packge.png' alt='standard' class='packge-img' />
-                                <span><?php echo mb_convert_encoding($lang['In the standard version the following configurations are possible'], "UTF-8"); ?>:</span>
-                                <ul>
-                                    <li class='first'><?php echo mb_convert_encoding($lang['Choose a background image'], "UTF-8"); ?>.</li>
-                                    <li class='second'><?php echo mb_convert_encoding($lang['Choose and edit the address which is to be printed on the advent calendar'], "UTF-8"); ?>.</li>
-                                </ul>
-                                <a id='basicButton'  class='buyandchoose' href='#' name='choose-btn'></a>
-                            </div>
-                        </div>
-                        <div class='middle-contentpackge'>
-                            <div class='packge-basic-tittle'>
-                                <h1>Basic</h1>
-                            </div>
-                            <div class='packge-basic'>
-                                <img src='img/images/basic-packge.png' alt='basic' class='packge-img' />
-                                <span><?php echo mb_convert_encoding($lang['In the basic version the following configurations are possible'], "UTF-8"); ?>:</span>
-                                <ul>
-                                    <li class='first'><?php echo mb_convert_encoding($lang['Choose a background image'], "UTF-8"); ?>.</li>
-                                    <li class='second'><?php echo mb_convert_encoding($lang['Choose and edit the address which is to be printed on the advent calendar'], "UTF-8"); ?>.</li>
-                                    <li class='third'><?php echo mb_convert_encoding($lang['Place text and images within the white areas of the background image'], "UTF-8"); ?>.</li>
-                                </ul>
-                                <a id='standardButton'  class='buyandchoose' href='#' name='choose-btn'></a>
-                            </div>
-                        </div>
                         <div class='right-contentpackge'>
                             <div class='packge-business-tittle'>
                                 <h1>Business</h1>
@@ -601,6 +575,36 @@
                                 <a id='businessButton'  class='buyandchoose' href='#' name='choose-btn'></a>
                             </div>
                         </div>
+                        <div class='middle-contentpackge'>
+                            <div class='packge-basic-tittle'>
+                                <h1>Basic</h1>
+                            </div>
+                            <div class='packge-basic'>
+                                <img src='img/images/basic-packge.png' alt='basic' class='packge-img' />
+                                <span><?php echo mb_convert_encoding($lang['In the basic version the following configurations are possible'], "UTF-8"); ?>:</span>
+                                <ul>
+                                    <li class='first'><?php echo mb_convert_encoding($lang['Choose a background image'], "UTF-8"); ?>.</li>
+                                    <li class='second'><?php echo mb_convert_encoding($lang['Choose and edit the address which is to be printed on the advent calendar'], "UTF-8"); ?>.</li>
+                                    <li class='third'><?php echo mb_convert_encoding($lang['Place text and images within the white areas of the background image'], "UTF-8"); ?>.</li>
+                                </ul>
+                                <a id='standardButton'  class='buyandchoose' href='#' name='choose-btn'></a>
+                            </div>
+                        </div>
+                        <div class='left-contentpackge'>
+                            <div class='packge-standard-tittle'>
+                                <h1>Standard</h1>
+                            </div>
+                            <div class='packge-standard'>
+                                <img src='img/images/standard-packge.png' alt='standard' class='packge-img' />
+                                <span><?php echo mb_convert_encoding($lang['In the standard version the following configurations are possible'], "UTF-8"); ?>:</span>
+                                <ul>
+                                    <li class='first'><?php echo mb_convert_encoding($lang['Choose a background image'], "UTF-8"); ?>.</li>
+                                    <li class='second'><?php echo mb_convert_encoding($lang['Choose and edit the address which is to be printed on the advent calendar'], "UTF-8"); ?>.</li>
+                                </ul>
+                                <a id='basicButton'  class='buyandchoose' href='#' name='choose-btn'></a>
+                            </div>
+                        </div>
+
                     </div>
                     <div class='packge-content-lower'></div>
                 </div>
@@ -670,30 +674,30 @@
                     <div class="tiitle">
                         <div class='design-title'>
                             <?php echo mb_convert_encoding($lang['Choose a design'], "UTF-8"); ?>
-                        </div>
+                                    </div>
 
-                        <div style="clear:both"></div>
-                    </div>
-                    <div class='content-upper' style="border-bottom: 1px solid #C9C9C9; border-radius: 0 0 5px 5px;">
-                        <ul></ul>
-                        <div class="clearBoth"></div><div id='pagination' style="margin-top:2px;margin-left:2px;"></div><div style="clear:both;"></div>
-                    </div>
-                    <div id="buttonDiv" style="clear:both; padding-top:20px;">
-                        <div id="uploadButton"></div>
-                        <!--                        <div id="backAndNextButtons"></div>-->
-                    </div>
-                </div>
-                <div id="content-orderAdventKalenderhtml" class="screens">
-                    <div class="tiitle">
-                        <div class='design-title'>
+                                    <div style="clear:both"></div>
+                                </div>
+                                <div class='content-upper' style="border-bottom: 1px solid #C9C9C9; border-radius: 0 0 5px 5px;">
+                                    <ul></ul>
+                                    <div class="clearBoth"></div><div id='pagination' style="margin-top:2px;margin-left:2px;"></div><div style="clear:both;"></div>
+                                </div>
+                                <div id="buttonDiv" style="clear:both; padding-top:20px;">
+                                    <div id="uploadButton"></div>
+                                    <!--                        <div id="backAndNextButtons"></div>-->
+                                </div>
+                            </div>
+                            <div id="content-orderAdventKalenderhtml" class="screens">
+                                <div class="tiitle">
+                                    <div class='design-title'>
                             <?php //echo mb_convert_encoding($lang['Choose a design'], "UTF-8"); ?>
-                        ORDER NOW
-                        </div>
+                                        ORDER NOW
+                                    </div>
 
-                        <div style="clear:both"></div>
-                    </div>
-                    <div class='content-upper' style="border-bottom: 1px solid #C9C9C9; padding-bottom: 10px; border-radius: 0 0 5px 5px;">
-                        <table border="0" id='orderDiv' cellspacing="10px">
+                                    <div style="clear:both"></div>
+                                </div>
+                                <div class='content-upper' style="border-bottom: 1px solid #C9C9C9; padding-bottom: 10px; border-radius: 0 0 5px 5px;">
+                                    <table border="0" id='orderDiv' cellspacing="10px">
                                         <tr>
                                             <td>Salutation</td>
                                             <td>&nbsp;&nbsp;&nbsp;<select id='orderPageSalutation'><option>Mr.</option><option>Ms.</option></select></td>
@@ -710,97 +714,122 @@
                                             <td>Company</td>
                                             <td><input id='orderPageCompanyName' type='text' name='Company' size='35' /></td>
                                         </tr>
-                            <tr>
+                                        <tr>
                                             <td>Road</td>
                                             <td><input id='orderPageRoad' type='text' name='Road' size='35' /></td>
                                         </tr>
-                            <tr>
+                                        <tr>
                                             <td>Zip Code</td>
                                             <td><input id='orderPageZipCode' type='text' name='ZipCode' size='35' /></td>
                                         </tr>
-                            <tr>
+                                        <tr>
                                             <td>Place</td>
                                             <td><input id='orderPagePlace' type='text' name='Place' size='35' /></td>
                                         </tr>
-                            <tr>
+                                        <tr>
                                             <td>Desired Amount Of The Calender</td>
                                             <td><input id='orderPageDesiredAmount' type='text' name='DesiredAmount' size='35' /></td>
                                         </tr>
-                                        
+
                                     </table>
-                        
-                    </div>
-                    <div id="orderPageButtonDiv">
-                        
-                        </div>
-                    
-                </div>
-                
 
-
-                <!--SCREEN-CHOOSE-ADDRESS-->
-                <div id="content-chooseaddresshtml" class="screens">
-                    <div class='tiitle'>
-
-                        <div class='address-title'>
-                            <?php echo mb_convert_encoding($lang['ADD YOUR HOUSE OR OFFICE ADDRESS'], "UTF-8"); ?>
-                        </div>
-
-                    </div>
-                    <div class='chose-format'>
-                        <div class='content-upper-address' style="border-bottom: 1px solid #C9C9C9; border-radius: 0 0 5px 5px;">
-                            <center>
-                                <select id="dd_addressType">
-                                    <option><?php echo mb_convert_encoding($lang['Use Company Address'], "UTF-8"); ?></option>
-                                    <option><?php echo mb_convert_encoding($lang['Use Home Address'], "UTF-8"); ?></option>
-                                </select>
-
-                                <div id="homeAddress">
-                                    <table border="0" id='addressDivindd_bg' cellspacing="10px">
-                                        <tr>
-                                            <td><?php echo mb_convert_encoding($lang['Company Name'], "UTF-8"); ?>*</td>
-                                            <td><input id='addressPageCompanyName' type='text' name='addrline1' size='35' /></td>
-                                        </tr>
-                                        <tr>
-                                            <td><?php echo mb_convert_encoding($lang['Road'], "UTF-8"); ?>*</td>
-                                            <td><input id='addressPageRoad' type='text' name='addrline2' size='35' /></td>
-                                        </tr>
-                                        <tr>
-                                            <td><?php echo mb_convert_encoding($lang['Zip Code and City'], "UTF-8"); ?>*</td>
-                                            <td><input id='addressPageZipCode' type='text' name='telephone' size='25' /></td>
-                                        </tr>
-                                        <tr>
-                                            <td><?php echo mb_convert_encoding($lang['Phone Number'], "UTF-8"); ?></td>
-                                            <td><input id='addressPagePhoneNumber' type='text' name='website' size='35' /></td>
-                                        </tr>
-                                        <tr>
-                                            <td><?php echo mb_convert_encoding($lang['eMail'], "UTF-8"); ?></td>
-                                            <td><input id='addressPageEMail' type='text' name='website' size='35' /></td>
-                                        </tr>
-                                        <tr>
-                                            <td><?php echo mb_convert_encoding($lang['Website'], "UTF-8"); ?></td>
-                                            <td><input id='addressPageWebsite' type='text' name='website' size='35' /></td>
-                                        </tr>
-                                        
-                                    </table>
-                                    <div style="color:red; display:none;" id="errorMessage"> Please fill all the required(*) fields</div>
                                 </div>
-                            </center>
-                        </div>
-                    </div>
+                                <div id="orderPageButtonDiv">
 
-                    <div id="buttonDiv" style="clear:both; padding-top:20px;">
-                        <div class='next-button-div'><input id='AddressNextButton' type='button' name='submit' class='next-button' value='<?php echo mb_convert_encoding($lang['NEXT'], "UTF-8"); ?>' /></div>
-                        <div class='back-button-div'><input id='AddressBackButton' type='button' name='submit' class='next-button' value='<?php echo mb_convert_encoding($lang['BACK'], "UTF-8"); ?>' /></div>
-                    </div>
-                </div>
+                                </div>
+
+                            </div>
 
 
-                <!---->
-                <div id="content-playablehtml" class="screens">
-                    <div class='tiitle'>
 
-                        <div class='playable-title'>
+                            <!--SCREEN-CHOOSE-ADDRESS-->
+                            <div id="content-chooseaddresshtml" class="screens">
+                                <div class='tiitle'>
+
+                                    <div class='address-title'>
+                            <?php echo mb_convert_encoding($lang['ADD YOUR HOUSE OR OFFICE ADDRESS'], "UTF-8"); ?>
+                                    </div>
+
+                                </div>
+                                <div class='chose-format'>
+                                    <div class='content-upper-address' style="border-bottom: 1px solid #C9C9C9; border-radius: 0 0 5px 5px;">
+                                        <center>
+                                            <div id="color_optionPanel" style="display:none">
+                                                <div class="pannel">
+                                                    <div class="row">
+                                                        <div class="col1">
+                                                            Color Option #1 :
+                                                        </div>
+                                                        <div class="col2">
+                                                            <div id="colorOption1"><input value="#000000" type='hidden' id='colorOptionField1' name='colorOptionField1' class='color-picker-for-basic-package' size='6' autocomplete='on' maxlength='10' /></div>
+                                                        </div>
+                                                        <div style="clear:both"></div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col1">
+                                                            Color Option #2 :
+                                                        </div>
+                                                        <div class="col2">
+                                                            <div id="colorOption2"><input value="#000000" type='hidden' id='colorOptionField2' name='colorOptionField2' class='color-picker-for-basic-package' size='6' autocomplete='on' maxlength='10' /></div>
+                                                        </div>
+                                                        <div style="clear:both"></div>
+                                                    </div>
+                                                </div>
+                                                <div style="text-align: justify;font-weight: bold;margin-left: 5px;margin-right: 5px;padding-top: 5px">
+                                                    <p style="color:red">Achtung! Wenn Ihr Weihnachtsgruß, Ihr Firmenlogo oder Ihr Weihnachtsgruß in Kombination mit Ihrem Logo 3 oder mehr Farben darstellen, kontaktieren Sie uns bitte unter 07643-8010 damit wir individuell auf Ihre Sonderwünsche eingehen können.</p>
+                                                </div>
+                                            </div>
+                                            <select id="dd_addressType">
+                                                <option><?php echo mb_convert_encoding($lang['Use Company Address'], "UTF-8"); ?></option>
+                                                <option><?php echo mb_convert_encoding($lang['Use Home Address'], "UTF-8"); ?></option>
+                                            </select>
+
+                                            <div id="homeAddress">
+                                                <table border="0" id='addressDivindd_bg' cellspacing="10px">
+                                                    <tr>
+                                                        <td><?php echo mb_convert_encoding($lang['Company Name'], "UTF-8"); ?>*</td>
+                                                        <td><input id='addressPageCompanyName' type='text' name='addrline1' size='35' /></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><?php echo mb_convert_encoding($lang['Road'], "UTF-8"); ?>*</td>
+                                                        <td><input id='addressPageRoad' type='text' name='addrline2' size='35' /></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><?php echo mb_convert_encoding($lang['Zip Code and City'], "UTF-8"); ?>*</td>
+                                                        <td><input id='addressPageZipCode' type='text' name='telephone' size='25' /></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><?php echo mb_convert_encoding($lang['Phone Number'], "UTF-8"); ?></td>
+                                                        <td><input id='addressPagePhoneNumber' type='text' name='website' size='35' /></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><?php echo mb_convert_encoding($lang['eMail'], "UTF-8"); ?></td>
+                                                        <td><input id='addressPageEMail' type='text' name='website' size='35' /></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><?php echo mb_convert_encoding($lang['Website'], "UTF-8"); ?></td>
+                                                        <td><input id='addressPageWebsite' type='text' name='website' size='35' /></td>
+                                                    </tr>
+
+                                                </table>
+                                                <div style="color:red; display:none;" id="errorMessage"> Please fill all the required(*) fields</div>
+                                            </div>
+                                        </center>
+                                    </div>
+                                </div>
+
+                                <div id="buttonDiv" style="clear:both; padding-top:20px;">
+                                    <div class='next-button-div'><input id='AddressNextButton' type='button' name='submit' class='next-button' value='<?php echo mb_convert_encoding($lang['NEXT'], "UTF-8"); ?>' /></div>
+                                    <div class='back-button-div'><input id='AddressBackButton' type='button' name='submit' class='next-button' value='<?php echo mb_convert_encoding($lang['BACK'], "UTF-8"); ?>' /></div>
+                                </div>
+                            </div>
+
+
+                            <!---->
+                            <div id="content-playablehtml" class="screens">
+                                <div class='tiitle'>
+
+                                    <div class='playable-title'>
                             <?php echo mb_convert_encoding($lang['CUSTOMIZE YOUR ADVENTS KALENDER'], "UTF-8"); ?>
                         </div>
 
@@ -831,7 +860,7 @@
 
                                         <div  id="toolbarFontAction" class="form-editor" style="width: auto; height: 35px;">
                                             <select id="font1" name="font" class="form-editor-dropdown1"><option style="font-family: Arial;">Arial</option><!--<option style="font-family: Tangerine;">Tangerine</option>--><option style="font-family: Georgia;">Georgia</option><option style="font-family: Verdana;">Verdana</option><option style="font-family: Times New Roman;">Times New Roman</option><!--<option style="font-family: Lucida Grande;">Lucida Grande</option>--><option style="font-family: Lucida Sans Unicode;">Lucida Sans Unicode</option><option style="font-family: Courier New;">Courier New</option></select>
-                                            <select id="fontsize" name="font-size" class="form-editor-dropdown2"><option>10</option><option>12</option><option>14</option><option>16</option><option>18</option><option>20</option><option>22</option><option>24</option><option>28</option><option>32</option><option>38</option></select>
+                                            <select id="fontsize" name="font-size" class="form-editor-dropdown2"><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option><option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option><option>19</option><option>20</option><option>21</option><option>22</option><option>23</option><option>24</option></select>
                                             <input type="hidden" id="colpick" name="color1" class="color-picker" size="6" autocomplete="on" maxlength="10" />
                                             <button id="boldbutton" class="form-editor-btnb" ></button>
                                             <button id="italicbutton" class="form-editor-btni"></button>
@@ -847,11 +876,13 @@
                                             <li><div id="leftdivimg" class="toolbarBtn"><img src="img/images/shape3-editor.png" alt="shape3" />Left</div></li>
                                             <li><div id="rightdivimg" class="toolbarBtn"><img src="img/images/shape4-editor.png" alt="shape4" />Right</div></li>
                                             <li><div id="clrpikr"><input type="hidden" id="colpickfordiv" name="color1" class="color-picker-for-background" size="6" autocomplete="on" maxlength="10" /></div></li>
-
+                                            <li>
+                                                <div id="clrpikrOption1" style="padding-top: 5px"><input type="hidden" id="colpickfordivOption1" name="colpickfordivOption1" class="color-picker-for-option-basic" size="6" autocomplete="on" maxlength="10" /></div></li>
+                                            <li><div id="clrpikrOption2" style="padding-top: 5px"><input type="hidden" id="colpickfordivOption2" name="colpickfordivOption2" class="color-picker-for-option-basic" size="6" autocomplete="on" maxlength="10" /></div></li>
                                         </ul>
 
 
-                                        </form>
+                                        <!--</form>-->
 
                                     </div>
                                 </div>
@@ -870,7 +901,7 @@
                                         <div id="dialogBox1"><textarea rows="2" cols="15" id="myTextarea"> </textarea></div>
                                     </div> 
                                     <div id="cropper" style="display:none;"><br/>
-                                    <div id="target"></div>
+                                        <div id="target"></div>
                                         <div id="previeweps"  style="display:none;"> <div class="prev-content"></div></div>
                                         <div id="display"  style="display:none;"><h1>Predefined Background img/imagesapp</h1></div>
                                         <div id="packagesrc"  style="display:none;"><h1>Choose your package first</h1></div>

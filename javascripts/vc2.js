@@ -2,7 +2,6 @@ if(window.CH == undefined){
     window.CH = {};
 }
 
-
 CH.VC2={
     packagename:"basic",
     undoflag:0,
@@ -42,11 +41,9 @@ CH.VC2={
     fillingsForThisPackage:"changeFillingsBasic",
     backgroundId:null,
     init:function(){
-        
         CH.VC1.deinitialize();
         CH.VC3.deinitialize();
         CH.VC2.deinitialize();
-
         //this.initDestroyDrop();
         this.items= new Array();
         this.undos= new Array();
@@ -79,7 +76,8 @@ CH.VC2={
         this.initMakeShape();
         this.initRelBtRotate();
         this.initZoomFunction();
-        
+        this.initResizeForImage();
+        this.initrotatedivs();
         
         backButtons()
         makeBack();
@@ -90,15 +88,15 @@ CH.VC2={
     },
     initUpdateAddress:function()
     {
-    $("#addressDivonback input").change(function(){
-         $("#addressPageCompanyName").val($("#deskPageCompanyNameInput").val());
-         $("#addressPageRoad").val($("#deskPageRoadInput").val());
-         $("#addressPageZipCode").val($("#deskPageZipCodeInput").val());
-         $("#addressPagePhoneNumber").val($("#deskPagePhoneNumberInput").val());
-         $("#addressPageEMail").val($("#deskPageEMailInput").val());
-         $("#addressPageWebsite").val($("#deskPageWebsiteInput").val());
-    });
-},
+        $("#addressDivonback input").change(function(){
+            $("#addressPageCompanyName").val($("#deskPageCompanyNameInput").val());
+            $("#addressPageRoad").val($("#deskPageRoadInput").val());
+            $("#addressPageZipCode").val($("#deskPageZipCodeInput").val());
+            $("#addressPagePhoneNumber").val($("#deskPagePhoneNumberInput").val());
+            $("#addressPageEMail").val($("#deskPageEMailInput").val());
+            $("#addressPageWebsite").val($("#deskPageWebsiteInput").val());
+        });
+    },
     initRemoveUnusedButton:function()
     {
         $("#removeButton").remove();
@@ -110,11 +108,11 @@ CH.VC2={
         //$("#toolbarFontAction").remove();
         $("#leftdivimg").parent().remove();
         $("#rightdivimg").parent().remove();
-        $("#backdivimg").parent()
-        $("#frontdivimg").parent()
+        $("#backdivimg").parent().remove();
+        $("#frontdivimg").parent().remove();
         $("#textForSidecolor").remove();
         //$("#toolbarViewAction").append("<div id='textForSidecolor'>Choose color for back, left & right side</div>")
-     $("#clrpikr").remove();
+        $("#clrpikr").parent().remove();
     },
     showLeftAndRightSide:function()
     {
@@ -130,16 +128,30 @@ CH.VC2={
         });
         
     },
-       
-    
     initBtColorPickerForbackground:function(){
         var oThis=this;
         $(".color-picker-for-background").miniColors({
             change: function(hex) {
-                
                 oThis.colorPickerForBackground("left",hex);
-                    
-                
+            }
+        });
+        $(".color-picker-for-option-basic").miniColors();
+        $("#colpickfordivOption1").miniColors('value',$("#colorOptionField1").val());
+        $("#colpickfordivOption1").parent().find("a").addClass("disabled");
+        $("#colpickfordivOption2").miniColors('value',$("#colorOptionField2").val());
+        $("#colpickfordivOption2").parent().find("a").addClass("disabled");
+        $("#clrpikrOption1").click(function(){
+            if(oThis.selecteditem!=null){
+                var cItem = CH.VC2.items[oThis.selecteditem];
+                cItem.fontcolor=$("#colpickfordivOption1").val();
+                $("#"+cItem.id).find("span").css("color",$("#colpickfordivOption1").val());
+            }
+        });
+        $("#clrpikrOption2").click(function(){
+            if(oThis.selecteditem!=null){
+                var cItem = CH.VC2.items[oThis.selecteditem];
+                cItem.fontcolor=$("#colpickfordivOption2").val();
+                $("#"+cItem.id).find("span").css("color",$("#colpickfordivOption2").val());
             }
         });
     },
@@ -156,7 +168,6 @@ CH.VC2={
         $( ".tools #toolbarViewAction button" ).css("opacity","1");
         $( ".tools #Save" ).prop("disabled","");
         $( ".tools #Save" ).css("opacity","1");
-
         $( "#toolbarFontAction button" ).prop("disabled","");
         $( "#toolbarFontAction button" ).css("opacity","1");
         $( "#font1" ).prop("disabled","");
@@ -174,26 +185,23 @@ CH.VC2={
             }
             CH.VC2.beforeSaveState();
             $(".screens").hide();
-                $("#content-orderAdventKalenderhtml").show(); 
-                buttonToUnactivestate();
-                $(".nav6bar ul #sixth").prop("class","sixth active");
-                $(".nav5bar ul #fifth").prop("class","fifth active");
-                if(CH.language=="english")
-        {
-        
-            $("#orderPageButtonDiv").html("<input id='saveAndSend' class='next-button' style='float:right;' type='button' value='SEND REQUEST' name='submit'><input id='orderBackButton' type='button' name='submit' class='next-button' value='BACK' />");
-        }
-        else if(CH.language=="dutch")
-        {
-            $("#orderPageButtonDiv").html("<input id='saveAndSend' class='next-button' style='float:right;' type='button' value='Anfrage Senden' name='submit'><input id='orderBackButton' type='button' name='submit' class='next-button' value='Zuruck' />");
-        }
-        backButtons();
-        oThis.initSaveAndSend();
+            $("#content-orderAdventKalenderhtml").show();
+            buttonToUnactivestate();
+            $(".nav6bar ul #sixth").prop("class","sixth active");
+            $(".nav5bar ul #fifth").prop("class","fifth active");
+            if(CH.language=="english")
+            {
+                $("#orderPageButtonDiv").html("<input id='saveAndSend' class='next-button' style='float:right;' type='button' value='SEND REQUEST' name='submit'><input id='orderBackButton' type='button' name='submit' class='next-button' value='BACK' />");
+            }
+            else if(CH.language=="dutch")
+            {
+                $("#orderPageButtonDiv").html("<input id='saveAndSend' class='next-button' style='float:right;' type='button' value='Anfrage Senden' name='submit'><input id='orderBackButton' type='button' name='submit' class='next-button' value='Zuruck' />");
+            }
+            backButtons();
+            oThis.initSaveAndSend();
         });
-        
     },
     initialScreenTwo:function(){
-               
         $(".screens").hide();
         $("#content-choosefillingshtml").show();
         $(".dynamicFillings").hide();
@@ -207,12 +215,9 @@ CH.VC2={
         CH.com.VC=this;
         CH.com.getFormats();
         //CH.VC2.getFormats();
-        CH.selected=1;       
-            
+        CH.selected=1;           
     }, 
-
-    initMakeShape:function(){
-        
+    initMakeShape:function(){ 
         $(".drop").find(".shapeOfAC").remove();
         $(".back").find(".shapeOfAC").remove();
         $(".left").find(".shapeOfAC").remove();
@@ -243,7 +248,6 @@ CH.VC2={
             $(".right").append(test);
         }
     },
-    
     initEditableDiv:function(){
         var oThis=this;
         $.ajax({
@@ -272,14 +276,12 @@ CH.VC2={
                 //window.console.log(" ");
                 //window.console.log(height);
                 $(".drop").append("<div class='overlaydb' style='bottom:"+bottom2+"; left:"+left+"; width:"+width+"; height:"+height+";'></div>");                
-          $("#drop").append("<div id='addressOverlay' style='position:absolute; background-color: white; border: 2px dashed black; bottom:"+AddressBottom+"; height:"+AddressHeight+"; width:"+AddressWidth+"; left:"+AddressLeft+"; font-size:3pt; transform: rotate("+AddressRotation+"); -webkit-transform: rotate("+AddressRotation+"); -moz-transform: rotate("+AddressRotation+"); -o-transform: rotate("+AddressRotation+"); -ms-transform: rotate("+AddressRotation+");'><span>Company:"+$("#addressPageCompanyName").val()+" Road:"+ $("#addressPageRoad").val()+" Zip:"+ $("#addressPageZipCode").val()+" PH#:"+$("#addressPagePhoneNumber").val() +" Email:"+$("#addressPageEMail").val() +" Web:"+$("#addressPageWebsite").val() +"</span></div>");
-          oThis.populateOverlayItem()
-          }
+                $("#drop").append("<div id='addressOverlay' style='position:absolute; background-color: white; border: 2px dashed black; bottom:"+AddressBottom+"; height:"+AddressHeight+"; width:"+AddressWidth+"; left:"+AddressLeft+"; font-size:3pt; transform: rotate("+AddressRotation+"); -webkit-transform: rotate("+AddressRotation+"); -moz-transform: rotate("+AddressRotation+"); -o-transform: rotate("+AddressRotation+"); -ms-transform: rotate("+AddressRotation+");'><span>Company:"+$("#addressPageCompanyName").val()+" Road:"+ $("#addressPageRoad").val()+" Zip:"+ $("#addressPageZipCode").val()+" PH#:"+$("#addressPagePhoneNumber").val() +" Email:"+$("#addressPageEMail").val() +" Web:"+$("#addressPageWebsite").val() +"</span></div>");
+                oThis.populateOverlayItem()
+            }
         }); 
     },
-    
-    initializeAndSetActiveButtons:function(){
-       
+    initializeAndSetActiveButtons:function(){ 
         CH.VC2.init();
         $(".nav ul #first").prop("class","first");
         $(".nav ul #middle").prop("class","middle");
@@ -308,14 +310,7 @@ CH.VC2={
         $( ".tools #ZoomOut" ).css("opacity","1");
         $( ".tools #ZoomIn" ).prop("disabled","");
         $( ".tools #ZoomIn" ).css("opacity","1");
-                            
-                            
-                            
-                            
-       
     },
- 
- 
     deinitialize:function(){
         $(".back").remove();
         $(".probtn").unbind("click");
@@ -339,22 +334,18 @@ CH.VC2={
         this.destroyDragResize();
         $("#epsbutton").unbind("click");
         $("#Save").unbind("click");
+        $(".drop div .rotate-image").unbind("mousedown");
         $("#saveAndSend").unbind("click");
         CH.VC2.count=0;
     },
-    
-    
-    initRelBtRotate:function(){    //display corner buttons
-        
+    initRelBtRotate:function(){    //display corner buttons  
         $(".drop").unbind("mouseup");
         $(".drop").mouseup(function (e){
             $("#demobs".sDiv+" .drag-image").show();
             $("#demobs".sDiv+" .delete-image").show();
-        //$("#demobs".sDiv+" .rotate-image").show();
+            $("#demobs".sDiv+" .rotate-image").show();
         });
     },
-
-    
     initPreviewEps:function(){
         $("#epsbutton").click(function(){
             buttonToUnactivestate();
@@ -366,10 +357,8 @@ CH.VC2={
             $("#previeweps").dialog("destroy");
             CH.VC2.beforeSaveState();
             CH.VC2.saveState("prev");
-            
         });
         $("#backepsbutton").click(function(){
-            
             for(var i=1;i<=CH.VC2.totalcount;i++)
             {
                 CH.VC2.getXAndYPosition("#demobs"+i+"");
@@ -401,12 +390,9 @@ CH.VC2={
             window.console.log("kharab id="+temp);
         }
         else{
-            
             var angleOfdiv = (CH.VC2.items[index].angle);
-            
             //window.console.log($("#"+temp).prop("id"));
             //window.console.log(angleOfdiv);
-            
             $("#"+temp).css('-moz-transform', 'rotate(0deg)');
             $("#"+temp).css('-webkit-transform', 'rotate(0deg)');
             $("#"+temp).css('-o-transform', 'rotate(0deg)');
@@ -414,7 +400,6 @@ CH.VC2={
             var offset = $(proDivId).offset();
             var xPos = offset.left;
             var yPos = offset.top;
-            
             $("#"+temp).css('-moz-transform', 'rotate('+angleOfdiv+'deg)');
             $("#"+temp).css('-webkit-transform', 'rotate('+angleOfdiv+'deg)');
             $("#"+temp).css('-o-transform', 'rotate('+angleOfdiv+'deg)');
@@ -438,24 +423,20 @@ CH.VC2={
         this.totalcount=0;
         this.count=0;
     },
-    
     toBack:function() {
         var oThis=this;
         $("#backdivimg").click(function(){
             $('#backdivimg').hide();
             $('#frontdivimg').show();
             comingToBack(CH.VC2.packagename);
-    
         });
     },
-    
     toFront:function(){
         var oThis=this;
         $("#frontdivimg").click(function(){
             comingToFront(CH.VC2.packagename);
         });
     },
-    
     initFontFam:function() {  
         $('#fontList li').click(
             function(){
@@ -471,6 +452,7 @@ CH.VC2={
     },
     
     initEditInPlace:function() {
+    /*var oThis=this;
         $('span').live('dblclick', function() {
             $(this).find('.ok').remove();
             if ($(this).hasClass('inputMode')) {
@@ -485,20 +467,20 @@ CH.VC2={
             
             $("#input2").unbind("focusout");
             $("#input2").focusout(function() {
-                $(this).parent().html($(this).val())
-                .removeClass('inputMode');
+                $(this).parent().html($(this).val()).removeClass('inputMode');
+                 CH.VC2.items[CH.VC2.findItem(oThis.sDiv.substring(1))].innertxt=$(this).val();
                 return false;
             });
-        });
+        });*/
     },
     
     destroyDragResize:function(){
-        $(".drop div div").draggable( "destroy" );
-        $(".drop div div").resizable( "destroy" );
+    //$(".drop div div").draggable( "destroy" );
+    //$(".drop div div").resizable( "destroy" );
     },
 
     initHideCornerButtons:function(){
-        //$(".drop div div .rotate-image").hide();
+        $(".drop div div .rotate-image").hide();
         $(".drop div div .delete-image").hide();
         $(".drop div div .drag-image").hide();
     },
@@ -510,8 +492,58 @@ CH.VC2={
             oThis.selectElement(seldiv);
         });
     },
-    
+    initResizeForImage:function(){
+        var oThis=this;
+        oThis.destroyDragResize();
+        var oldWidth;
+        var oldHeight;
+        var xPos;
+        var yPos;
+        window.console.log("In image resize: "+oThis.sDiv);
+        if(oThis.sDiv!="")
+        {
+            $(".drop").css("position","absolute !important");
+            $(".drop "+oThis.sDiv).resizable({
+                aspectRatio:true,
+                containment: $(oThis.sDiv).parent(),
+                minWidth: 40,
+                minHeight: 40,
+                start:function(eve,ui){
+                    oldWidth=$(".drop "+oThis.sDiv).width();
+                    oldHeight=$(".drop "+oThis.sDiv).height();
+                    xPos=$(".drop "+oThis.sDiv).css("left");
+                    yPos=$(".drop "+oThis.sDiv).css("top");
+                },
+                resize:function(event, ui) {
+                    $(".drop "+oThis.sDiv).css("left",xPos);
+                    $(".drop "+oThis.sDiv).css("top",yPos);
+                },
+                stop:function(e,u)
+                {
+                    CH.VC2.items[CH.VC2.findItem(oThis.sDiv.substring(1))].width=$(oThis.sDiv).width()+"";
+                    CH.VC2.items[CH.VC2.findItem(oThis.sDiv.substring(1))].height=$(oThis.sDiv).height()+"";
+                    var oWidth=$(oThis.sDiv+" span img").attr("owidth");
+                    var oHeight=$(oThis.sDiv+" span img").attr("oheight");
+                    var cWidth=$(oThis.sDiv+" span img").width();
+                    var cHeight=$(oThis.sDiv+" span img").height();
+                    var dropWidth=$(".drop").width();
+                    CH.com.VC=oThis;
+                    if(!CH.com.checkDPI(cWidth,cHeight,oWidth,oHeight, oThis.bgOriginalWidth, oThis.bgOriginalHeight,dropWidth)){
+                        $(".drop "+oThis.sDiv).animate({
+                            "width":oldWidth,
+                            "height":oldHeight
+                        },function(){
+                            alert("Image DPI becomes less than "+CH.FIXED_DPI)
+                        });
+                    }
+
+                }
+            });
+        }
+    },
     selectElement:function(proDivId){
+        if(this.selecteditem!=null && CH.VC2.items[this.selecteditem]!=null)
+            $("#"+CH.VC2.items[this.selecteditem].id).find("input").trigger("focusout");
         var flag=false;
         $(".drop div div").removeClass("highlight");
         //$(".drop div div .rotate-image").hide();
@@ -520,25 +552,21 @@ CH.VC2={
         this.sDiv=("#"+($(proDivId).prop("id")));
         if($(this.sDiv).children().children().prop("class")!="preview")
         {
+            $(".drop div div .rotate-image").hide();
             var temp=$(this.sDiv).children('span').css("color");
             $(".form-editor .miniColors-trigger").css("background-color",temp);
             var tempFontName=$(this.sDiv).children('span').css("font-family");
             if(tempFontName != undefined)
-                {
-                    $("#font1").val(tempFontName);
-                }
+            {
+                $("#font1").val(tempFontName);
+            }
             var temp2=$(this.sDiv).children('span').css("font-size");
             temp2=temp2.substring(0, temp2.length-2);
             temp2=parseInt(temp2);
             temp2=$(temp2).toUnit("pt");
             temp2=Math.ceil(temp2);
             window.console.log(temp2);
-            
-    
             $("#fontsize").append("<option>"+temp2+"</option>");
-    
-    
-    
             var fontsizes = {};
             $("select[name='font-size'] > option").each(function () {
                 if(fontsizes[this.text]) {
@@ -547,26 +575,112 @@ CH.VC2={
                     fontsizes[this.text] = this.value;
                 }
             });
-            $("#fontsize").val(temp2);
-    
-
-            
+            $("#fontsize").val(temp2);            
         //CH.VC3.initResizeForText();
         }
         else
         {
-        //CH.VC3.initResizeForImage();
+            $(this.sDiv+" .rotate-image").show();
+            $(this.sDiv).children('span').css("margin-left","0px");
+            $(this.sDiv).children('span').css("margin-right","0px");
         }
         $(this.sDiv).addClass("highlight");
         //$(this.sDiv+" .rotate-image").show();
         $(this.sDiv+" .drag-image").show();
         $(this.sDiv+" .delete-image").show();
+        
         this.selecteditem =CH.VC2.findItem( (this.sDiv).substring(1) );
+        
         CH.VC2.dragTheDiv();
-        
-        
+        if($(this.sDiv).children().children().prop("class")!="preview")
+            CH.VC2.doubleclickEditorForText();
+        $("#"+CH.VC2.items[this.selecteditem].id).find("input").focus();
     },
-    
+    fl_rotate:false,
+    initrotatedivs:function() {
+        var pw;
+        var oThis=this;
+        $(".drop div .rotate-image").unbind("mousedown");
+        $(".drop div .rotate-image").mousedown(function (e){
+            var divid=$(oThis.sDiv).prop("id");
+            var undo=new CH.undoredo;
+            undo.id=divid;
+            undo.lastaction="Rotate";
+            var ind=CH.VC2.findItem(divid);
+            var it = {};
+            $.extend(it,CH.VC2.items[ind]);
+            undo.item=it;
+            CH.VC2.undos.push(undo);
+            CH.VC2.redos=[];
+            CH.VC2.hookRotation(oThis, e);////////
+            return;
+        });
+
+        $(document).mouseup(function (e){
+            if(oThis.fl_rotate)
+            {
+                oThis.initDrag();
+                if($(oThis.sDiv).children("span").children().prop("class")!="preview"){
+                }else{
+                    oThis.initResizeForImage();
+                }
+                var ele= $(oThis.sDiv);
+                ele.unbind( 'mousemove' );
+                ele.draggable({
+                    containment: $(oThis.sDiv)
+                });
+                ele=0;
+                oThis.fl_rotate=false;
+            }
+        });
+    },
+    rotateOnMouse:function (e,pw)
+    {
+        CH.VC2.rotateOnMouseMove(this, e, pw);
+    },
+    rotateOnMouseMove:function(obj, event, pw)
+    {
+        var offset = pw.offset();
+        var center_x = (offset.left) + ( $(pw).width() / 2 );
+        var center_y = (offset.top) + ( $(pw).height() / 2 );
+        var mouse_x = event.pageX;
+        var mouse_y = event.pageY;
+        var radians = Math.atan2(mouse_x - center_x, mouse_y - center_y);
+        var degree = (radians * (180 / Math.PI) * -1) + 100;
+        $(pw).css('-moz-transform', 'rotate('+degree+'deg)');
+        $(pw).css('-webkit-transform', 'rotate('+degree+'deg)');
+        $(pw).css('-o-transform', 'rotate('+degree+'deg)');
+        $(pw).css('-ms-transform', 'rotate('+degree+'deg)');
+        obj.lastaction="Rotate";
+
+        var ids=$(pw).prop("id");
+        // window.console.log(ids);
+        var ind=CH.VC2.findItem(ids);
+        degree=""+degree;
+        if(ind!=-1){
+            CH.VC2.items[ind].angle=degree;
+        }
+        else{
+            window.console.log("id is not corrent.");
+        }
+    },
+
+    hookRotation:function(obj, e)
+    {
+        $(".drop div .delete-image").hide();
+        $(".drop div .drag-image").hide();
+        obj.fl_rotate=true;
+        e.stopImmediatePropagation();
+        e.preventDefault();
+        $(document).mousemove(function(e){
+            if(obj.fl_rotate){
+                var element=$(obj.sDiv);
+                obj.rotateOnMouse(e,element);
+                e.stopImmediatePropagation();
+                e.preventDefault();
+            }
+        });
+    },
     
     initUnselect:function(){
         var oThis=this;
@@ -580,7 +694,7 @@ CH.VC2={
         if($(e.target).prop("id")=="drop")
         {
             $(".drop div div").removeClass("highlight");
-            //$(".drop div div .rotate-image").hide();
+            $(".drop div div .rotate-image").hide();
             $(".drop div div .delete-image").hide();
             $(".drop div div .drag-image").hide();
             this.sDiv="";
@@ -631,14 +745,14 @@ CH.VC2={
                         $(".drop #demobs"+CH.VC2.idCounter+" span").html('');
                         $(".drop #demobs"+CH.VC2.idCounter+" .delete-image").hide();
                         $(".drop #demobs"+CH.VC2.idCounter+" .drag-image").hide();
-                        //$(".drop #demobs"+CH.VC2.idCounter+" .rotate-image").hide();
+                        $(".drop #demobs"+CH.VC2.idCounter+" .rotate-image").hide();
                         
                         
                         //$(".drop #demo"+CH.VC3.idCounter+" span").css("display","inline-block");
                         $(".drop #demobs"+CH.VC2.idCounter+" span").html('<img src="img/imagesapp/loading.gif" alt="Uploading...."/>');
                         $(".drop #demobs"+CH.VC2.idCounter+" span img").attr("style", "max-width: 100%");
                         $("#imageform").ajaxForm({
-                            success:       oThis.showResponse
+                            success:oThis.showResponse
                         //target: $(".drop #demo"+CH.VC3.idCounter+" span")
                         }).submit();
                         
@@ -656,7 +770,6 @@ CH.VC2={
     },
     showResponse:function (responseText, statusText, xhr, $form)  { 
         var data=responseText.split(",");
-        
         if(data[0]=="1"){
             $(".drop #demobs"+CH.VC2.idCounter+" span").html(data[3]);
             
@@ -666,6 +779,7 @@ CH.VC2={
             //var newheight=150/asp;
             $("#outer").html("");
             var temp="#demobs"+CH.VC2.idCounter;
+            $(temp).css("position","relative");
             var temp2=$(".overlaydb").css("height");
             $(temp+" span img").css("height",temp2);
             var newwidth=asp*$(temp+" span img").height();
@@ -673,7 +787,7 @@ CH.VC2={
             CH.VC2.items[ind].fontSize= "0";
             CH.VC2.items[ind].height= $(temp+" span img").height()+"";
             CH.VC2.items[ind].width= newwidth+"";
-            $(temp).resizable( "destroy" );
+            //$(temp).resizable( "destroy" );
             var url=$(temp+" span img").prop("src");
             var filename = url.substring(url.lastIndexOf('/'));
             ind=CH.VC2.findItem("demobs"+CH.VC2.idCounter);
@@ -683,6 +797,8 @@ CH.VC2={
                 CH.VC2.items[ind].innertxt=$.trim(databaseIdOfTheImage)+","+filename;
                 CH.VC2.items[ind].istxt=0;
                 //populateLeftBarOnFront();
+                CH.VC2.initResizeForImage();
+                CH.VC2.initrotatedivs();
                 CH.VC2.selectElement("#"+CH.VC2.items[ind].id);
                 CH.VC2.getXAndYPosition("#"+CH.VC2.items[ind].id);
             }else{
@@ -716,7 +832,7 @@ CH.VC2={
                 var it= new CH.item();
                 CH.VC2.idCounter++;
                 it.id="demobs"+CH.VC2.idCounter;
-                var temp_html="<div id='demobs"+ CH.VC2.idCounter +"' class='demobs' align='right'><img class='drag-image' src='img/imagesapp/move.png' width='20' height='20' /><img class='delete-image' src='img/imagesapp/del.png' width='20' height='20' /><span id='span"+CH.VC2.idCounter +"'>Enter Text Here</span></div>";
+                var temp_html="<div id='demobs"+ CH.VC2.idCounter +"' class='demobs' align='right'><img class='rotate-image' src='img/imagesapp/rotateimg.png' width='20' height='20' /><img class='drag-image' src='img/imagesapp/move.png' width='20' height='20' /><img class='delete-image' src='img/imagesapp/del.png' width='20' height='20' /><span id='span"+CH.VC2.idCounter +"' style='margin-left:5px;margin-right:5px;color:"+$("#colpickfordivOption1").val()+"'>Enter Text Here</span></div>";
                 $(".drop .overlaydb").append(temp_html);
                 var temp=$("#demobs"+CH.VC2.idCounter).css("font-size");
                 temp=temp.substring(0, temp.length-2);
@@ -724,10 +840,12 @@ CH.VC2={
                 temp=$(temp).toUnit("pt");
                 temp=Math.ceil(temp);
                 it.fontSize=""+temp;
+                it.fontcolor=$("#colpickfordivOption1").val();
                 it.innertxt=$("#demobs"+CH.VC2.idCounter+" span").html();
                 this.items.push(it);
                 CH.VC2.getXAndYPosition("#demobs"+CH.VC2.idCounter);
-                CH.VC2.selectElement("#demobs"+CH.VC2.idCounter);        
+                CH.VC2.selectElement("#demobs"+CH.VC2.idCounter);
+            //CH.VC2.items[CH.VC2.selecteditem].fontcolor=$("#colpickfordivOption1").val();
     
             }
             oThis.initSelection();
@@ -781,7 +899,7 @@ CH.VC2={
             e.preventDefault();
             if($(this).children().children().prop("class")!="preview")
             {
-                oThis.doubleclickEditorForText();
+            // oThis.doubleclickEditorForText();
             }
             else
             {
@@ -807,33 +925,32 @@ CH.VC2={
         temp2=$(temp2).css("color");
         temp3=$(temp3).css("font-family");
         if(temp3 != undefined)
-            {
-        if((temp3.substring(0, 1)=="'")||(temp3.substring(0, 1)=="\""))
         {
-            temp3 = temp3.substring(1, temp3.length-1);
-        }
+            if((temp3.substring(0, 1)=="'")||(temp3.substring(0, 1)=="\""))
+            {
+                temp3 = temp3.substring(1, temp3.length-1);
+            }
             
-        var divwid=$(this.sDiv).css("width");
-        divwid = divwid.substring(0, divwid.length-2);
-        // divwid=divwid-45;
-        divwid=divwid+"px"
-        var tartalom=$(oThis.sDiv+" span").html();
-        $(oThis.sDiv).children(" span")
-        .empty()
-        .append("<input type='text' id='input2' style='background-color:transparent;width:"+divwid+";font-size:"+temp+";color:"+temp2+";font-family:"+temp3+"' value='" + tartalom + "'>")
-        .addClass('inputMode');
-        $("#input2").mouseout(function() {
-            $(this).parent().html($(this).val())
-            .removeClass('inputMode');
-            CH.VC2.items[CH.VC2.findItem(oThis.sDiv.substring(1))].innertxt=$(this).val();
-            //populateLeftBarOnFront();
-            //CH.VC2.initTextOfLeftOfFrontSideChange();
+            var divwid=$(this.sDiv).css("width");
+            divwid = divwid.substring(0, divwid.length-2);
+            // divwid=divwid-45;
+            divwid=divwid+"px"
+            var tartalom=$(oThis.sDiv+" span").html();
+            $(oThis.sDiv).children(" span")
+            .empty()
+            .append("<input type='text' id='input2' style='background-color:transparent;width:"+divwid+";font-size:"+temp+";color:"+temp2+";font-family:"+temp3+"' value='" + tartalom + "'>")
+            .addClass('inputMode');
+            $(oThis.sDiv).find("input").focusout(function() {
+                $(this).parent().html($(this).val()).removeClass('inputMode');
+                CH.VC2.items[CH.VC2.findItem(oThis.sDiv.substring(1))].innertxt=$(this).val();
+                //populateLeftBarOnFront();
+                //CH.VC2.initTextOfLeftOfFrontSideChange();
             
-            return false;                    
-        });
+                return false;
+            });
         }
         
-        /*var oThis=this.sDiv+" span";
+    /*var oThis=this.sDiv+" span";
         if ($(this.sDiv).children(" span").hasClass('inputMode')) {
             window.console.log($(this.sDiv).children(" span").prop("id"));
             return true;
@@ -926,7 +1043,7 @@ CH.VC2={
                                     var index=CH.VC2.findItem(oThis.sDiv.substr(1));
                                     CH.VC2.items[index].width=$(oThis.sDiv).width();
                                     CH.VC2.items[index].height=$(oThis.sDiv).height();   
-                                    //window.console.log(CH.VC3.items[index].width+"*"+CH.VC3.items[index].height);
+                                //window.console.log(CH.VC3.items[index].width+"*"+CH.VC3.items[index].height);
                                     
                                 });
                                 //alert(oThis.sDiv);
@@ -949,13 +1066,13 @@ CH.VC2={
                                 //alert(temp[0]);
                                 //alert(tempNewPath);
                                 $.ajax({
-                            type: "POST",
-                            url: "basicFunctions.php",
-                            data: {
-                                "type":"changeNameInUploads",
-                                imageId:temp[0], //here
-                                newName:tempNewPath
-                            } 
+                                    type: "POST",
+                                    url: "basicFunctions.php",
+                                    data: {
+                                        "type":"changeNameInUploads",
+                                        imageId:temp[0], //here
+                                        newName:tempNewPath
+                                    }
                                 });
                             //here                    
                             }
@@ -995,15 +1112,29 @@ CH.VC2={
         var oThis=this;
         //this.destroyDragResize();
         $(oThis.sDiv).draggable({
-            containment: "parent",
+            containment: $(oThis.sDiv).parent().parent(),
             drag: function(){
                 //$(".delete-image").hide();
                 // $(".rotate-image").hide();
                 var offset = $(this).offset();
                 var xPos = offset.left;
                 var yPos = offset.top;
+                var width=xPos+parseFloat($(this).css("width"));
+                var height=yPos+parseFloat($(this).css("height"));
+                var oDivXPos=$(oThis.sDiv).parent().offset().left;
+                var oDivYPos=$(oThis.sDiv).parent().offset().top;
+                var oDivWidth=oDivXPos+parseFloat($(oThis.sDiv).parent().css("width"));
+                var oDivYHeight=oDivYPos+parseFloat($(oThis.sDiv).parent().css("height"));
                 CH.VC2.items[oThis.selecteditem].xposition=xPos;
                 CH.VC2.items[oThis.selecteditem].yposition=yPos;
+                if(xPos<oDivXPos||yPos<oDivYPos||width>oDivWidth||height>oDivYHeight){
+                    $(oThis.sDiv).removeClass("highlight");
+                    $(oThis.sDiv).addClass("errorHighlight");
+                }
+                else{
+                    $(oThis.sDiv).removeClass("errorHighlight");
+                    $(oThis.sDiv).addClass("highlight");
+                }
             }        
         }) ;
     },
@@ -1012,8 +1143,7 @@ CH.VC2={
     {
         var oThis=this;
         loadDesigns(oThis,oThis.packageId,oThis.fillingId);
-    //makeCanvas();
-    			
+        //makeCanvas();
     },
     initSave:function(){ ///backhere
         var oThis=this;
@@ -1026,56 +1156,45 @@ CH.VC2={
         var oThis=this;
         $("#saveAndSend").unbind("click");
         $("#saveAndSend").click(function () {
-            
             oThis.saveState("save");           
         });
-        
     },
     populateOverlayItem:function(){
         var oThis=this;
         var ovItem= new CH.overlayItem();
         CH.currentPackage.overlayItem.push(ovItem);
-        
         oThis.overlayItem[0].isOverlay=1;
         oThis.overlayItem[0].height=$(".overlaydb").height();
         oThis.overlayItem[0].width=$(".overlaydb").width();
         oThis.overlayItem[0].xposition=$(".overlaydb").offset().left-$(".drop").offset().left;
         oThis.overlayItem[0].yposition=$(".overlaydb").offset().top-$(".drop").offset().top;
-        
-        
-        
-        
-        
-        
-        
-            var angleOfdiv=CH.VC2.angleOfAddressDiv;
-            $("#addressOverlay").css('-moz-transform', 'rotate(0deg)');
-            $("#addressOverlay").css('-webkit-transform', 'rotate(0deg)');
-            $("#addressOverlay").css('-o-transform', 'rotate(0deg)');
-            $("#addressOverlay").css('-ms-transform', 'rotate(0deg)');
-            var offset = $("#addressOverlay").offset();
-            var xPos = offset.left;
-            var yPos = offset.top;
+        var angleOfdiv=CH.VC2.angleOfAddressDiv;
+        $("#addressOverlay").css('-moz-transform', 'rotate(0deg)');
+        $("#addressOverlay").css('-webkit-transform', 'rotate(0deg)');
+        $("#addressOverlay").css('-o-transform', 'rotate(0deg)');
+        $("#addressOverlay").css('-ms-transform', 'rotate(0deg)');
+        var offset = $("#addressOverlay").offset();
+        var xPos = offset.left;
+        var yPos = offset.top;
             
-var dropOffset = $(".drop").offset();
-            var DropXPos = dropOffset.left;
-            var DropYPos = dropOffset.top;
+        var dropOffset = $(".drop").offset();
+        var DropXPos = dropOffset.left;
+        var DropYPos = dropOffset.top;
             
-            
-            $("#addressOverlay").css('-moz-transform', 'rotate('+angleOfdiv+'deg)');
-            $("#addressOverlay").css('-webkit-transform', 'rotate('+angleOfdiv+'deg)');
-            $("#addressOverlay").css('-o-transform', 'rotate('+angleOfdiv+'deg)');
-            $("#addressOverlay").css('-ms-transform', 'rotate('+angleOfdiv+'deg)');
-            var roundx=$.trim(" "+(xPos-DropXPos));
-            roundx=roundx-CH.textConstantToAddForVerticalImages;
-            roundx=Math.floor(roundx);
-            var roundy=$.trim(" "+(yPos-DropYPos));
-            oThis.overlayItem[0].addressHeight=$("#addressOverlay").height();
-            oThis.overlayItem[0].addressWidth=$("#addressOverlay").width();
-            oThis.overlayItem[0].addressXposition=$.trim(" "+roundx);
-            oThis.overlayItem[0].addressYposition=$.trim(" "+roundy);
-            oThis.overlayItem[0].addressText=$("#addressOverlay span").text();
-            oThis.overlayItem[0].addressRotation=angleOfdiv;
+        $("#addressOverlay").css('-moz-transform', 'rotate('+angleOfdiv+'deg)');
+        $("#addressOverlay").css('-webkit-transform', 'rotate('+angleOfdiv+'deg)');
+        $("#addressOverlay").css('-o-transform', 'rotate('+angleOfdiv+'deg)');
+        $("#addressOverlay").css('-ms-transform', 'rotate('+angleOfdiv+'deg)');
+        var roundx=$.trim(" "+(xPos-DropXPos));
+        roundx=roundx-CH.textConstantToAddForVerticalImages;
+        roundx=Math.floor(roundx);
+        var roundy=$.trim(" "+(yPos-DropYPos));
+        oThis.overlayItem[0].addressHeight=$("#addressOverlay").height();
+        oThis.overlayItem[0].addressWidth=$("#addressOverlay").width();
+        oThis.overlayItem[0].addressXposition=$.trim(" "+roundx);
+        oThis.overlayItem[0].addressYposition=$.trim(" "+roundy);
+        oThis.overlayItem[0].addressText=$("#addressOverlay span").text();
+        oThis.overlayItem[0].addressRotation=angleOfdiv;
         
     },
     
@@ -1098,11 +1217,8 @@ var dropOffset = $(".drop").offset();
         //this.populateOverlayItem();
         //this.sideColor=$("#clrpikr input").val();
         //alert("side color: "+this.sideColor+"and format is: "+this.formatName+"and the filling is"+this.fillingName);
-        
-        
         window.console.log("a="+JSON.stringify(CH.VC2.obj));
         this.tosave=JSON.stringify(CH.VC2.obj);
-        //alert(this.tosave);
         $("#divLoad").dialog("open");
         $.ajax({ 
             type: "POST",
@@ -1221,14 +1337,11 @@ var dropOffset = $(".drop").offset();
                 $(proDivId+" span").removeClass("underline");
                 var index=($(proDivId).prop("id")).substr($(proDivId).prop("id").length-1);//
                 CH.VC2.items[index-1].isUnderlined=0;//
-                
             }else{
                 $(proDivId+"  span").addClass("underline");
                 var index=($(proDivId).prop("id")).substr($(proDivId).prop("id").length-1);//
-                CH.VC2.items[index-1].isUnderlined=1;//
-                
+                CH.VC2.items[index-1].isUnderlined=1;//   
             }
-            
         }
         else
         {
@@ -1239,76 +1352,49 @@ var dropOffset = $(".drop").offset();
         var oThis=this;
         $("#Lalignbutton").unbind("click");
         $("#Lalignbutton").click(function(){
-            
-            oThis.Lalign(oThis.sDiv);
-            
+            oThis.Lalign(oThis.sDiv); 
         });
-    
     },
-   
-    
     Lalign:function(proDivId){
         if(proDivId.length>0){
-            
             if($(proDivId).hasClass("centeralign")){
-                
                 $(proDivId).removeClass("centeralign");
             }
             if($(proDivId).hasClass("rightalign")){
-                
                 $(proDivId).removeClass("rightalign");
             }
             $(proDivId).addClass("leftalign");
-            
             var index=($(proDivId).prop("id")).substr($(proDivId).prop("id").length-1);//
-                
             CH.VC2.items[index-1].isRightAligned=0;
             CH.VC2.items[index-1].isCenterAligned=0;
             CH.VC2.items[index-1].isLeftAligned=1;
-            
-            
         }
         else
         {
             alert("Please select any text field before applying effects");
         }
     },
-    
-    
-    
-    
-    
     initBtRalign:function(){    
         var oThis=this;
-        
         $("#Ralignbutton").unbind("click");
         $("#Ralignbutton").click(function(){
             oThis.Ralign(oThis.sDiv);
         });
     },
-    
     Ralign:function(proDivId){
         if(proDivId.length>0){
-            
             if($(proDivId).hasClass("centeralign")){
-                
                 $(proDivId).removeClass("centeralign");
             }
             if($(proDivId).hasClass("leftalign")){
-                
                 $(proDivId).removeClass("leftalign");
             }
             $(proDivId).addClass("rightalign");
-            
             var index=($(proDivId).prop("id")).substr($(proDivId).prop("id").length-1);//
-                
             CH.VC2.items[index-1].isRightAligned=1;
             CH.VC2.items[index-1].isCenterAligned=0;
             CH.VC2.items[index-1].isLeftAligned=0;
-            
-            
         }
-            
         else
         {
             alert("Please select any text field before applying effects");
@@ -1323,26 +1409,18 @@ var dropOffset = $(".drop").offset();
     },
     Calign:function(proDivId){
         if(proDivId.length>0){
-            
             if($(proDivId).hasClass("rightalign")){
-                
                 $(proDivId).removeClass("rightalign");
             }
             if($(proDivId).hasClass("leftalign")){
-                
                 $(proDivId).removeClass("leftalign");
             }
             $(proDivId).addClass("centeralign");
-            
             var index=($(proDivId).prop("id")).substr($(proDivId).prop("id").length-1);//
-                
             CH.VC2.items[index-1].isRightAligned=0;
             CH.VC2.items[index-1].isCenterAligned=1;
-            CH.VC2.items[index-1].isLeftAligned=0;
-            
-            
+            CH.VC2.items[index-1].isLeftAligned=0;   
         }
-            
         else
         {
             alert("Please select any text field before applying effects");
@@ -1397,23 +1475,23 @@ var dropOffset = $(".drop").offset();
         var heightOfDiv=$(oThis.sDiv).height();
         if(heightOfParent >= (differenceInTop+heightOfDiv))
         {
-        var temp2=$(item+" span").css("font-size");
-        if(temp2 != undefined)
-        {
-            temp2=temp2.substring(0, temp2.length-2);
-            temp2=parseInt(temp2);
-            temp2=$(temp2).toUnit("pt");
-            temp2=Math.ceil(temp2);
-            window.console.log(temp2);
-            CH.VC2.items[index-1].fontSize=temp2+"";//here
-        }
-        $(item.id).css("width","auto");
-        $(item.id).css("height","auto");
+            var temp2=$(item+" span").css("font-size");
+            if(temp2 != undefined)
+            {
+                temp2=temp2.substring(0, temp2.length-2);
+                temp2=parseInt(temp2);
+                temp2=$(temp2).toUnit("pt");
+                temp2=Math.ceil(temp2);
+                window.console.log(temp2);
+                CH.VC2.items[index-1].fontSize=temp2+"";//here
+            }
+            $(item.id).css("width","auto");
+            $(item.id).css("height","auto");
         }
         else{
             alert("Unable to perform this operation. \n Reason: Text will go beyond the available area");
-        $(oThis.sDiv+" span").css("font-size",oldFontValue);
-    }
+            $(oThis.sDiv+" span").css("font-size",oldFontValue);
+        }
     },
     appendDesignBackgroundUploadBt:function(){/*dont delete*/}
 }

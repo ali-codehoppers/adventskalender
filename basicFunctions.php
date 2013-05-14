@@ -51,7 +51,7 @@ if ($type == "uploadPicture") {
                             $output= "1,".$width.",".$height.",";
                             $output.= "<img src='uploads/" . $actual_image_name . "' id='upimg' owidth='".$width."' oheight='".$height."' class='preview'>";
                             $temp = 'userid';
-                            $q = "INSERT INTO `uploads`( `source`)VALUES('$actual_image_name');";
+                            $q = "INSERT INTO `uploads`(userId,`source`,originalFilename)VALUES('','$actual_image_name','');";
                             if (mysql_query($q)) {
                                 $q = "Select Max(id) as id From uploads ;";
                                 $r = mysql_query($q);
@@ -170,7 +170,7 @@ else if ($type == "uploadBackground") {
     }
 }
 else if ($type == "saveJasonToDb") {
-    $abc = $_POST['itemJasonToSaveInDb'];
+    $abc = str_replace("\\\"","\\\\\"",$_POST['itemJasonToSaveInDb']);
     $temp = 'userid';
     $q = "INSERT INTO `cards`( `json`, `userId`  )VALUES('$abc', '$temp');";
     echo $q;
@@ -277,7 +277,7 @@ else if ($type == "saveJasonToDb") {
     }
     $packageId = $_POST['packageId'];
     $fillingId = $_POST['fillingId'];
-    $q = "select * from backgrounds where package_id='" . $packageId . "' AND (filling_id='" . $fillingId . "' OR filling_id is NULL) ORDER BY id LIMIT " . (($pageNum - 1) * 16) . ",16";
+    $q = "select * from backgrounds where package_id='" . $packageId . "' AND (filling_id='" . $fillingId . "') ORDER BY isLandscape DESC,id LIMIT " . (($pageNum - 1) * 32) . ",32";
 
     $r = mysql_query($q);
     $num_rows = mysql_num_rows($r);
@@ -288,11 +288,12 @@ else if ($type == "saveJasonToDb") {
         $id = $row['id'];
         $filInfo= getimagesize($row['image_path']);
         $img = str_replace("img/bgimgs/", "img/bgimgs/thumbs/", $img);
-        $data.= "<li id='bg_$id'><a href='#'><img src='" . $img . "'  style='cursor:pointer; border:5px solid grey;' width='" . $backgroundSelectionThumbsWidth . "' height='" . $backgroundSelectionThumbsHeight . "' alt='" . $img . "' owidth='$filInfo[0]' oheight='$filInfo[1]' /></a></li>";
+        //$data.= "<li id='bg_$id'><a href='#'><img src='" . $img . "'  style='cursor:pointer; border:5px solid grey;' width='" . $backgroundSelectionThumbsWidth . "' height='" . $backgroundSelectionThumbsHeight . "' alt='" . $img . "' owidth='$filInfo[0]' oheight='$filInfo[1]' /></a></li>";
+        $data.= "<li id='bg_$id'><a class='design-Img' href='#' style='background:url(" . $img . ") no-repeat center center;display:block;height:198px' alt='" . $img . "' owidth='$filInfo[0]' oheight='$filInfo[1]'>&nbsp;</a></li>";
         //herezain
         $count++;
-        if ($num_rows > 16) {
-            if ($count > 15) {
+        if ($num_rows > 32) {
+            if ($count > 31) {
                 break;
             }
         }
@@ -302,7 +303,7 @@ else if ($type == "saveJasonToDb") {
     $packageId = $_POST['packageId'];
     //exit ($packageId);
     $fillingId = $_POST['fillingId'];
-    $q = "select * from backgrounds where package_id='" . $packageId . "' AND (filling_id='" . $fillingId . "' OR filling_id is NULL) ORDER BY id ";
+    $q = "select * from backgrounds where package_id='" . $packageId . "' AND (filling_id='" . $fillingId . "') ORDER BY isLandscape DESC,id ";
 
     $r = mysql_query($q);
     $num_rows = mysql_num_rows($r);
@@ -315,18 +316,19 @@ else if ($type == "saveJasonToDb") {
         $filInfo= getimagesize($row['image_path']);
         $img = str_replace("img/bgimgs/", "img/bgimgs/thumbs/", $img);
         //$data.= "<li><img alt='filling" . $count . "' src='" . $formatName . "' /><input id='filling" . $count . "' class='filling-radio' type='radio' name='filling'></li>";
-        $data.= "<li id='bg_$id'><a href='#'><img src='" . $img . "'  style='cursor:pointer;border:5px solid white' width='" . $backgroundSelectionThumbsWidth . "' height='" . $backgroundSelectionThumbsHeight . "' alt='" . $img . "' owidth='$filInfo[0]' oheight='$filInfo[1]'/></a></li>";
+        //$data.= "<li id='bg_$id'><a href='#'><img src='" . $img . "'  style='cursor:pointer;border:5px solid white' width='" . $backgroundSelectionThumbsWidth . "' height='" . $backgroundSelectionThumbsHeight . "' alt='" . $img . "' owidth='$filInfo[0]' oheight='$filInfo[1]'/></a></li>";
+        $data.= "<li id='bg_$id'><a class='design-Img' href='#' style='background:url(" . $img . ") no-repeat center center;display:block;height:198px' alt='" . $img . "' owidth='$filInfo[0]' oheight='$filInfo[1]'>&nbsp;</a></li>";
         //herezain
         $count++;
-        if ($num_rows > 16){
-            if ($count > 15){
+        if ($num_rows > 32){
+            if ($count > 31){
                 break;
             }
         }
     }
 
     $json = "{";
-    if ($num_rows > 16) {
+    if ($num_rows > 32) {
         $json.="\"pagination\":true";
     } else {
         $json.="\"pagination\":false";
