@@ -141,7 +141,7 @@ CH.com={
         var oThis=this;
         $(selector).pagination({
             items: totalItems,
-            itemsOnPage: 16,
+            itemsOnPage: 32,
             cssStyle: 'light-theme',
             onClick:function(pageNum){
                 oThis.getPageContentForDesign(pageNum);
@@ -209,16 +209,18 @@ CH.com={
     afterLoadDesignData:function(data){
     
         $('.content-upper ul').html(data);
-        $('.content-upper ul li img').css("border","4px solid grey");
-        $('.content-upper ul li img').first().css("border","4px solid orange");
+        $('.content-upper ul li a').css("border","4px solid grey");
+        $('.content-upper ul li a').first().css("border","4px solid orange");
         
         var bgId=$('.content-upper ul li').first().attr("id");
         bgId=bgId.substr(bgId.indexOf("_")+1,bgId.length);
         this.VC.backgroundId=bgId;
-        this.VC.bgOriginalWidth=$('.content-upper ul li img').first().attr("owidth");
-        this.VC.bgOriginalHeight=$('.content-upper ul li img').first().attr("oheight");
+        this.VC.bgOriginalWidth=$('.content-upper ul li a').first().attr("owidth");
+        this.VC.bgOriginalHeight=$('.content-upper ul li a').first().attr("oheight");
         
-        var temp=($('.content-upper ul li img').first().prop("src"));  //src of img clicked
+        var temp=($('.content-upper ul li a').first().css("background-image"));  //src of img clicked
+        temp = /^url\((['"]?)(.*)\1\)$/.exec(temp);
+        temp = temp ? temp[2] : "";
         temp = temp.replace("img/bgimgs/thumbs/", "img/bgimgs/");
         var str = temp,
         delimiter = '/',
@@ -227,7 +229,9 @@ CH.com={
         backgroundSelected = tokens.join(delimiter); //check this
         this.VC.dropbackground=backgroundSelected;
             
-        var bg=$('.content-upper ul li img').first().prop("src");
+        var bg=$('.content-upper ul li a').first().css("background-image");
+        bg = /^url\((['"]?)(.*)\1\)$/.exec(bg);
+        bg = bg ? bg[2] : "";
         var fileNameIndex = bg.lastIndexOf("/") + 1;
         var filename = bg.substr(fileNameIndex);
         CH.currentPackage.backgroundSelected=filename;
@@ -239,7 +243,7 @@ CH.com={
         this.VC.appendDesignBackgroundUploadBt(); //appending upload buttons
         this.appendDesignScreenButtons();
         
-        this.designImageClicked(".content-upper img");
+        this.designImageClicked(".content-upper ul li a");
         $("#chooseDesignNextButton").click(function(e){	
             if(CH.backgroundSelected!=null)
             {   
@@ -261,7 +265,9 @@ CH.com={
         $(selector).click(function(e){
             $(selector).css("border", "4px solid grey");
             $(this).css("border", "4px solid orange");
-            var temp=($(this).prop("src"));  //src of img clicked
+            var temp=($(this).css("background-image"));
+            temp = /^url\((['"]?)(.*)\1\)$/.exec(temp);
+            temp = temp ? temp[2] : "";  //src of img clicked
             
             temp = temp.replace("img/bgimgs/thumbs/", "img/bgimgs/");
                 
@@ -272,14 +278,16 @@ CH.com={
             
             backgroundSelected = tokens.join(delimiter);
             oThis.VC.dropbackground=backgroundSelected;
-            var bg=$(this).prop("src");
+            var bg=$(this).css("background-image");
+            bg = /^url\((['"]?)(.*)\1\)$/.exec(bg);
+            bg = bg ? bg[2] : "";
             var fileNameIndex = bg.lastIndexOf("/") + 1;
             var filename = bg.substr(fileNameIndex);
             CH.currentPackage.backgroundSelected=filename;
             CH.currentPackage.result=CH.currentPackage.backgroundSelected;
             CH.backgroundSelected=backgroundSelected;
             
-            var bgId=$(this).parent().parent().attr("id");
+            var bgId=$(this).parent().attr("id");
             bgId=bgId.substr(bgId.indexOf("_")+1,bgId.length);
             oThis.VC.backgroundId=bgId;
             oThis.VC.bgOriginalWidth=$(this).attr("owidth");
@@ -641,7 +649,7 @@ function restoreAll()
     $(".left").html("");
     $(".right").html("");
     //$(".tools").html("<div id='toolbarCommonAction' class='editor-icon' style='width: auto; height: 40px;'><button id='Save' class='form-editor-save'></button><button id='removeButton' class='form-editor-delete'></button><button id='UndoButton' class='form-editor-undo'></button><button id='RedoButton' class='form-editor-redo'></button><button id='CopyButton' class='form-editor-copy'></button><button id='PasteButton' class='form-editor-paste'></button><button id='ZoomIn' class='form-editor-zoomin'></button><button id='ZoomOut' class='form-editor-zoomout'></button></div><div id='toolbarImageAction' class='editor-icon1' style='width: auto; height: 35px;'><button id='addButton' class='form-editor-t'></button><button id='upphot' class='form-editor-cam'></button><button id='changebg' class='form-editor-f'></button></div><div  id='toolbarFontAction' class='form-editor' style='width: auto; height: 35px;'><select id='font1' name='font' class='form-editor-dropdown1'><option style='font-family: Arial;'>Arial</option><!--<option style='font-family: Tangerine;'>Tangerine</option>--><option style='font-family: Georgia;'>Georgia</option><option style='font-family: Verdana;'>Verdana</option><option style='font-family: Times New Roman;'>Times New Roman</option><!--<option style='font-family: Lucida Grande;'>Lucida Grande</option>--><option style='font-family: Lucida Sans Unicode;'>Lucida Sans Unicode</option><option style='font-family: Courier New;'>Courier New</option></select><select id='fontsize' name='font-size' class='form-editor-dropdown2'><option>10</option><option>12</option><option>14</option><option>16</option><option>18</option><option>20</option><option>22</option><option>24</option><option>28</option><option>32</option><option>38</option></select><input type='hidden' id='colpick' name='color1' class='color-picker' size='6' autocomplete='on' maxlength='10' /><button id='boldbutton' class='form-editor-btnb' ></button><button id='italicbutton' class='form-editor-btni'></button><button id='underlinebutton' class='form-editor-btnu' ></button><button id='Lalignbutton' class='form-editor-btnp1' ></button><button id='Calignbutton' class='form-editor-btnp2'></button><button id='Ralignbutton' class='form-editor-btnp3'></button></div><ul id='toolbarViewAction' class='editor-shape' style='width: 224px; height: 40px;'><li><div id='frontdivimg' class='toolbarBtn'><img src='img/images/shape1-editor.png' alt='shape1' />Front</div></li><li><div id='backdivimg' class='toolbarBtn'><img src='img/images/shape2-editor.png' alt='shape2' />Back</div></li><li><div id='leftdivimg' class='toolbarBtn'><img src='img/images/shape3-editor.png' alt='shape3' />Left</div></li><li><div id='rightdivimg' class='toolbarBtn'><img src='img/images/shape4-editor.png' alt='shape4' />Right</div></li><li><div id='clrpikr'><input type='hidden' id='colpickfordiv' name='color1' class='color-picker-for-background' size='6' autocomplete='on' maxlength='10' /></div></li></ul></form>");
-    $(".tools").html("<div id='toolbarCommonAction' class='editor-icon' style='width: auto; height: 40px;'><button id='Save' class='form-editor-save'></button><button id='removeButton' class='form-editor-delete'></button><button id='UndoButton' class='form-editor-undo'></button><button id='RedoButton' class='form-editor-redo'></button><button id='CopyButton' class='form-editor-copy'></button><button id='PasteButton' class='form-editor-paste'></button><button id='ZoomIn' class='form-editor-zoomin'></button><button id='ZoomOut' class='form-editor-zoomout'></button></div><div id='toolbarImageAction' class='editor-icon1' style='width: auto; height: 35px;'><button id='addButton' class='form-editor-t'></button><button id='upphot' class='form-editor-cam'></button><button id='changebg' class='form-editor-f'></button></div><div  id='toolbarFontAction' class='form-editor' style='width: auto; height: 35px;'><select id='font1' name='font' class='form-editor-dropdown1'><option style='font-family: Arial;'>Arial</option><!--<option style='font-family: Tangerine;'>Tangerine</option>--><option style='font-family: Georgia;'>Georgia</option><option style='font-family: Verdana;'>Verdana</option><option style='font-family: Times New Roman;'>Times New Roman</option><!--<option style='font-family: Lucida Grande;'>Lucida Grande</option>--><option style='font-family: Lucida Sans Unicode;'>Lucida Sans Unicode</option><option style='font-family: Courier New;'>Courier New</option></select><select id='fontsize' name='font-size' class='form-editor-dropdown2'><option>10</option><option>12</option><option>14</option><option>16</option><option>18</option><option>20</option><option>22</option><option>24</option><option>28</option><option>32</option><option>38</option></select><input type='hidden' id='colpick' name='color1' class='color-picker' size='6' autocomplete='on' maxlength='10' /><button id='boldbutton' class='form-editor-btnb' ></button><button id='italicbutton' class='form-editor-btni'></button><button id='underlinebutton' class='form-editor-btnu' ></button><button id='Lalignbutton' class='form-editor-btnp1' ></button><button id='Calignbutton' class='form-editor-btnp2'></button><button id='Ralignbutton' class='form-editor-btnp3'></button></div><ul id='toolbarViewAction' class='editor-shape' style='width: 224px; height: 40px;'><li><div id='frontdivimg' class='toolbarBtn'><img src='img/images/shape1-editor.png' alt='shape1' /></div></li><li><div id='backdivimg' class='toolbarBtn'><img src='img/images/shape2-editor.png' alt='shape2' /></div></li><li><div id='leftdivimg' class='toolbarBtn'><img src='img/images/shape3-editor.png' alt='shape3' />Left</div></li><li><div id='rightdivimg' class='toolbarBtn'><img src='img/images/shape4-editor.png' alt='shape4' />Right</div></li><li><div id='clrpikr'><input type='hidden' id='colpickfordiv' name='color1' class='color-picker-for-background' size='6' autocomplete='on' maxlength='10' /></div></li></ul></form>");
+    $(".tools").html("<div id='toolbarCommonAction' class='editor-icon' style='width: auto; height: 40px;'><button id='Save' class='form-editor-save'></button><button id='removeButton' class='form-editor-delete'></button><button id='UndoButton' class='form-editor-undo'></button><button id='RedoButton' class='form-editor-redo'></button><button id='CopyButton' class='form-editor-copy'></button><button id='PasteButton' class='form-editor-paste'></button><button id='ZoomIn' class='form-editor-zoomin'></button><button id='ZoomOut' class='form-editor-zoomout'></button></div><div id='toolbarImageAction' class='editor-icon1' style='width: auto; height: 35px;'><button id='addButton' class='form-editor-t'></button><button id='upphot' class='form-editor-cam'></button><button id='changebg' class='form-editor-f'></button></div><div  id='toolbarFontAction' class='form-editor' style='width: auto; height: 35px;'><select id='font1' name='font' class='form-editor-dropdown1'><option style='font-family: Arial;'>Arial</option><!--<option style='font-family: Tangerine;'>Tangerine</option>--><option style='font-family: Georgia;'>Georgia</option><option style='font-family: Verdana;'>Verdana</option><option style='font-family: Times New Roman;'>Times New Roman</option><!--<option style='font-family: Lucida Grande;'>Lucida Grande</option>--><option style='font-family: Lucida Sans Unicode;'>Lucida Sans Unicode</option><option style='font-family: Courier New;'>Courier New</option></select><select id='fontsize' name='font-size' class='form-editor-dropdown2'><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option><option>13</option><option>14</option><option>15</option><option>16</option></select><input type='hidden' id='colpick' name='color1' class='color-picker' size='6' autocomplete='on' maxlength='10' /><button id='boldbutton' class='form-editor-btnb' ></button><button id='italicbutton' class='form-editor-btni'></button><button id='underlinebutton' class='form-editor-btnu' ></button><button id='Lalignbutton' class='form-editor-btnp1' ></button><button id='Calignbutton' class='form-editor-btnp2'></button><button id='Ralignbutton' class='form-editor-btnp3'></button></div><ul id='toolbarViewAction' class='editor-shape' style='width: 224px; height: 40px;'><li><div id='frontdivimg' class='toolbarBtn'><img src='img/images/shape1-editor.png' alt='shape1' /></div></li><li><div id='backdivimg' class='toolbarBtn'><img src='img/images/shape2-editor.png' alt='shape2' /></div></li><li><div id='leftdivimg' class='toolbarBtn'><img src='img/images/shape3-editor.png' alt='shape3' />Left</div></li><li><div id='rightdivimg' class='toolbarBtn'><img src='img/images/shape4-editor.png' alt='shape4' />Right</div></li><li><div id='clrpikr'><input type='hidden' id='colpickfordiv' name='color1' class='color-picker-for-background' size='6' autocomplete='on' maxlength='10' /></div></li></ul></form>");
     CH.backgroundSelected=null;
     CH.currentPackage=null;
     CH.isFillingAndFormatSelected=false;
@@ -704,8 +712,10 @@ function loadAddressFromAddressScreen(){
 }
 
 function putAddressIndd()
-{   
-    
+{   if(CH.currentPackage.packageId == "2"){
+        $("#color_optionPanel").show();
+        $(".color-picker-for-basic-package").miniColors();
+    }
     $(".screens").hide();
     $("#content-chooseaddresshtml").show();
     backButtons();
@@ -713,20 +723,32 @@ function putAddressIndd()
     $(".nav6bar ul #fourth").prop("class","fourth active");
     $("#dd_addressType").unbind("change");
     $("#dd_addressType").change(function(){
-       /* if($(this).prop("selectedIndex")==0){
-            $("#addressDivindd_bg").hide();//zain
+        if($(this).prop("selectedIndex")==0){
+            /*$("#addressDivindd_bg").hide();//zain
             $("#dd_bgaddress1input").val("werbungxyz");
             $("#dd_bgaddress2input").val("78xyz");
             $("#dd_bgtelephoneinput").val("+49 (0) 7643 80 10");
             $("#dd_bgwebsiteinput").val("www.werbungxyz.com");
             $("#addressDivindd_bg input").attr("readonly", true);//zain
-            //CH.isCompanyAddress=true;
+            //CH.isCompanyAddress=true;*/
+            $("#addressPageCompanyName").val("Kalfany Süße Werbung GmbH & Co. KG");
+            $("#addressPageCompanyName").prop('disabled', true);
+            $("#addressPageRoad").val("Holzmattenstraße 22");
+            $("#addressPageRoad").prop('disabled', true);
+            $("#addressPageZipCode").val("D-79336 Herbolzheim");
+            $("#addressPageZipCode").prop('disabled', true);
         }else{
+            $("#addressPageCompanyName").val("");
+            $("#addressPageCompanyName").prop('disabled', false);
+            $("#addressPageRoad").val("");
+            $("#addressPageRoad").prop('disabled', false);
+            $("#addressPageZipCode").val("");
+            $("#addressPageZipCode").prop('disabled', false);
             $("#addressDivindd_bg input").val("");
             $("#addressDivindd_bg").show();
             $("#addressDivindd_bg input").removeAttr("readonly");//zain
             //CH.isCompanyAddress=false;
-        }*/
+        }
     });
     
     $("#dd_addressType").prop("selectedIndex",0);
@@ -917,6 +939,7 @@ function comingToBack(pckg) {
     $("#epsbutton").hide();
     $('#frontdivimg').show();
     $('#backdivimg').show();
+    //$('#backdivimg').hide();
     fitBackground(CH.currentPackage.dropbackground);
     CH.currentPackage.showLeftAndRightSide();
     $(".left").hide();
@@ -955,6 +978,7 @@ function comingToFront(pckg)
     $(".tridiv").show();
     $('#frontdivimg').show();
     $('#backdivimg').show();
+    //$('#backdivimg').hide();
     CH.currentPackage.preparingFront();
     
     CH.currentPackage.currentSide="Front";

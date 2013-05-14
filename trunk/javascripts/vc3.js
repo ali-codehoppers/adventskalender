@@ -643,6 +643,8 @@ CH.VC3={
         $("#rightdivimg").parent().remove();
         $("#backdivimg").parent().remove();
         $("#frontdivimg").parent().remove();
+        $("#clrpikrOption1").parent().remove();
+        $("#clrpikrOption2").parent().remove();
         $("#textForSidecolor").remove();
         
         if(CH.language=="english")

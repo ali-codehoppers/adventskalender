@@ -348,6 +348,8 @@ CH.VC1={
         $("#leftdivimg").parent().remove();
         $("#rightdivimg").parent().remove();
         $("#clrpikr").parent().remove();
+        $("#clrpikrOption1").parent().remove();
+        $("#clrpikrOption2").parent().remove();
         $("#changebg").remove();
         //$("#ZoomIn").remove();
         //$("#ZoomOut").remove();
