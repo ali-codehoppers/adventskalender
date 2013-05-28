@@ -26,7 +26,7 @@ CH.VC1={
         CH.VC3.deinitialize();
         //this.initOrderAdventKalender();
         this.initButtonToChangeBackground();
-        this.initPreBackgroud();    
+        this.initPreBackgroud();
         this.toBack();
         this.toFront();
         makeBack();
@@ -38,15 +38,15 @@ CH.VC1={
         this.initSave();
         this.back=new Array();
         this.initZoomFunction();
-        
+
         $(".address-tittle-txt h1").html("Enter Text For Front Side");
     },
-    
+
     showLeftAndRightSide:function()
     {
-        
+
     },
-    
+
     preparingFront:function(){
         $( ".tools button" ).prop("disabled","disabled");
         $( ".tools #changebg" ).prop("disabled","disabled");
@@ -58,10 +58,10 @@ CH.VC1={
         $( ".tools #ZoomIn" ).css("opacity","1");
         $( ".tools #ZoomOut" ).prop("disabled","");
         $( ".tools #ZoomOut" ).css("opacity","1");
-        
+
     },
-    
-    /*here from the next here change is only initfillingnextbutton*/ 
+
+    /*here from the next here change is only initfillingnextbutton*/
     /*initFormatChange:function(){
         var oThis=this;
         $("#changeFillingsStandard").change(function(){
@@ -86,7 +86,7 @@ CH.VC1={
                 }
                 oThis.initFillingSelect();
                 oThis.initFillingNextButton();
-                
+
             },
             error:function(a,b,c){
                 alert("error");
@@ -97,16 +97,16 @@ CH.VC1={
         var oThis=this;
         $('#formatFillingNextButton').unbind("click");
         $('#formatFillingNextButton').click(function() {
-            if($('.filling-radio').is(':checked'))// && $('.format-radio').is(':checked')) 
-            {   
+            if($('.filling-radio').is(':checked'))// && $('.format-radio').is(':checked'))
+            {
                 $("#backgroundsForEachPackage ul").html("");
                 oThis.formatId=$("#changeFillingsStandard").val();
                 $(".screens").hide();
                 $("#content-choosedesignhtml").show();
                 oThis.putBackGroundInInitialscreen();
-            }						
+            }
         });
-        
+
     },
     initFillingSelect:function(){
         var oThis=this;
@@ -118,7 +118,7 @@ CH.VC1={
             oThis.fillingId=fillingId;
         });
     },*/
-    
+
     /*here*/
     initZoomFunction:function()
     {
@@ -128,7 +128,7 @@ CH.VC1={
         $("#ZoomOut").click(function(){
             zoomOutFunction();
         });
-        
+
     },
     initialScreenTwo:function(){
         $(".screens").hide();
@@ -145,8 +145,8 @@ CH.VC1={
         CH.com.VC=this;
         CH.com.getFormats();
         CH.selected=1;
-        
-    }, 
+
+    },
     /*initPagination:function(selector,totalItems){
         $(selector).pagination({
             items: totalItems,
@@ -204,12 +204,12 @@ CH.VC1={
                 packageType:1
             },
             success:function(data){
-                $('#changeFillingsStandard').html(data);    
+                $('#changeFillingsStandard').html(data);
                 oThis.initFormatChange();
-            } 
+            }
         });
     },
-    
+
     getPageContent:function(placingSelector,pageNum){
         var oThis=this;
         $.ajax({
@@ -231,9 +231,9 @@ CH.VC1={
         });
     },*/
 /*main changes are till here*/
-    
+
     initMakeShape:function(){
-        
+
         $(".drop").find(".shapeOfAC").remove();
         $(".back").find(".shapeOfAC").remove();
         $(".left").find(".shapeOfAC").remove();
@@ -264,9 +264,9 @@ CH.VC1={
             $(".right").append(test);
         }
     },
-     
+
     initializeAndSetActiveButtons:function(){
-       
+
         CH.VC1.init();
         $(".nav ul #first").prop("class","first");
         $(".nav ul #middle").prop("class","middle");
@@ -278,7 +278,7 @@ CH.VC1={
         //$( ".tools #changebg" ).css("opacity","1");
         $( ".tools #Save" ).prop("disabled","");
         $( ".tools #Save" ).css("opacity","1");
-        $("#sidebuttons").append("<button name='addtext' class='toolbarViewBtn'  id='frontdivimg'><img src='img/imagesapp/front_view.png' width='18' alt='Front View' /></button><button name='addtext' class='toolbarViewBtn'  id='backdivimg'><img src='img/imagesapp/back_view.png' width='18' alt='Back View' /></button>");
+        $("#sidebuttons").append("<button name='addtext' class='toolbarViewBtn'  id='frontdivimg'><img src='img/imagesapp/front_view.png' width='18' alt='Front View' /></button><button name='addtext' class='toolbarViewBtn' id='backdivimg'><img src='img/imagesapp/back_view.png' width='18' alt='Back View' /></button>");
         CH.VC1.toBack();
         CH.VC1.toFront();
         $( "#epsbutton" ).prop("disabled","");
@@ -288,10 +288,10 @@ CH.VC1={
         $( ".tools #ZoomOut" ).prop("disabled","");
         $( ".tools #ZoomOut" ).css("opacity","1");
         $("#toolbarImageAction").hide();
-       
+
     },
-    
-    
+
+
     deinitialize:function(){
         $(".back").remove();
         $(".probtn").unbind("click");
@@ -308,18 +308,18 @@ CH.VC1={
         $("#Save").unbind("click");
         $("#saveAndSend").unbind("click");
     },
-    
+
     initPreviewEps:function(){
         var oThis=this;
         $("#epsbutton").click(function(){
             buttonToUnactivestate();
             //$(".nav6bar ul #sixth").prop("class","sixth active");
-    
+
             $("#previeweps").dialog("destroy");
             CH.VC1.saveState("prev");
         });
     },
-    
+
     toBack:function() {
         var oThis=this;
         $("#backdivimg").click(function(){
@@ -328,8 +328,9 @@ CH.VC1={
             comingToBack(CH.VC1.packagename);
         });
     },
-    
+
     toFront:function(){
+        $('#backdivimg').parent().remove();
         var oThis=this;
         $("#frontdivimg").click(function(){
             comingToFront(CH.VC1.packagename);
@@ -353,11 +354,11 @@ CH.VC1={
         $("#changebg").remove();
         //$("#ZoomIn").remove();
         //$("#ZoomOut").remove();
-        
-    
+
+
     },
     initPreBackgroud:function() {
-        
+
         var oThis=this;
         $("#predefinebg").click(function(){
             $("#addressdiv").hide();
@@ -365,12 +366,12 @@ CH.VC1={
             CH.VC1.putBackGroundIndd();
         });
     },
-    
+
     initButtonToChangeBackground:function(){  //change background
         var oThis=this;
         $("#toolbarImageAction #changebg").unbind("click");
         $("#toolbarImageAction #changebg").click(function() {
-            CH.VC1.changeBackground();    
+            CH.VC1.changeBackground();
         });
     },
 
@@ -399,10 +400,10 @@ CH.VC1={
                         //var url = "url(./img/imagesapp/loading.gif?"+Math.random()+")";
                         //$('.drop').css('background-image', url);//     .html('<img src="img/imagesapp/loading.gif" alt="Uploading...."/>');
                         $("#imageform2").ajaxForm({
-                            success:function(responseText, statusText, xhr, $form) { 
+                            success:function(responseText, statusText, xhr, $form) {
                                 var src=responseText.split(',')[0];
                                 var success=responseText.split(',')[1];
-                                if(success[0]=="1")   
+                                if(success[0]=="1")
                                 {
                                     $("#divLoad").dialog("close");
                                     //$('.back').css('background-image', 'url()');
@@ -420,7 +421,7 @@ CH.VC1={
                                 else if(success[0]=="0"){
                                     alert("Please select a small image or see if the image extension is correct");
                                 }
-                            } 
+                            }
                         }).submit();
                         $( this ).dialog( "close" );
                     }
@@ -437,7 +438,7 @@ CH.VC1={
         var oThis=this;
         $("#Save").unbind("click");
         $("#Save").click(function () {
-            oThis.saveState("save");           
+            oThis.saveState("save");
         });
     },
     initOrderAdventKalender:function(){
@@ -451,7 +452,7 @@ CH.VC1={
                 $(".nav5bar ul #fifth").prop("class","fifth active");
                 if(CH.language=="english")
         {
-        
+
             $("#orderPageButtonDiv").html("<input id='saveAndSend' class='next-button' style='float:right;' type='button' value='SEND REQUEST' name='submit'><input id='orderBackButton' type='button' name='submit' class='next-button' value='BACK' />");
         }
         else if(CH.language=="dutch")
@@ -461,23 +462,23 @@ CH.VC1={
         backButtons();
         oThis.initSaveAndSend();
         });
-        
+
     },
     initSaveAndSend:function(){
         var oThis=this;
         $("#saveAndSend").unbind("click");
         $("#saveAndSend").click(function () {
-            oThis.saveState("save");           
+            oThis.saveState("save");
         });
-        
+
     },
-    
+
     saveState:function(state){
         var empty;
         traverseBack();
         this.sideColor=$("#clrpikr input").val();
         //alert("side color: "+this.sideColor+"and format is: "+this.formatName+"and the filling is"+this.fillingName);
-        
+
         var obj={
             "triangle":empty,
             "backSide":this.back,
@@ -491,7 +492,7 @@ CH.VC1={
         window.console.log("a="+JSON.stringify(obj));
         this.tosave=JSON.stringify(obj);
         $("#divLoad").dialog("open");
-        $.ajax({ 
+        $.ajax({
             type: "POST",
             url: "basicFunctions.php",
             data: {
@@ -503,8 +504,8 @@ CH.VC1={
                 $('form#submit').hide(function(){
                     $('div.success').fadeIn();
                 });
-                
-                
+
+
                 var salutation=$("#orderPageSalutation").val();
                 var lastName=$("#orderPageLastName").val();
                 var firstName=$("#orderPageFirstName").val();
@@ -513,10 +514,10 @@ CH.VC1={
                 var zipCode=$("#orderPageZipCode").val();
                 var place=$("#orderPagePlace").val();
                 var desiredAmount=$("#orderPageDesiredAmount").val();
-                
-                
-                
-                $.ajax({ 
+
+
+
+                $.ajax({
                     type: "POST",
                     url: "execjar.php",
                     data: {
@@ -528,10 +529,10 @@ CH.VC1={
                 zipCode:zipCode,
                 place:place,
                 desiredAmount:desiredAmount
-                
+
                     },
                     success: function(data){
-                        if(state=="prev"){  
+                        if(state=="prev"){
                             var imgEPS = new Image();
                             imgEPS.onload=function(){
                                 $("#previeweps").dialog({
@@ -547,26 +548,27 @@ CH.VC1={
                             };
                             if(CH.VC1.currentSide=="Front")
                                 imgEPS.src='./EPSIMAGE/Front_EPS_'+data+'.png';
-                            /*else 
+                            /*else
                                 imgEPS.src='./EPSIMAGE/Back_EPS_'+data+'.png';
                             $("#previeweps").html(imgEPS);*/
                         }else if(state=="save"){
                             //window.location.pathname="/adventscalender/EPSIMAGE/Front_EPSImage_"+data+".eps";
-                            window.location.pathname="/adventscalender/EPSIMAGE/outfile_"+data+".zip";
+                            //window.location.pathname="/adventscalender/EPSIMAGE/outfile_"+data+".zip";
+                            window.location.pathname="/adventscalender/EPSIMAGE/Front_EPS_"+data+".pdf";
                             $("#divLoad").dialog("close");
                         }
                     }
                 });
             }
-        });  
+        });
     },
-    
-    putBackGroundInInitialscreen:function() 
+
+    putBackGroundInInitialscreen:function()
     {   //load design n make canvas are is in common
         //var oThis=this;
         //loadDesigns(oThis,oThis.packageId,oThis.fillingId);
         //makeCanvas(); check1 check this what it does
     },
     appendDesignBackgroundUploadBt:function(){/*dont delete*/}
-    
+
 }

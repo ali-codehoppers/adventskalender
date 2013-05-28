@@ -57,7 +57,7 @@ CH.VC2={
         this.initImageEdit();
         this.initDrag();
         this.initHideCornerButtons();
-        this.initEditInPlace();    
+        this.initEditInPlace();
         this.initPreviewEps();
         this.initEditableDiv();
         this.toBack();
@@ -78,7 +78,7 @@ CH.VC2={
         this.initZoomFunction();
         this.initResizeForImage();
         this.initrotatedivs();
-        
+
         backButtons()
         makeBack();
         matchAddressFromBack();
@@ -89,12 +89,18 @@ CH.VC2={
     initUpdateAddress:function()
     {
         $("#addressDivonback input").change(function(){
-            $("#addressPageCompanyName").val($("#deskPageCompanyNameInput").val());
-            $("#addressPageRoad").val($("#deskPageRoadInput").val());
-            $("#addressPageZipCode").val($("#deskPageZipCodeInput").val());
-            $("#addressPagePhoneNumber").val($("#deskPagePhoneNumberInput").val());
-            $("#addressPageEMail").val($("#deskPageEMailInput").val());
-            $("#addressPageWebsite").val($("#deskPageWebsiteInput").val());
+            var addressType="company";
+            $('input:radio[name="addressType"][value="company_address"]').prop('checked', true);
+            if($("#selectedAddressType").val()!="company_address"){
+                addressType="home";
+                $('input:radio[name="addressType"][value="home_address"]').prop('checked', true);
+            }
+            $("#"+addressType+"AddressPageCompanyName").val($("#deskPageCompanyNameInput").val());
+            $("#"+addressType+"AddressPageRoad").val($("#deskPageRoadInput").val());
+            $("#"+addressType+"AddressPageZipCode").val($("#deskPageZipCodeInput").val());
+            $("#"+addressType+"AddressPagePhoneNumber").val($("#deskPagePhoneNumberInput").val());
+            $("#"+addressType+"AddressPageEMail").val($("#deskPageEMailInput").val());
+            $("#"+addressType+"AddressPageWebsite").val($("#deskPageWebsiteInput").val());
         });
     },
     initRemoveUnusedButton:function()
@@ -116,7 +122,7 @@ CH.VC2={
     },
     showLeftAndRightSide:function()
     {
-        
+
     },
     initZoomFunction:function()
     {
@@ -126,7 +132,7 @@ CH.VC2={
         $("#ZoomOut").click(function(){
             zoomOutFunction();
         });
-        
+
     },
     initBtColorPickerForbackground:function(){
         var oThis=this;
@@ -156,7 +162,7 @@ CH.VC2={
         });
     },
     preparingFront:function(){
-     
+
         $( ".tools button" ).prop("disabled","disabled");
         $( ".tools button" ).css("opacity","0.5");
         $( ".tools select" ).prop("disabled","disabled");
@@ -175,15 +181,18 @@ CH.VC2={
         $( "#fontsize" ).prop("disabled","");
         $( "#fontsize" ).css("opacity","1");
     },
+    initOrderBeforeSave:function(){
+        for(var i=1;i<=CH.VC2.totalcount;i++)
+        {
+            CH.VC2.getXAndYPosition("#demobs"+i+"");
+        }
+        CH.VC2.beforeSaveState();
+    },
     initOrderAdventKalender:function(){
         var oThis=this;
         $("#OrderAdventKalender").unbind("click");
         $("#OrderAdventKalender").click(function () {
-            for(var i=1;i<=CH.VC2.totalcount;i++)
-            {
-                CH.VC2.getXAndYPosition("#demobs"+i+"");
-            }
-            CH.VC2.beforeSaveState();
+            oThis.initOrderBeforeSave();
             $(".screens").hide();
             $("#content-orderAdventKalenderhtml").show();
             buttonToUnactivestate();
@@ -215,9 +224,9 @@ CH.VC2={
         CH.com.VC=this;
         CH.com.getFormats();
         //CH.VC2.getFormats();
-        CH.selected=1;           
-    }, 
-    initMakeShape:function(){ 
+        CH.selected=1;
+    },
+    initMakeShape:function(){
         $(".drop").find(".shapeOfAC").remove();
         $(".back").find(".shapeOfAC").remove();
         $(".left").find(".shapeOfAC").remove();
@@ -264,7 +273,7 @@ CH.VC2={
                 var left=temp[1]+'px';
                 var width=temp[2]+'px';
                 var height=temp[3]+'px';
-                
+
                 var AddressBottom=temp[4]+'px';
                 var AddressLeft=temp[5]+'px';
                 var AddressWidth=temp[6]+'px';
@@ -275,13 +284,13 @@ CH.VC2={
                 //window.console.log(width);
                 //window.console.log(" ");
                 //window.console.log(height);
-                $(".drop").append("<div class='overlaydb' style='bottom:"+bottom2+"; left:"+left+"; width:"+width+"; height:"+height+";'></div>");                
+                $(".drop").append("<div class='overlaydb' style='bottom:"+bottom2+"; left:"+left+"; width:"+width+"; height:"+height+";'></div>");
                 $("#drop").append("<div id='addressOverlay' style='position:absolute; background-color: white; border: 2px dashed black; bottom:"+AddressBottom+"; height:"+AddressHeight+"; width:"+AddressWidth+"; left:"+AddressLeft+"; font-size:3pt; transform: rotate("+AddressRotation+"); -webkit-transform: rotate("+AddressRotation+"); -moz-transform: rotate("+AddressRotation+"); -o-transform: rotate("+AddressRotation+"); -ms-transform: rotate("+AddressRotation+");'><span>Company:"+$("#addressPageCompanyName").val()+" Road:"+ $("#addressPageRoad").val()+" Zip:"+ $("#addressPageZipCode").val()+" PH#:"+$("#addressPagePhoneNumber").val() +" Email:"+$("#addressPageEMail").val() +" Web:"+$("#addressPageWebsite").val() +"</span></div>");
                 oThis.populateOverlayItem()
             }
-        }); 
+        });
     },
-    initializeAndSetActiveButtons:function(){ 
+    initializeAndSetActiveButtons:function(){
         CH.VC2.init();
         $(".nav ul #first").prop("class","first");
         $(".nav ul #middle").prop("class","middle");
@@ -298,7 +307,7 @@ CH.VC2={
         //$("#sidebuttons").append("<button name='addtext' class='toolbarViewBtn'  id='frontdivimg'><img src='img/imagesapp/front_view.png' width='18' alt='Front View' /></button><button name='addtext' class='toolbarViewBtn'  id='backdivimg'><img src='img/imagesapp/back_view.png' width='18' alt='Back View' /></button>");
         CH.VC2.toBack();
         CH.VC2.toFront();
-        $( "#epsbutton" ).prop("disabled",""); 
+        $( "#epsbutton" ).prop("disabled","");
         $( "#epsbutton" ).css("opacity","1");
         $( "#toolbarFontAction button" ).prop("disabled","");
         $( "#toolbarFontAction button" ).css("opacity","1");
@@ -338,7 +347,7 @@ CH.VC2={
         $("#saveAndSend").unbind("click");
         CH.VC2.count=0;
     },
-    initRelBtRotate:function(){    //display corner buttons  
+    initRelBtRotate:function(){    //display corner buttons
         $(".drop").unbind("mouseup");
         $(".drop").mouseup(function (e){
             $("#demobs".sDiv+" .drag-image").show();
@@ -368,7 +377,7 @@ CH.VC2={
         });
     },
 
-    
+
     getXAndYPosition:function(proDivId){   //proDivId is div name
         var obj=document.getElementById("drop");
         var curtop=0;
@@ -416,7 +425,7 @@ CH.VC2={
             CH.VC2.items[CH.VC2.findItem(temp)].width=$(proDivId+" span").width()+"";
         }
     },
-    
+
     initDestroyDrop:function(){
         $('.drop').empty();
         this.counter=0;
@@ -437,7 +446,7 @@ CH.VC2={
             comingToFront(CH.VC2.packagename);
         });
     },
-    initFontFam:function() {  
+    initFontFam:function() {
         $('#fontList li').click(
             function(){
                 var chosen = $(this).index();
@@ -450,7 +459,7 @@ CH.VC2={
                 $(this).addClass('selected');
             });
     },
-    
+
     initEditInPlace:function() {
     /*var oThis=this;
         $('span').live('dblclick', function() {
@@ -464,7 +473,7 @@ CH.VC2={
             .empty()
             .append("<input type='text' id='input2' style='background-color:transparent; width:"+divwid+";' value='" + tartalom + "'>")
             .addClass('inputMode');
-            
+
             $("#input2").unbind("focusout");
             $("#input2").focusout(function() {
                 $(this).parent().html($(this).val()).removeClass('inputMode');
@@ -473,7 +482,7 @@ CH.VC2={
             });
         });*/
     },
-    
+
     destroyDragResize:function(){
     //$(".drop div div").draggable( "destroy" );
     //$(".drop div div").resizable( "destroy" );
@@ -484,7 +493,7 @@ CH.VC2={
         $(".drop div div .delete-image").hide();
         $(".drop div div .drag-image").hide();
     },
-    
+
     initSelection:function(){
         var oThis=this;
         $(".drop div div").mousedown(function(e){
@@ -575,7 +584,7 @@ CH.VC2={
                     fontsizes[this.text] = this.value;
                 }
             });
-            $("#fontsize").val(temp2);            
+            $("#fontsize").val(temp2);
         //CH.VC3.initResizeForText();
         }
         else
@@ -588,9 +597,9 @@ CH.VC2={
         //$(this.sDiv+" .rotate-image").show();
         $(this.sDiv+" .drag-image").show();
         $(this.sDiv+" .delete-image").show();
-        
+
         this.selecteditem =CH.VC2.findItem( (this.sDiv).substring(1) );
-        
+
         CH.VC2.dragTheDiv();
         if($(this.sDiv).children().children().prop("class")!="preview")
             CH.VC2.doubleclickEditorForText();
@@ -681,15 +690,15 @@ CH.VC2={
             }
         });
     },
-    
+
     initUnselect:function(){
         var oThis=this;
         $(".drop").unbind("click");
         $(".drop").click(function(e) {
-            oThis.unselectElement(e);       
+            oThis.unselectElement(e);
         });
     },
-    
+
     unselectElement:function(e){
         if($(e.target).prop("id")=="drop")
         {
@@ -708,7 +717,7 @@ CH.VC2={
                 return i;
             }
         }
-        return -1;  
+        return -1;
     },
 
     initUploadPic:function(){
@@ -718,7 +727,7 @@ CH.VC2={
             oThis.addImage();
         });
     },
-  
+
     addImage:function(){
         var oThis=this;
         var itemsLength=$(".demobs").length;
@@ -746,8 +755,8 @@ CH.VC2={
                         $(".drop #demobs"+CH.VC2.idCounter+" .delete-image").hide();
                         $(".drop #demobs"+CH.VC2.idCounter+" .drag-image").hide();
                         $(".drop #demobs"+CH.VC2.idCounter+" .rotate-image").hide();
-                        
-                        
+
+
                         //$(".drop #demo"+CH.VC3.idCounter+" span").css("display","inline-block");
                         $(".drop #demobs"+CH.VC2.idCounter+" span").html('<img src="img/imagesapp/loading.gif" alt="Uploading...."/>');
                         $(".drop #demobs"+CH.VC2.idCounter+" span img").attr("style", "max-width: 100%");
@@ -755,24 +764,24 @@ CH.VC2={
                             success:oThis.showResponse
                         //target: $(".drop #demo"+CH.VC3.idCounter+" span")
                         }).submit();
-                        
+
                         $( this ).dialog( "close" );
-                    
+
                     }
                     else{
                         $( this ).dialog( "close" );
                         alert("Please Select jpg or png image to upload");
                         CH.VC2.addImage();
                     }
-                }    
+                }
             }
         });
     },
-    showResponse:function (responseText, statusText, xhr, $form)  { 
+    showResponse:function (responseText, statusText, xhr, $form)  {
         var data=responseText.split(",");
         if(data[0]=="1"){
             $(".drop #demobs"+CH.VC2.idCounter+" span").html(data[3]);
-            
+
             var width = data[1];
             var height = data[2];
             var asp=width/height;
@@ -808,18 +817,18 @@ CH.VC2={
             alert("unable to load image: "+data[1]);
             $("#demo"+CH.VC2.idCounter).remove();
         }
-    }, 
- 
+    },
+
     initBtAddField:function(){
         var oThis=this;
         $("#addButton").unbind("click");
         $("#addButton").click(function () {
             oThis.undoflag=0
             oThis.html=0
-            oThis.addField(oThis.undoflag,oThis.html);           
+            oThis.addField(oThis.undoflag,oThis.html);
         });
     },
-    
+
     addField:function(flag,html){
         var oThis=this;
         var itemsLength=$(".demobs").length;
@@ -846,7 +855,7 @@ CH.VC2={
                 CH.VC2.getXAndYPosition("#demobs"+CH.VC2.idCounter);
                 CH.VC2.selectElement("#demobs"+CH.VC2.idCounter);
             //CH.VC2.items[CH.VC2.selecteditem].fontcolor=$("#colpickfordivOption1").val();
-    
+
             }
             oThis.initSelection();
             oThis.initDrag();
@@ -856,9 +865,9 @@ CH.VC2={
         // CH.VC2.initTextOfLeftOfFrontSideChange();
         }
     },
-    
-    
-    
+
+
+
     initBtRemField:function(){
         var oThis=this;
         $("#removeButton").unbind("click");
@@ -870,14 +879,14 @@ CH.VC2={
         $(".drop div .delete-image").click(function () {
             oThis.removeField(CH.VC2.items[CH.VC2.findItem(oThis.sDiv.substring(1))],oThis.undoflag);
         });
-   
+
     },
 
-    removeField:function(item,flag){   
+    removeField:function(item,flag){
         if($(".demobs").length==0){
             alert("No more textbox to remove");
             return false;
-        }   
+        }
         else{
             var it={};
             $.extend(it,item);
@@ -890,7 +899,7 @@ CH.VC2={
         //CH.VC2.initTextOfLeftOfFrontSideChange();
         }
     },
-    
+
     initBtEditField:function(){
         var oThis=this;
         $(".drop div div").unbind("dblclick");
@@ -908,7 +917,7 @@ CH.VC2={
             return
         });
     },
-    
+
     doubleclickEditorForText:function(){
         var oThis=this;
         if ($(oThis.sDiv).children(" span").hasClass('inputMode')) {
@@ -930,7 +939,7 @@ CH.VC2={
             {
                 temp3 = temp3.substring(1, temp3.length-1);
             }
-            
+
             var divwid=$(this.sDiv).css("width");
             divwid = divwid.substring(0, divwid.length-2);
             // divwid=divwid-45;
@@ -945,11 +954,11 @@ CH.VC2={
                 CH.VC2.items[CH.VC2.findItem(oThis.sDiv.substring(1))].innertxt=$(this).val();
                 //populateLeftBarOnFront();
                 //CH.VC2.initTextOfLeftOfFrontSideChange();
-            
+
                 return false;
             });
         }
-        
+
     /*var oThis=this.sDiv+" span";
         if ($(this.sDiv).children(" span").hasClass('inputMode')) {
             window.console.log($(this.sDiv).children(" span").prop("id"));
@@ -958,7 +967,7 @@ CH.VC2={
         var tartalom = $(this.sDiv).children(" span").html();
         var undo=new CH.undoredo;//
         this.undos.push(undo);//
-        this.undos[this.undos.length-1].lastvalue=tartalom;//        
+        this.undos[this.undos.length-1].lastvalue=tartalom;//
         this.undos[this.undos.length-1].id=("#"+$(this.sDiv).prop("id"))//
         var divwid=$(this.sDiv).children(" span").width()+20;
         $(this.sDiv).children(" span")
@@ -972,10 +981,10 @@ CH.VC2={
             CH.VC2.items[index-1].innertxt=$(this).val();//
             CH.VC2.undos[CH.VC2.undos.length-1].nextvalue=$(this).val();//
             CH.VC2.undos[CH.VC2.undos.length-1].lastaction="Edit";//
-            return false;                    
+            return false;
         });*/
     },
-	
+
     initImageEdit:function(){
         var oThis=this;
         $(".drop div div span .preview").unbind("dblclick");
@@ -985,12 +994,12 @@ CH.VC2={
             oThis.editCropImage(this);
         });
     },
-    
+
     editCropImage:function(img){
         var oThis=this;
         if($(img).prop("id")=="upimg_crop")
         {
-            alert("Cannot crop an image more than once!");    
+            alert("Cannot crop an image more than once!");
         }
         else{
             var temp=($(img).prop("src"));
@@ -1019,7 +1028,7 @@ CH.VC2={
                 buttons: {
                     Crop: function() {
                         var imgs=($(img).prop('src'));
-                        var url=$("#target img").prop('src');       
+                        var url=$("#target img").prop('src');
                         oThis.filename = url.substring(url.lastIndexOf('/')+1);
                         oThis.filename="./uploads/"+oThis.filename;
                         var ext =("."+oThis.filename.split('.').pop());
@@ -1042,14 +1051,14 @@ CH.VC2={
                                 $(img).load(function(){
                                     var index=CH.VC2.findItem(oThis.sDiv.substr(1));
                                     CH.VC2.items[index].width=$(oThis.sDiv).width();
-                                    CH.VC2.items[index].height=$(oThis.sDiv).height();   
+                                    CH.VC2.items[index].height=$(oThis.sDiv).height();
                                 //window.console.log(CH.VC3.items[index].width+"*"+CH.VC3.items[index].height);
-                                    
+
                                 });
                                 //alert(oThis.sDiv);
-                                
+
                                 //var index=($(oThis.sDiv).prop("id")).substr($(oThis.sDiv).prop("id").length-1);//
-                                
+
                                 //alert(findItem("demobs1"));
                                 var index=CH.VC2.findItem(oThis.sDiv.substr(1));
                                 var tempPreviousPath=(CH.VC2.items[index].innertxt);
@@ -1074,19 +1083,19 @@ CH.VC2={
                                         newName:tempNewPath
                                     }
                                 });
-                            //here                    
+                            //here
                             }
                         });
-                        oThis.jcrop_api.destroy();    
+                        oThis.jcrop_api.destroy();
                         $( this ).dialog( "close" );
-                        
-                        
+
+
                     }
                 }
             });
         }
     },
-  
+
     updateCoords:function(c)
     {
         var oThis=this;
@@ -1099,15 +1108,15 @@ CH.VC2={
         alert('Please select a crop region then press submit.');
         return false;
     },
-  
+
     initDrag:function(){
         var oThis=this;
         $(".drag-image").unbind("mousedown");
         $(".drag-image").mousedown(function(){
-            oThis.dragTheDiv();    
+            oThis.dragTheDiv();
         });
     },
-    
+
     dragTheDiv:function(){
         var oThis=this;
         //this.destroyDragResize();
@@ -1135,10 +1144,10 @@ CH.VC2={
                     $(oThis.sDiv).removeClass("errorHighlight");
                     $(oThis.sDiv).addClass("highlight");
                 }
-            }        
+            }
         }) ;
     },
-    
+
     putBackGroundInInitialscreen:function(bannertemphtml) //initial wallpaper selection
     {
         var oThis=this;
@@ -1149,14 +1158,14 @@ CH.VC2={
         var oThis=this;
         $("#Save").unbind("click");
         $("#Save").click(function () {
-            oThis.saveState("save");           
+            oThis.saveState("save_image");
         });
     },
     initSaveAndSend:function(){
         var oThis=this;
         $("#saveAndSend").unbind("click");
         $("#saveAndSend").click(function () {
-            oThis.saveState("save");           
+            oThis.saveState("save");
         });
     },
     populateOverlayItem:function(){
@@ -1176,11 +1185,11 @@ CH.VC2={
         var offset = $("#addressOverlay").offset();
         var xPos = offset.left;
         var yPos = offset.top;
-            
+
         var dropOffset = $(".drop").offset();
         var DropXPos = dropOffset.left;
         var DropYPos = dropOffset.top;
-            
+
         $("#addressOverlay").css('-moz-transform', 'rotate('+angleOfdiv+'deg)');
         $("#addressOverlay").css('-webkit-transform', 'rotate('+angleOfdiv+'deg)');
         $("#addressOverlay").css('-o-transform', 'rotate('+angleOfdiv+'deg)');
@@ -1195,9 +1204,9 @@ CH.VC2={
         oThis.overlayItem[0].addressYposition=$.trim(" "+roundy);
         oThis.overlayItem[0].addressText=$("#addressOverlay span").text();
         oThis.overlayItem[0].addressRotation=angleOfdiv;
-        
+
     },
-    
+
     beforeSaveState:function(){
         var empty;
         traverseBack();
@@ -1214,13 +1223,23 @@ CH.VC2={
         };
     },
     saveState:function(state){
+        if(state=="save_image"){
+            for(var i=1;i<=CH.VC2.totalcount;i++)
+            {
+                CH.VC2.getXAndYPosition("#demobs"+i+"");
+            }
+            CH.VC2.beforeSaveState();
+        }
         //this.populateOverlayItem();
         //this.sideColor=$("#clrpikr input").val();
         //alert("side color: "+this.sideColor+"and format is: "+this.formatName+"and the filling is"+this.fillingName);
         window.console.log("a="+JSON.stringify(CH.VC2.obj));
+        //if(JSON.stringify(CH.VC2.obj)=="{}"||JSON.stringify(CH.VC2.obj)=="")
+        //this.initOrderBeforeSave();
         this.tosave=JSON.stringify(CH.VC2.obj);
+        //alert(this.tosave);
         $("#divLoad").dialog("open");
-        $.ajax({ 
+        $.ajax({
             type: "POST",
             url: "basicFunctions.php",
             data: {
@@ -1232,16 +1251,18 @@ CH.VC2={
                 $('form#submit').hide(function(){
                     $('div.success').fadeIn();
                 });
-                $.ajax({ 
+                $.ajax({
                     type: "POST",
                     url: "execjar.php",
                     data: {},
                     success: function(data){
-                        if(state=="prev"){  
+                        if(state=="prev"){
                             var imgEPS = new Image();
                             imgEPS.onload=function(){
                                 $("#previeweps").dialog({
                                     open:function(ui,eve){
+                                        $("#previeweps").append("<div style=\"width:200px;position: absolute;top:30px;left:15px;opacity:0.5;background-color: black;padding: 5px;color: white;\">"+
+                                                                "<div style=\"padding:2px;\">Width   : "+CH.ACTUALWIDTH+" cm</div><div style=\"padding:2px;\">Height : "+CH.ACTUALHEIGHT+" cm</div></div>");
                                     },
                                     width:'auto',
                                     height:'auto',
@@ -1253,41 +1274,42 @@ CH.VC2={
                             };
                             if(CH.VC2.currentSide=="Front")
                                 imgEPS.src='./EPSIMAGE/Front_EPS_'+data+'.png';
-                            else 
+                            else
                                 imgEPS.src='./EPSIMAGE/Back_EPS_'+data+'.png';
                             $("#previeweps").html(imgEPS);
-                        }else if(state=="save"){
+                        }else if(state=="save"||state=="save_image"){
                             //window.location=window.location.hostname+"/vccc/EPSIMAGE/EPSImage_"+data+".eps";
                             // window.location.pathname="/adventscalender/vccc/EPSIMAGE/EPSImage_"+data+".eps";
-                       
+
                             //window.location.pathname="/adventscalender/EPSIMAGE/Front_EPSImage_"+data+".eps";
-                            window.location.pathname="/adventscalender/EPSIMAGE/outfile_"+data+".zip";
+                            //window.location.pathname="/adventscalender/EPSIMAGE/outfile_"+data+".zip";
+                            window.location.pathname="/adventscalender/EPSIMAGE/Front_EPS_"+data+".pdf";
                             $("#divLoad").dialog("close");
                         }
                     }
                 });
             }
-        });  
+        });
     },
-    
-    initBtBold:function(){   
+
+    initBtBold:function(){
         var oThis=this;
         $("#boldbutton").unbind("click");
         $("#boldbutton").click(function(){
             oThis.bold(oThis.sDiv);
         });
     },
-    
+
     bold:function(proDivId){
         if(proDivId.length>0){
             if($(proDivId+" span").hasClass("bold")){
                 $(proDivId+" span").removeClass("bold");
                 var index=($(proDivId).prop("id")).substr($(proDivId).prop("id").length-1);//
-                CH.VC2.items[index-1].isBold=0;       
+                CH.VC2.items[index-1].isBold=0;
             }else{
                 $(proDivId+"  span").addClass("bold");
                 var index=($(proDivId).prop("id")).substr($(proDivId).prop("id").length-1);//
-                CH.VC2.items[index-1].isBold=1;    
+                CH.VC2.items[index-1].isBold=1;
             }
         }
         else
@@ -1295,26 +1317,26 @@ CH.VC2={
             alert("Please select any text field before applying effects");
         }
     },
-    
+
     initBtItalic:function(){
         var oThis=this;
         $("#italicbutton").unbind("click");
         $("#italicbutton").click(function(){
             oThis.italic(oThis.sDiv);
         });
-    
-    
+
+
     },
     italic:function(proDivId){
         if(proDivId.length>0){
             if($(proDivId+" span").hasClass("italic")){
                 $(proDivId+" span").removeClass("italic");
                 var index=($(proDivId).prop("id")).substr($(proDivId).prop("id").length-1);//
-                CH.VC2.items[index-1].isItalic=0;     
+                CH.VC2.items[index-1].isItalic=0;
             }else{
                 $(proDivId+"  span").addClass("italic");
                 var index=($(proDivId).prop("id")).substr($(proDivId).prop("id").length-1);//
-                CH.VC2.items[index-1].isItalic=1;  
+                CH.VC2.items[index-1].isItalic=1;
             }
         }
         else
@@ -1322,7 +1344,7 @@ CH.VC2={
             alert("Please select any text field before applying effects");
         }
     },
-    
+
     initBtUnderline:function(){
         var oThis=this;
         $("#underlinebutton").unbind("click");
@@ -1340,7 +1362,7 @@ CH.VC2={
             }else{
                 $(proDivId+"  span").addClass("underline");
                 var index=($(proDivId).prop("id")).substr($(proDivId).prop("id").length-1);//
-                CH.VC2.items[index-1].isUnderlined=1;//   
+                CH.VC2.items[index-1].isUnderlined=1;//
             }
         }
         else
@@ -1348,11 +1370,11 @@ CH.VC2={
             alert("Please select any text field before applying effects");
         }
     },
-    initBtLalign:function(){    
+    initBtLalign:function(){
         var oThis=this;
         $("#Lalignbutton").unbind("click");
         $("#Lalignbutton").click(function(){
-            oThis.Lalign(oThis.sDiv); 
+            oThis.Lalign(oThis.sDiv);
         });
     },
     Lalign:function(proDivId){
@@ -1374,7 +1396,7 @@ CH.VC2={
             alert("Please select any text field before applying effects");
         }
     },
-    initBtRalign:function(){    
+    initBtRalign:function(){
         var oThis=this;
         $("#Ralignbutton").unbind("click");
         $("#Ralignbutton").click(function(){
@@ -1400,7 +1422,7 @@ CH.VC2={
             alert("Please select any text field before applying effects");
         }
     },
-    initBtCalign:function(){    
+    initBtCalign:function(){
         var oThis=this;
         $("#Calignbutton").unbind("click");
         $("#Calignbutton").click(function(){
@@ -1419,14 +1441,14 @@ CH.VC2={
             var index=($(proDivId).prop("id")).substr($(proDivId).prop("id").length-1);//
             CH.VC2.items[index-1].isRightAligned=0;
             CH.VC2.items[index-1].isCenterAligned=1;
-            CH.VC2.items[index-1].isLeftAligned=0;   
+            CH.VC2.items[index-1].isLeftAligned=0;
         }
         else
         {
             alert("Please select any text field before applying effects");
         }
     },
-     
+
     initChangeTheFont:function(){
         var oThis=this;
         $("#font1").change(function(){
@@ -1435,41 +1457,41 @@ CH.VC2={
     },
     xainFunc:function(){
         var oThis=this;
-        
+
         CH.VC2.fontFamilyOfText(oThis.sDiv);
-        
+
     },
-    
+
     fontFamilyOfText:function(item){
-        
-        
+
+
         $(""+item+" span").css("font-family",$("#font1").val());
         var index=($(item).prop("id")).substr($(item).prop("id").length-1);//
         CH.VC2.items[index-1].fontStyle= $(""+item+" span").css("font-family");
-            
-        
+
+
     },
-    
+
     initBtFontsize:function(){
         var oThis=this;
         $("#fontsize").unbind("change");
         $("#fontsize").change(function () {
             if (oThis.sDiv){
-                oThis.fontsizeOfText(oThis.sDiv);           
+                oThis.fontsizeOfText(oThis.sDiv);
             }
             else{
                 alert("select an element");
             }
         });
     },
-    
+
     fontsizeOfText:function(item){
         var oThis=this;
         var oldFontValue=$(item+" span").css("font-size");
         $(item+" span").css("font-size",$("#fontsize").val()+"pt");
         //CH.VC3.items[CH.VC3.findItem(item.id)].fontSize=item.fontSize;
         var index=($(item).prop("id")).substr($(item).prop("id").length-1);//
-        
+
         var heightOfParent=$(oThis.sDiv).parent().height();
         var differenceInTop=$(oThis.sDiv).offset().top-$(oThis.sDiv).parent().offset().top;
         var heightOfDiv=$(oThis.sDiv).height();

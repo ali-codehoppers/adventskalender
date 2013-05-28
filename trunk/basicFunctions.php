@@ -89,33 +89,33 @@ if ($type == "uploadPicture") {
     }
 }
 else if ($type == "checkDPIonResize") {
-    
+
     $cWidth=$_REQUEST['width'];
     $cHeight=$_REQUEST['height'];
     $oWidth=$_REQUEST['oWidtth'];
     $bHeight=$_REQUEST['bHeih'];
     $oHeight=$_REQUEST['oHeight'];
     $bWidth=$_REQUEST['bWidght'];
-    
+
     $divWidth=$_REQUEST['divWidth'];
-    
+
     $UIBgWidth=$divWidth;
     $uiWidthFactor= $cWidth/$UIBgWidth;
-    
+
     $UIBgHeight=$bHeight*($divWidth/$bWidth);
     $uiHeightFactor= $cHeight/$UIBgHeight;
-    
+
     $cInchesWidth = $uiWidthFactor*($bWidth/$FIXED_DPI);
     $cInchesHeight = $uiHeightFactor*($bHeight/$FIXED_DPI);
-    
+
     $xDPI=$oWidth/$cInchesWidth;
     $yDPI=$oHeight/$cInchesHeight;
-    
+
     echo $xDPI.",".$yDPI;
-    
+
 }
 else if ($type == "uploadBackground") {
-    
+
     /* session_start();
       $session_id='1'; //$session id */
     $path = "uploads/";
@@ -147,7 +147,7 @@ else if ($type == "uploadBackground") {
                             /*if (checkDPIWithFormat($formatId, "uploads/" . $actual_image_name)) {*/
                             $filInfo=  getimagesize("uploads/" . $actual_image_name);
                                 echo $actual_image_name . ",1,$filInfo[0],$filInfo[1]";
-                                
+
                             /*} else {
                                 echo "Image is not compatible with $FIXED_DPI DPI,0";
                             }*/
@@ -184,7 +184,7 @@ else if ($type == "saveJasonToDb") {
     $q = "Select * From editable_area Where bgId='" . $index . "';";
     $r = mysql_query($q);
     while ($vname = mysql_fetch_array($r)) {
-        
+
         //$venue = $vname['bgId'];
         $bottom = $vname['bottom'];
         $left = $vname['left'];
@@ -195,7 +195,7 @@ else if ($type == "saveJasonToDb") {
         $addressWidth = $vname['address_width'];
         $addressHeight = $vname['address_height'];
         $addressRotation = $vname['address_rotation'];
-        
+
         $to_send = "" . $bottom . " " . $left . " " . $width . " " . $height. " " . $addressBottom . " " . $addressLeft . " " . $addressWidth . " " . $addressHeight . " " . $addressRotation;
         echo $to_send;
     }
@@ -343,6 +343,8 @@ else if ($type == "saveJasonToDb") {
     $src = $_POST['src'];
     list($width, $height, $type, $attr) = getimagesize($src);
     $aspectratio = $width / $height;
+    $actualwidth=$width;
+    $actualheight=$height;
     //if ($aspectratio >= 1) {//width is greater than height
     if ($width >= $dropWidth) {
         $height = ceil($dropWidth / $aspectratio);
@@ -360,6 +362,8 @@ else if ($type == "saveJasonToDb") {
         //$h = ceil($dropWidth / $aspectratio);
         //echo ($h . " " . $aspectratio);
     }
+    echo (" " . $actualwidth);
+    echo (" " . $actualheight);
     /* } else if ($aspectratio < 1) {
       echo ("height100% ");
       $w = ceil($dropHeight * $aspectratio);
@@ -417,7 +421,7 @@ else if ($type == "saveJasonToDb") {
     $src = $_POST['bgsrc'];
     $keys = parse_url($src); // parse the url
     $path = explode("/", $keys['path']); // splitting the path
-    $last = end($path); // get the value of the last element 
+    $last = end($path); // get the value of the last element
     $packageType = $_POST['packageType'];
 
     if ($packageType == 'BASIC')
@@ -474,7 +478,7 @@ else if ($type == "saveJasonToDb") {
         $imagePath = $row['image_path'];
         echo "<option value='$formatId' pic='$imagePath'>" . $formatName . "</option>";
     }
-    
+
 }
 /* elseif ($type=="checkIfImageIsTriangle") {
   $imagesrc = $_POST['imageSrc'];
@@ -491,7 +495,7 @@ else if ($type == "saveJasonToDb") {
   else{
   echo (0);
   }
-  } */ 
+  } */
 
 
 elseif ($type == "changeNameInUploads"){
@@ -499,7 +503,7 @@ elseif ($type == "changeNameInUploads"){
     $newName = $_POST['newName'];
     $q ="UPDATE uploads SET source='" .$newName. "' WHERE id='".$imageId."';";
 $r = mysql_query($q);
-    
+
 }
 
 
@@ -510,7 +514,7 @@ elseif ($type == "checkIfImageIsTriangle") {
     $q2 = "Select * from backgrounds Where image_path='" . $imagesrc . "' AND is_triangle='" . 1 . "';";
   $r2 = mysql_query($q2);
   $countTriangleImage = 0;
-  
+
     $q = "Select * from formats Where id='" . $formatId . "' AND trianlge_coordinates IS NOT NULL;";
     $r = mysql_query($q);
     $countFormat = 0;
@@ -525,11 +529,11 @@ elseif ($type == "checkIfImageIsTriangle") {
         //echo $count;
         if ($countFormat > 0) {
             echo("1,".$row['trianlge_coordinates'].",".$row['overlay_Image_path'].",".$row['init_div_points']);
-            
+
         }
             else if($countTriangleImage > 0){
             echo("1,".$row2['trianlge_coordinates'].",".$row2['overlay_Image_path'].",".$row2['init_div_points']);
-            
+
         }
         else {
             echo (0);
@@ -565,7 +569,7 @@ function checkDPIWithFormat($formatId, $filePath) {
         $dim = $row['format_dimensions'];
         return checkDPIWithDimension($dim, $filePath);
     } else {
-        //there is no print dimensions 
+        //there is no print dimensions
         //echo "not in";
         return false;
     }
@@ -607,14 +611,14 @@ function checkDPIWithBackground($bgId, $filePath) {
         $dim = $row['image_dimensions'];
         return checkDPIWithDimension($dim, $filePath);
     } else {
-        //there is no print dimensions 
+        //there is no print dimensions
         //echo "not in";
         return false;
     }
 }
 
 function checkPixalate() {
-    
+
 }
 
 ?>
