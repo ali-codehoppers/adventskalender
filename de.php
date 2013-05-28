@@ -1,4 +1,4 @@
-
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"  />
 <?php
 
 $lang = array(
@@ -16,12 +16,20 @@ $lang = array(
 						
 						'In the business version the following configurations are possible' => 'In der Business Version können Sie folgende Konfigurationen vornehmen',
 						
-						'Choose the shape of the advent calendar' => 'Adventskalender form auswählen',
-						'Choose the filling of the advent calendar' => 'Die Füllung des Adventskalenders auswählen',
-						'Choose and edit the address which is to be printed on the advent calendar' => 'Die gewünschte Adresse eintragen die auf die Rückseite des Adventkalenders gedruckt wird',
-						'Choose the colour of the backside as well as the left and right sides' => 'Die Hintergrundfarbe der Rückseite wie auch die der rechten und linken Seiten auswählen',
-    'Choose a Format' => 'Format wählen',
-    'choose a filling' => 'Füllung wählen',
+						'Choose the shape of the advent calendar' => 'Wählen Sie ein Kalenderformat',
+						'Choose the filling of the advent calendar' => 'Wählen Sie eine Füllvariante',
+						'Choose and edit the address which is to be printed on the advent calendar' => 'Wählen sie ein Hintergrund-Motiv aus 
+oder laden Sie ein eigenes Motiv hoch',
+						'Select a background motive'=>'Wählen sie ein Hintergrund-Motiv',
+						'Choose the colour of the backside as well as the left and right sides' => 'Wählen Sie den Inverkehrbringer',
+						'Customize your Advent Calendar according to your ideas' =>'Individualisieren Sie Ihren Adventskalender frei nach Ihren Vorstellungen',
+						'Customize the logo printing area of your Advent Calendar'=>'Individualisieren Sie die Logodruckfläche Ihres Adventskalender',
+						'Now you can download directly to your proofs directly and request a quotation for your desired quantity' => 'Nun können Sie direkt Ihren Korrekturabzug herunterladen und direkt ein Angebot über Ihre Wunschmenge anfragen',
+						'Now you can directly download your chosen motif directly and request a quotation for your desired quantity'=>'Nun können Sie direkt Ihr ausgewähltes Motiv herunterladen 
+und direkt ein Angebot über Ihre Wunschmenge anfragen',
+						'Advertising effectiveness tastes' => 'Werbewirkung schmeckt',
+    'Choose a Format' => 'Format auswählen',
+    'choose a filling' => 'Füllvariante auswählen',
     'NEXT'=>'Weiter',
     'BACK'=>'Zurück',
     'Choose a design'=>'Hintergrund wählen',

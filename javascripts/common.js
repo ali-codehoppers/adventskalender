@@ -14,6 +14,8 @@ CH.isCompanyAddress=true;
 CH.textConstantToAddForVerticalImages=0;
 CH.FIXED_DPI=0;
 CH.selectedBar;
+CH.ACTUALWIDTH;
+CH.ACTUALHEIGHT;
 
 CH.com={
     VC:null,//current vc
@@ -27,11 +29,11 @@ CH.com={
                 packageType:oThis.VC.packageId
             },
             success:function(data){
-                
-                $("#dd_format").html(data);    
+
+                $("#dd_format").html(data);
                 oThis.initFormatChange();
-                
-            } 
+
+            }
         });
     },
     initFormatChange:function(){
@@ -76,19 +78,19 @@ CH.com={
         var oThis=this;
         $('#formatFillingNextButton').unbind("click");
         $('#formatFillingNextButton').click(function() {
-            if($('.filling-radio').is(':checked'))// && $('.format-radio').is(':checked')) 
-            {   
+            if($('.filling-radio').is(':checked'))// && $('.format-radio').is(':checked'))
+            {
                 $("#backgroundsForEachPackage ul").html("");
                 oThis.VC.formatId=$("#dd_format").val();
                 $(".screens").hide();
                 $("#content-choosedesignhtml").show();
                 oThis.loadDesigns();
-            }						
+            }
         });
     },
     initFillingSelect:function(){
         var oThis=this;
-        
+
         $('.choose-filling ul li').unbind("click");
         $('.choose-filling ul li').click(function() {
             $(this).find('input[type=radio]').attr('checked', true);
@@ -100,7 +102,7 @@ CH.com={
         });
         //select first by default
         if($(".choose-filling ul li").length>0){
-            $(".choose-filling ul li :first").click(); 
+            $(".choose-filling ul li :first").click();
         }
     },
     getPageContent:function(pageNum){
@@ -172,7 +174,7 @@ CH.com={
     },
     updateCallerVC:function(){
     //check later if its necessary most probably wont be needed
-        
+
     /*var command="CH.VC"+this.VC.packageId+"=this.VC";
         eval(command);*/
     },
@@ -192,12 +194,12 @@ CH.com={
                 packageId:oThis.VC.packageId,
                 fillingId:oThis.VC.fillingId
             },
-            success:function(data){    
+            success:function(data){
                 data=eval("("+data+")");
                 buttonToUnactivestate(); //checkthis1
                 $(CH.selectedBar+" ul #third").prop("class","third active");
                 $(CH.selectedBar+" ul #third").prop("class","third active");
-                
+
                 $("#content-choosedesignhtml #pagination").html("");
                 oThis.afterLoadDesignData(data.data);
                 if(data.pagination){
@@ -207,17 +209,17 @@ CH.com={
         });
     },
     afterLoadDesignData:function(data){
-    
+
         $('.content-upper ul').html(data);
         $('.content-upper ul li a').css("border","4px solid grey");
         $('.content-upper ul li a').first().css("border","4px solid orange");
-        
+
         var bgId=$('.content-upper ul li').first().attr("id");
         bgId=bgId.substr(bgId.indexOf("_")+1,bgId.length);
         this.VC.backgroundId=bgId;
         this.VC.bgOriginalWidth=$('.content-upper ul li a').first().attr("owidth");
         this.VC.bgOriginalHeight=$('.content-upper ul li a').first().attr("oheight");
-        
+
         var temp=($('.content-upper ul li a').first().css("background-image"));  //src of img clicked
         temp = /^url\((['"]?)(.*)\1\)$/.exec(temp);
         temp = temp ? temp[2] : "";
@@ -228,7 +230,7 @@ CH.com={
         tokens = str.split(delimiter).slice(start),
         backgroundSelected = tokens.join(delimiter); //check this
         this.VC.dropbackground=backgroundSelected;
-            
+
         var bg=$('.content-upper ul li a').first().css("background-image");
         bg = /^url\((['"]?)(.*)\1\)$/.exec(bg);
         bg = bg ? bg[2] : "";
@@ -237,16 +239,16 @@ CH.com={
         CH.currentPackage.backgroundSelected=filename;
         CH.currentPackage.result=CH.currentPackage.backgroundSelected;
         CH.backgroundSelected=backgroundSelected;
-        
+
         $('#buttonDiv').html("");
         $('#uploadButton').html("");
         this.VC.appendDesignBackgroundUploadBt(); //appending upload buttons
         this.appendDesignScreenButtons();
-        
+
         this.designImageClicked(".content-upper ul li a");
-        $("#chooseDesignNextButton").click(function(e){	
+        $("#chooseDesignNextButton").click(function(e){
             if(CH.backgroundSelected!=null)
-            {   
+            {
                 if(CH.currentPackage.packageId != "1")
                     {
                 $("#radioCompanyAddress").attr('checked','checked');
@@ -256,7 +258,7 @@ CH.com={
                         fromAddressToDesk();
                     }
             }
-        }); 
+        });
         backButtons();
     },
     designImageClicked:function(selector){
@@ -268,14 +270,14 @@ CH.com={
             var temp=($(this).css("background-image"));
             temp = /^url\((['"]?)(.*)\1\)$/.exec(temp);
             temp = temp ? temp[2] : "";  //src of img clicked
-            
+
             temp = temp.replace("img/bgimgs/thumbs/", "img/bgimgs/");
-                
+
             var str = temp,
             delimiter = '/',
             start = 4,
             tokens = str.split(delimiter).slice(start),
-            
+
             backgroundSelected = tokens.join(delimiter);
             oThis.VC.dropbackground=backgroundSelected;
             var bg=$(this).css("background-image");
@@ -286,13 +288,13 @@ CH.com={
             CH.currentPackage.backgroundSelected=filename;
             CH.currentPackage.result=CH.currentPackage.backgroundSelected;
             CH.backgroundSelected=backgroundSelected;
-            
+
             var bgId=$(this).parent().attr("id");
             bgId=bgId.substr(bgId.indexOf("_")+1,bgId.length);
             oThis.VC.backgroundId=bgId;
             oThis.VC.bgOriginalWidth=$(this).attr("owidth");
             oThis.VC.bgOriginalHeight=$(this).attr("oheight");
-            
+
             return false;
         });
     },
@@ -309,36 +311,36 @@ CH.com={
         $('#buttonDiv').append("<div class='clearBoth'></div>");
     },
     checkDPI:function(currentWidth,currentHeight,originalWidth,originalHeight, bgWidth, bgHeight,divWidth){
-        
+
         var UIBgWidth=divWidth;
         var uiWidthFactor= currentWidth/UIBgWidth;
-    
+
         var UIBgHeight=bgHeight*(divWidth/bgWidth);
         var uiHeightFactor= currentHeight/UIBgHeight;
-    
+
         var cInchesWidth = uiWidthFactor*(bgWidth/CH.FIXED_DPI);
         var cInchesHeight = uiHeightFactor*(bgHeight/CH.FIXED_DPI);
-    
+
         var xDPI=originalWidth/cInchesWidth;
         var yDPI=originalHeight/cInchesHeight;
-    
+
         window.console.log(xDPI,yDPI+" dpi");
-    
+
         if(xDPI<CH.FIXED_DPI && yDPI<CH.FIXED_DPI){
             return false;
         }else{
             return true;
         }
-    
+
     }
-    
+
 }
 
 /**Put these function in common class later**/
 
 /*
 function loadDesigns(currentVC,packageId,fillingId) //check package Type
-{   
+{
     $(".screens").hide();
     $("#content-choosedesignhtml").show();
     CH.isFillingAndFormatSelected=true;
@@ -353,7 +355,7 @@ function loadDesigns(currentVC,packageId,fillingId) //check package Type
             packageId:packageId,
             fillingId:fillingId
         },
-        success:function(data){    
+        success:function(data){
             data=eval("("+data+")");
             buttonToUnactivestate();
             $(".nav6bar ul #third").prop("class","third active");
@@ -379,7 +381,7 @@ function afterLoadDesignData(data,currentVC){
     tokens = str.split(delimiter).slice(start),
     backgroundSelected = tokens.join(delimiter);
     currentVC.dropbackground=backgroundSelected;
-            
+
     var bg=$('.content-upper ul li img').first().prop("src");
     var fileNameIndex = bg.lastIndexOf("/") + 1;
     var filename = bg.substr(fileNameIndex);
@@ -389,11 +391,11 @@ function afterLoadDesignData(data,currentVC){
     //end
     $('#buttonDiv').html("");
     //here
-    if(currentVC.packagename!="basic" && currentVC.packagename!="standard"){   
+    if(currentVC.packagename!="basic" && currentVC.packagename!="standard"){
         if(CH.language=="english")
         {
             $('#buttonDiv').html(" <div id='uploadButton'><input id='changebg' style='margin-top: 0px;' type='button' name='submit' class='next-button' value='UPLOAD' onclick='changeBackground();'/></div>");
-                
+
         }
         else if(CH.language=="dutch")
         {
@@ -402,7 +404,7 @@ function afterLoadDesignData(data,currentVC){
     }else{
         $('#uploadButton').html("");
     }
-    
+
     if(CH.language=="english")
     {
         $('#buttonDiv').append("<div id='next-button-div'><input id='chooseDesignNextButton' style='margin-top: 0px;' type='button' name='submit' class='next-button' value='NEXT' /></div>");
@@ -414,15 +416,15 @@ function afterLoadDesignData(data,currentVC){
         $('#buttonDiv').append("<div id='back-button-div'><input id='chooseDesignBackButton' style='margin-top: 0px;' type='button' name='submit' class='next-button' value='Zuruck' /></div>");
     }
     $('#buttonDiv').append("<div class='clearBoth'></div>");
-    
+
     designImageClicked(_divId +" img",currentVC);
-    $("#chooseDesignNextButton").click(function(e){	
+    $("#chooseDesignNextButton").click(function(e){
         if(CH.backgroundSelected!=null)
         {
             putAddressIndd();
             $("#radioCompanyAddress").attr('checked','checked');
         }
-    }); 
+    });
     backButtons();
 };
 
@@ -433,18 +435,18 @@ function designImageClicked(selector,currentVC){
         $(selector).css("border", "4px solid grey");
         $(this).css("border", "4px solid orange");
         var temp=($(this).prop("src"));  //src of img clicked
-                
+
         temp = temp.replace("img/bgimgs/thumbs/", "img/bgimgs/");
-                
+
         var str = temp,
         delimiter = '/',
         start = 4,
         tokens = str.split(delimiter).slice(start),
-                
+
         backgroundSelected = tokens.join(delimiter);
         currentVC.dropbackground=backgroundSelected;
         var bg=$(this).prop("src");
-                
+
         var fileNameIndex = bg.lastIndexOf("/") + 1;
         var filename = bg.substr(fileNameIndex);
         CH.currentPackage.backgroundSelected=filename;
@@ -458,14 +460,14 @@ function getURLParameter(name) {
         (RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1]
         );
 }
-function changeBackground(){  
+function changeBackground(){
         var oThis=this;
         $("#imageform2").replaceWith("");
         var formStr = " <form id='imageform2' method='post' style='display:none;' enctype='multipart/form-data' action='./basicFunctions.php?type=uploadBackground&formatId="+this.formatId+"'>"+
         "<input type='file' name='photoimg2' id='photoimg2' />"+
         "<input type='hidden' name='rand1' value='"+Math.random()+"' />" +
         "</form>";
-    
+
         $("#outer").html("");
         $("#outer").html(formStr);
         $("#imageform2").dialog("destroy");
@@ -477,31 +479,31 @@ function changeBackground(){
             },
             buttons: {
                 Ok: function() {
-                    
+
                     var temp=($("#imageform2 #photoimg2").val());
                     var count =(temp.split(".").length - 1)
                     //alert(count.length);
                     var inCaseOfDots;
                     if(count>1)
                     {
-                    /*     inCaseOfDots=CH.VC3.removeAllButLast(temp,".") 
+                    /*     inCaseOfDots=CH.VC3.removeAllButLast(temp,".")
                         temp=inCaseOfDots;*/
                     }
-                    
+
                     var result = temp.substring(temp.lastIndexOf("."));
                     if(result.toLowerCase()==".jpg"||result.toLowerCase()==".tiff")
                     {
                         $("#divLoad").dialog("open");
                         $("#imageform2").ajaxForm(
                         {
-                            success:    function(responseText, statusText, xhr, $form) { 
+                            success:    function(responseText, statusText, xhr, $form) {
                                 var resp=responseText.split(',');
                                 var src=resp[0];
                                 var success=resp[1];
-                                
+
                                 var actualval="./uploads/"+src;
-                                
-                                
+
+
                                 if(success!=null && success=="1")
                                 {
                                     $("#divLoad").dialog("close");
@@ -525,7 +527,7 @@ function changeBackground(){
                                 else if(success!=null && success=="0"){
                                     alert(src);
                                     $("#divLoad").dialog("close");
-                                    CH.VC3.changeBackground();    
+                                    CH.VC3.changeBackground();
                                 }
                             /*}
                                 else{
@@ -533,7 +535,7 @@ function changeBackground(){
                                     $("#divLoad").dialog("close");
                                     CH.VC3.changeBackground();
                                 }*/
-                            } 
+                            }
                         }).submit();
                         $( this ).dialog( "close" );
                     }
@@ -546,7 +548,7 @@ function changeBackground(){
             }
         });
     }
-/*function changeBackground(){ 
+/*function changeBackground(){
     $("#imageform2").replaceWith("");
     var formStr = " <form id='imageform2' method='post' style='display:none;' enctype='multipart/form-data' action='./basicFunctions.php?type=uploadBackground'>"+
     "<input type='file' name='photoimg2' id='photoimg2' />"+
@@ -563,27 +565,27 @@ function changeBackground(){
         },
         buttons: {
             Ok: function() {
-                    
+
                 var temp=($("#imageform2 #photoimg2").val());
                 var result = temp.substring(temp.lastIndexOf("."));
                 if(result.toLowerCase()==".jpg"||result.toLowerCase()==".png")
                 {
-                        
+
                     //var url = "url(./img/imagesapp/loading.gif?"+Math.random()+")";
                     $("#divLoad").dialog("open");
                     //$('.drop').css('background-image', url);//     .html('<img src="img/imagesapp/loading.gif" alt="Uploading...."/>');
                     //$('.back').css('background-image', url);
                     $("#imageform2").ajaxForm(
                     {
-                        success:    function(responseText, statusText, xhr, $form) { 
-                                
+                        success:    function(responseText, statusText, xhr, $form) {
+
                             var src=responseText.split(',')[0];
                             var success=responseText.split(',')[1];
                             var actualval="./uploads/"+src;
                             CH.backgroundSelected=actualval;
                             putAddressIndd();
-                                    
-                            $.ajax({ 
+
+                            $.ajax({
                                 type: "POST",
                                 url: "checkImageDpi.php",
                                 data: {
@@ -595,13 +597,13 @@ function changeBackground(){
                                     window.console.log(data);
                                 }
                             });
-                                
-                                
-                                
-                                
-                            if(success[0]=="1")   
-                            {   
-                                    
+
+
+
+
+                            if(success[0]=="1")
+                            {
+
                                 $("#divLoad").dialog("close");
                                 $('.back').css('background-image', 'url()');
                                 $('.back').hide();
@@ -618,7 +620,7 @@ function changeBackground(){
                             else if(success[0]=="0"){
                                 alert("Please select a small image or see if the image extension is correct");
                             }
-                        } 
+                        }
                     }).submit();
                     $( this ).dialog( "close" );
                 }
@@ -675,14 +677,14 @@ function setBackGroundImageInDrop(sourceOfImage)
     var background=(sourceOfImage);
     var url = "url(./"+background+"?"+Math.random()+")";
     $('.drop').css('background-image', url);
-    //$('.back').css('background-image', url);                
+    //$('.back').css('background-image', url);
     fitBackground(sourceOfImage);
     makeCanvas();
     setActiveButtonsInToolsAccordingToPackage();
     $(".toolbarBtn img").removeClass("dotborder");
     $("#frontdivimg img").addClass("dotborder");
-//putAddressIndd();        				  
-                  
+//putAddressIndd();
+
 }
 
 
@@ -701,14 +703,25 @@ function loadAddressFromAddressScreen(){
     }
     else
     {*/
-        $("#deskPageCompanyNameInput").val($("#addressPageCompanyName").val());
-        $("#deskPageRoadInput").val($("#addressPageRoad").val());
-        $("#deskPageZipCodeInput").val($("#addressPageZipCode").val());
-        $("#deskPagePhoneNumberInput").val($("#addressPagePhoneNumber").val());
-        $("#deskPageEMailInput").val($("#addressPageEMail").val());
-        $("#deskPageWebsiteInput").val($("#addressPageWebsite").val());
+    $("#selectedAddressType").val($("input[name='addressType']:checked").val());
+    if($("input[name='addressType']:checked").val()=="company_address"){
+        $("#deskPageCompanyNameInput").val($("#companyAddressPageCompanyName").val());
+        $("#deskPageRoadInput").val($("#companyAddressPageRoad").val());
+        $("#deskPageZipCodeInput").val($("#companyAddressPageZipCode").val());
+        $("#deskPagePhoneNumberInput").val($("#companyAddressPagePhoneNumber").val());
+        $("#deskPageEMailInput").val($("#companyAddressPageEMail").val());
+        $("#deskPageWebsiteInput").val($("#companyAddressPageWebsite").val());
+    }else{
+        $("#deskPageCompanyNameInput").val($("#homeAddressPageCompanyName").val());
+        $("#deskPageRoadInput").val($("#homeAddressPageRoad").val());
+        $("#deskPageZipCodeInput").val($("#homeAddressPageZipCode").val());
+        $("#deskPagePhoneNumberInput").val($("#homeAddressPagePhoneNumber").val());
+        $("#deskPageEMailInput").val($("#homeAddressPageEMail").val());
+        $("#deskPageWebsiteInput").val($("#homeAddressPageWebsite").val());
+    }
+
     /*}*/
-        
+
 }
 
 function putAddressIndd()
@@ -721,19 +734,20 @@ function putAddressIndd()
     backButtons();
     buttonToUnactivestate();
     $(".nav6bar ul #fourth").prop("class","fourth active");
-    $("#dd_addressType").unbind("change");
-    $("#dd_addressType").change(function(){
-        if($(this).prop("selectedIndex")==0){
-            /*$("#addressDivindd_bg").hide();//zain
-            $("#dd_bgaddress1input").val("werbungxyz");
-            $("#dd_bgaddress2input").val("78xyz");
-            $("#dd_bgtelephoneinput").val("+49 (0) 7643 80 10");
-            $("#dd_bgwebsiteinput").val("www.werbungxyz.com");
-            $("#addressDivindd_bg input").attr("readonly", true);//zain
-            //CH.isCompanyAddress=true;*/
-            $("#addressPageCompanyName").val("Kalfany Süße Werbung GmbH & Co. KG");
+    $("input[name='addressType']").unbind("change");
+    $("input[name='addressType']").change(function(){
+        if($("input[name='addressType']:checked").val()=="company_address"){
+            stepToDesk("company");
+            $("#homeErrorMessage").hide();
+        }else{
+            stepToDesk("home");
+            $("#companyErrorMessage").hide();
+
+        }
+        /*if($(this).prop("selectedIndex")==0){
+            $("#addressPageCompanyName").val("Kalfany SÃ¼ÃŸe Werbung GmbH & Co. KG");
             $("#addressPageCompanyName").prop('disabled', true);
-            $("#addressPageRoad").val("Holzmattenstraße 22");
+            $("#addressPageRoad").val("HolzmattenstraÃŸe 22");
             $("#addressPageRoad").prop('disabled', true);
             $("#addressPageZipCode").val("D-79336 Herbolzheim");
             $("#addressPageZipCode").prop('disabled', true);
@@ -748,33 +762,46 @@ function putAddressIndd()
             $("#addressDivindd_bg").show();
             $("#addressDivindd_bg input").removeAttr("readonly");//zain
             //CH.isCompanyAddress=false;
-        }
+        }*/
     });
-    
-    $("#dd_addressType").prop("selectedIndex",0);
-    $("#dd_addressType").change();
-    
-    
+    if($("#selectedAddressType").val()=="company_address"){
+        $('input:radio[name="addressType"][value="company_address"]').prop('checked', true);
+    }
+    $("input[name='addressType']").change();
+
+
     /*$("#addressDivindd_bg").hide();*///zain
     //$('.content-upper-address').html("<div id='addressDivindd_bg' style='text-align:left;padding-left:15px;'><div>Address Line 1</div><div id='dd_bgaddress1' style='margin-bottom:4px'><input id='dd_bgaddress1input' type='text' name='addrline1' size='35' /></div><div>Address Line 2</div><div  id='dd_bgaddress2' style='margin-bottom:4px'><input id='dd_bgaddress2input' type='text' name='addrline2' size='35' /></div><div>Telephone</div><div  id='dd_bgtelephone' style='margin-bottom:4px'><input id='dd_bgtelephoneinput' type='text' name='telephone' size='25' /></div><div>Website</div><div  id='dd_bgwebsite' style='margin-bottom:4px'><input id='dd_bgwebsiteinput' type='text' name='website' size='35' /></div><br/><input id='AddressNextButton' type='button' name='submit' class='next-button' value='NEXT' /></div>");
-    stepToDesk();
+    stepToDesk("company");
 
 }
-function stepToDesk()
+function stepToDesk(addressType)
 {
     var oThis=this;
     $("#AddressNextButton").unbind("click"); //awais
     $("#AddressNextButton").click(function(e){
-    if($("#addressPageCompanyName").val()!="" && $("#addressPageRoad").val()!="" && $("#addressPageZipCode").val()!="")
-    {
-        $("#errorMessage").hide();
-        oThis.fromAddressToDesk();
-    }
-    else
+        if($("#"+addressType+"AddressPageCompanyName").val()!="" && $("#"+addressType+"AddressPageRoad").val()!="" && $("#"+addressType+"AddressPageZipCode").val()!="")
         {
-            $("#errorMessage").show();
+            $("#"+addressType+"ErrorMessage").hide();
+            if(addressType=="company"){
+                $("#homeErrorMessage").hide();
+            }
+            else{
+                $("#companyErrorMessage").hide();
+            }
+            oThis.fromAddressToDesk();
         }
-});
+        else
+        {
+            $("#"+addressType+"ErrorMessage").show();
+            if(addressType=="company"){
+                $("#homeErrorMessage").hide();
+            }
+            else{
+                $("#companyErrorMessage").hide();
+            }
+        }
+    });
 }
 
 
@@ -816,21 +843,21 @@ function fromAddressToDesk()
                     CH.VC3.initMoveBackground();
                 }
                 else{
-                    alert("ERROR WITH CURRENT FORMAT!");    
+                    alert("ERROR WITH CURRENT FORMAT!");
                 }
-            } 
+            }
         });
-         
-         
+
+
         /*triangle check end*/
         loadAddressFromAddressScreen();
         $("#epsbutton").remove();
-        
+
         //if ( $(window).width() < 960)
         /*
         if( $("#bottomButtonsFinalScreen").length != 1)
         {
-                
+
             if(CH.language=="english")
             {
                 $("#playableButtonDiv").append("<div id='bottomButtonsFinalScreen'><div id='order-button-div'><input id='OrderAdventKalender' type='button' name='submit' class='next-button' value='ORDER' /></div><div id='moveback-button-div'><input id='moveBack' type='button' name='submit' class='next-button' value='MOVE BACKGROUND' /></div><div id='save-button-div'><input id='saveAndSend' type='button' name='submit' class='next-button' value='SAVE & SEND' /></div><div id='preview-button-div'><input id='epsbutton' type='button' name='submit' class='next-button' value='PREVIEW-FRONTSIDE' /></div><div id='back-button-div'><input id='deskBackButton' type='button' name='submit' class='next-button' value='BACK' /></div></div>");
@@ -838,26 +865,26 @@ function fromAddressToDesk()
             else if(CH.language=="dutch")
             {
                 $("#playableButtonDiv").append("<div id='bottomButtonsFinalScreen'><div id='order-button-div'><input id='OrderAdventKalender' type='button' name='submit' class='next-button' value='BESTELLEN' /></div><div id='moveback-button-div'><input id='moveBack' type='button' name='submit' class='next-button' value='MOVE BACKGROUND' /></div><div id='save-button-div'><input id='saveAndSend' type='button' name='submit' class='next-button' value='SPEICHEN & ABSENDEN' /></div><div id='preview-button-div'><input id='epsbutton' type='button' name='submit' class='next-button' value='Vorschau' /></div><div id='back-button-div'><input id='deskBackButton' type='button' name='submit' class='next-button' value='Zuruck' /></div></div>");
-            }        
-       
+            }
+
         }
         else{
             $("#bottomButtonsFinalScreen").remove();
-            
+
             if(CH.language=="english")
-            {   
+            {
                 $("#playableButtonDiv").append("<div id='bottomButtonsFinalScreen'><div id='order-button-div'><input id='OrderAdventKalender' type='button' name='submit' class='next-button' value='ORDER' /></div><div id='moveback-button-div'><input id='moveBack' type='button' name='submit' class='next-button' value='MOVE BACKGROUND' /></div><div id='save-button-div'><input id='saveAndSend' type='button' name='submit' class='next-button' value='SAVE & SEND' /></div><div id='preview-button-div'><input id='epsbutton' type='button' name='submit' class='next-button' value='PREVIEW-FRONTSIDE' /></div><div id='back-button-div'><input id='deskBackButton' type='button' name='submit' class='next-button' value='BACK' /></div></div>");
             }
             else if(CH.language=="dutch")
             {
                 $("#playableButtonDiv").append("<div id='bottomButtonsFinalScreen'><div id='order-button-div'><input id='OrderAdventKalender' type='button' name='submit' class='next-button' value='BESTELLEN' /></div><div id='moveback-button-div'><input id='moveBack' type='button' name='submit' class='next-button' value='MOVE BACKGROUND' /></div><div id='save-button-div'><input id='saveAndSend' type='button' name='submit' class='next-button' value='SPEICHEN & ABSENDEN' /></div><div id='preview-button-div'><input id='epsbutton' type='button' name='submit' class='next-button' value='Vorschau' /></div><div id='back-button-div'><input id='deskBackButton' type='button' name='submit' class='next-button' value='Zuruck' /></div></div>");
-            }          
-    
-        }          
+            }
+
+        }
     */
    if( $("#bottomButtonsFinalScreen").length != 1)
         {
-                
+
             if(CH.language=="english")
             {
                 $("#playableButtonDiv").append("<div id='bottomButtonsFinalScreen'><div id='order-button-div'><input id='OrderAdventKalender' type='button' name='submit' class='next-button' value='ORDER' /></div><div id='moveback-button-div'><input id='moveBack' type='button' name='submit' class='next-button' value='MOVE BACKGROUND' /></div><div id='preview-button-div'><input id='epsbutton' type='button' name='submit' class='next-button' value='PREVIEW-FRONTSIDE' /></div><div id='back-button-div'><input id='deskBackButton' type='button' name='submit' class='next-button' value='BACK' /></div></div>");
@@ -865,33 +892,33 @@ function fromAddressToDesk()
             else if(CH.language=="dutch")
             {
                 $("#playableButtonDiv").append("<div id='bottomButtonsFinalScreen'><div id='order-button-div'><input id='OrderAdventKalender' type='button' name='submit' class='next-button' value='BESTELLEN' /></div><div id='moveback-button-div'><input id='moveBack' type='button' name='submit' class='next-button' value='MOVE BACKGROUND' /></div><div id='preview-button-div'><input id='epsbutton' type='button' name='submit' class='next-button' value='Vorschau' /></div><div id='back-button-div'><input id='deskBackButton' type='button' name='submit' class='next-button' value='Zuruck' /></div></div>");
-            }        
-       
+            }
+
         }
         else{
             $("#bottomButtonsFinalScreen").remove();
-            
+
             if(CH.language=="english")
-            {   
+            {
                 $("#playableButtonDiv").append("<div id='bottomButtonsFinalScreen'><div id='order-button-div'><input id='OrderAdventKalender' type='button' name='submit' class='next-button' value='ORDER' /></div><div id='moveback-button-div'><input id='moveBack' type='button' name='submit' class='next-button' value='MOVE BACKGROUND' /></div><div id='preview-button-div'><input id='epsbutton' type='button' name='submit' class='next-button' value='PREVIEW-FRONTSIDE' /></div><div id='back-button-div'><input id='deskBackButton' type='button' name='submit' class='next-button' value='BACK' /></div></div>");
             }
             else if(CH.language=="dutch")
             {
                 $("#playableButtonDiv").append("<div id='bottomButtonsFinalScreen'><div id='order-button-div'><input id='OrderAdventKalender' type='button' name='submit' class='next-button' value='BESTELLEN' /></div><div id='moveback-button-div'><input id='moveBack' type='button' name='submit' class='next-button' value='MOVE BACKGROUND' /></div><div id='preview-button-div'><input id='epsbutton' type='button' name='submit' class='next-button' value='Vorschau' /></div><div id='back-button-div'><input id='deskBackButton' type='button' name='submit' class='next-button' value='Zuruck' /></div></div>");
-            }          
-    
-        }   
+            }
+
+        }
         CH.currentPackage.initOrderAdventKalender();
         CH.currentPackage.initSaveAndSend();
         if(CH.currentPackage.packageId == "1")
-        { 
+        {
             $("#epsbutton").remove();
         }
         CH.currentPackage.initPreviewEps();
         backButtons();
     //CH.currentPackage.putBackGroundInInitialscreen();
-    
-    
+
+
 }
 
 function makeCanvas()
@@ -915,15 +942,15 @@ function makeCanvas()
         {
             $('.dd_BG').html("");
             oThis.putAddressIndd();
-        }					
+        }
     });
-    
+
 }
-         
+
 function makeBack(){
     $(".sider").append("<div id='back' class='back'></div>");
     //$(".back").css("background-image","url("+CH.currentPackage.dropbackground+"?"+Math.random()+")");
-    $(".sider .back").html("<div id='addressDivonback' style='width:260px; position:absolute; text-align:left;padding-left:15px;'><div>Company Name</div><div id='deskPageCompanyName' style='margin-bottom:4px'><input id='deskPageCompanyNameInput' type='text' name='deskPageCompanyName' size='35' /></div><div>Road</div><div  id='deskPageRoad' style='margin-bottom:4px'><input  id='deskPageRoadInput' type='text' name='deskPageRoad' size='35' /></div><div>Zip Code</div><div  id='deskPageZipCode' style='margin-bottom:4px'><input  id='deskPageZipCodeInput' type='text' name='deskPageZipCodeInput' size='25' /></div><div>Phone Number</div><div  id='deskPagePhoneNumber' style='margin-bottom:4px'><input  id='deskPagePhoneNumberInput' type='text' name='deskPagePhoneNumberInput' size='35' /></div><div>E Mail</div><div  id='deskPageEMail' style='margin-bottom:4px'><input  id='deskPageEMailInput' type='text' name='deskPageEMailInput' size='35' /></div><div>Website</div><div  id='deskPageWebsite' style='margin-bottom:4px'><input  id='deskPageWebsiteInput' type='text' name='deskPageWebsiteInput' size='35' /></div></div>");
+    $(".sider .back").html("<div id='addressDivonback' style='width:260px; position:absolute; text-align:left;padding-left:15px;'><input type='hidden' id='selectedAddressType' name='selectedAddressType'/><div>Company Name</div><div id='deskPageCompanyName' style='margin-bottom:4px'><input id='deskPageCompanyNameInput' type='text' name='deskPageCompanyName' size='35' /></div><div>Road</div><div  id='deskPageRoad' style='margin-bottom:4px'><input  id='deskPageRoadInput' type='text' name='deskPageRoad' size='35' /></div><div>Zip Code</div><div  id='deskPageZipCode' style='margin-bottom:4px'><input  id='deskPageZipCodeInput' type='text' name='deskPageZipCodeInput' size='25' /></div><div>Phone Number</div><div  id='deskPagePhoneNumber' style='margin-bottom:4px'><input  id='deskPagePhoneNumberInput' type='text' name='deskPagePhoneNumberInput' size='35' /></div><div>E Mail</div><div  id='deskPageEMail' style='margin-bottom:4px'><input  id='deskPageEMailInput' type='text' name='deskPageEMailInput' size='35' /></div><div>Website</div><div  id='deskPageWebsite' style='margin-bottom:4px'><input  id='deskPageWebsiteInput' type='text' name='deskPageWebsiteInput' size='35' /></div></div>");
     if(CH.currentPackage.packageId!="1")
         {
     CH.currentPackage.initUpdateAddress();
@@ -951,7 +978,7 @@ function comingToBack(pckg) {
     $( ".tools button" ).css("opacity","0.5");
     $( ".tools select" ).prop("disabled","disabled");
     $( ".tools #toolbarViewAction button" ).prop("disabled","");
-    $( ".tools #toolbarViewAction button" ).css("opacity","1");   
+    $( ".tools #toolbarViewAction button" ).css("opacity","1");
     $( "#epsbutton" ).show();
     CH.currentPackage.currentSide="Back";
     $(".address-form").show();
@@ -970,7 +997,7 @@ function comingToFront(pckg)
     $('#clrpikr').hide();
     $(".toolbarBtn img").removeClass("dotborder");
     $("#frontdivimg img").addClass("dotborder");
-    $("#epsbutton").show();    
+    $("#epsbutton").show();
     $(".left").hide();
     $(".right").hide();
     $(".back").hide();
@@ -980,7 +1007,7 @@ function comingToFront(pckg)
     $('#backdivimg').show();
     //$('#backdivimg').hide();
     CH.currentPackage.preparingFront();
-    
+
     CH.currentPackage.currentSide="Front";
     $(".address-tittle-txt h1").html("Enter Text For Front Side");
     $("#toolbarCommonAction").css("display","block");
@@ -994,7 +1021,7 @@ function comingToFront(pckg)
     $("#ZoomOut").css("opacity","1");
     }
 }
-  
+
 function matchAddressFromBack(){
 /*
     $("#backaddress1 input").on('keyup',function(){
@@ -1031,37 +1058,37 @@ function traverseBack(){
         var newback= new CH.backitem();
         CH.currentPackage.back.push(newback);
         var chilli=$("#addressDivonback").children()[index];
-        
-        
+
+
         //alert("yeh hai id: "+$(this).prop("id"));
         if($(this).children().length > 0)
         {
         //  alert("input id: "+ $(this).children().val());
         }
-        
+
         if ($(this).children().length == 0) {
-          
+
             CH.currentPackage.back[index].isheader=1;
-            CH.currentPackage.back[index].inputid=$(this).prop("id"); 
+            CH.currentPackage.back[index].inputid=$(this).prop("id");
             CH.currentPackage.back[index].inputvalue=$(this).html();
             CH.currentPackage.back[index].height=$(this).height()+"";
             CH.currentPackage.back[index].width=$(this).width()+"";
             CH.currentPackage.back[index].xposition=$(this).position().left+"";
             CH.currentPackage.back[index].yposition=$(this).position().top+"";
-         
+
         }
-        
+
         else if($(this).children().length > 0)//if ($(chilli).tagName == "DIV")
         {
             CH.currentPackage.back[index].isheader=0;
-            CH.currentPackage.back[index].inputid=$(this).children().prop("id"); 
+            CH.currentPackage.back[index].inputid=$(this).children().prop("id");
             CH.currentPackage.back[index].inputvalue=$(this).children().val();
             CH.currentPackage.back[index].height=$(this).children().height()+"";
             CH.currentPackage.back[index].width=$(this).children().width()+"";
             CH.currentPackage.back[index].xposition=$(this).children().position().left+"";
             CH.currentPackage.back[index].yposition=$(this).children().position().top+"";
         }
-    
+
 
     });
     if(CH.currentPackage.currentSide!="Back")
@@ -1075,8 +1102,8 @@ function initialScreenOne(){
     $("#content-choosepackagehtml").show();
     backButtons();
     $('.buyandchoose').click(function(){
-        
-        
+
+
         if($(this).prop("id")=="basicButton")
         {
             CH.currentPackage=CH.VC1;
@@ -1091,12 +1118,13 @@ function initialScreenOne(){
         {
             CH.currentPackage=CH.VC3;
             CH.selectedBar=".nav6bar";
-        }  
+        }
+        $(".mainBanner").hide();
         CH.currentPackage.initialScreenTwo();
     });
 }
 function buttonToUnactivestate(){
-   
+
     $(".nav6bar ul #first").prop("class","first");
     $(".nav6bar ul #second").prop("class","second");
     $(".nav6bar ul #third").prop("class","third");
@@ -1108,46 +1136,47 @@ function buttonToUnactivestate(){
     $(".nav5bar ul #third").prop("class","third");
     $(".nav5bar ul #fourth").prop("class","fourth");
     $(".nav5bar ul #fifth").prop("class","fifth");
-    
-    
+
+
 }
 
 function buttonToUnactiveFlag(){
-   
+
     $(".lang-block .flag-de lang-active").prop("class","flag-de");
     $(".lang-block .flag-en lang-active").prop("class","flag-en");
     $(".lang-block .flag-fr lang-active").prop("class","flag-fr");
-  
+
 }
 
 
 
 function backButtons(){
-    
 
-    $('#formatFillingBackButton').click(function(){ 
+
+    $('#formatFillingBackButton').click(function(){
+        $(".mainBanner").show();
         $(".screens").hide();
         $("#content-choosepackagehtml").show();
         restoreAll()
         buttonToUnactivestate();
         $(CH.selectedBar+" ul #first").prop("class","first active");
     });
-    $('#chooseDesignBackButton').click(function(){ 
+    $('#chooseDesignBackButton').click(function(){
         $(".screens").hide();
         $("#content-choosefillingshtml").show();
         $(".dynamicFillings").hide();
-    
+
         $("#"+CH.currentPackage.fillingsForThisPackage).show();
         buttonToUnactivestate();
         $(CH.selectedBar+" ul #second").prop("class","second active");
     });
-    $('#AddressBackButton').click(function(){ 
+    $('#AddressBackButton').click(function(){
         $(".screens").hide();
         $("#content-choosedesignhtml").show();
         buttonToUnactivestate();
         $(".nav6bar ul #third").prop("class","third active");
     });
-    $('#deskBackButton').click(function(){ 
+    $('#deskBackButton').click(function(){
         $(".screens").hide();
         if(CH.currentPackage.packageId != "1")
             {
@@ -1160,9 +1189,9 @@ function backButtons(){
              $("#content-choosedesignhtml").show();
              buttonToUnactivestate();
         $(".nav5bar ul #third").prop("class","third active");
-         }   
+         }
     });
-    $('#orderBackButton').click(function(){ 
+    $('#orderBackButton').click(function(){
         $(".screens").hide();
         if(CH.currentPackage.packageId != "1")
             {
@@ -1175,14 +1204,14 @@ function backButtons(){
              $("#content-playablehtml").show();
              buttonToUnactivestate();
         $(".nav5bar ul #fourth").prop("class","fourth active");
-         }   
+         }
     });
 
 }
 
 
 function fitBackground(dropbackground){  //zain change
-    
+    var oThis=this;
     $("#divLoad").dialog("open");
     $.ajax({
         type: "POST",
@@ -1207,11 +1236,12 @@ function fitBackground(dropbackground){  //zain change
             //var heightacratio=CH.WIDTHOFDROP/data.split(' ')[2];
             var width=data.split(' ')[1];
             var height=data.split(' ')[2];
-
+            CH.ACTUALWIDTH= (parseFloat(data.split(' ')[4])*0.026458333).toFixed(3);
+            CH.ACTUALHEIGHT= (parseFloat(data.split(' ')[5])*0.026458333).toFixed(3);
             /*if(heightOrwidth=="width100%")
             {*/
             if(heightOrwidth=="widthgreater")
-            { 
+            {
                 $('.drop').css("width", CH.WIDTHOFDROP+"px");
                 $('.back').css("width", CH.WIDTHOFDROP+"px");
                 $('.drop').css("height", height+"px");
@@ -1222,7 +1252,7 @@ function fitBackground(dropbackground){  //zain change
                 //$('.back').css("height", height+"px");
                 $('.drop').css("background-repeat","no-repeat");
                 $('.back').css("background-repeat","no-repeat");
-                $(".sider").css("height",$('.drop').height()+10+"px");    
+                $(".sider").css("height",$('.drop').height()+10+"px");
             }
             else if(heightOrwidth=="widthlesser")
             {
@@ -1239,7 +1269,7 @@ function fitBackground(dropbackground){  //zain change
                 var padding = (980-(Math.ceil(width)))/2;
                 $('.drop').css("margin-left",padding+"px");
                 $('.drop').css("background-position","center");
-                $('.back').css("background-position","center"); 
+                $('.back').css("background-position","center");
                 $('.drop').css("background-repeat","no-repeat");
                 $('.back').css("background-repeat","no-repeat");
                 //may be required/$(".edit-design-content").height(CH.HEIGHTOFDROP+250+"");
@@ -1256,23 +1286,23 @@ function fitBackground(dropbackground){  //zain change
                     CH.textConstantToAddForVerticalImages=(980-(Math.ceil(originalWidth)))/2;
                     dragbound();
                     moveDropElementsAccordingToBackground();*///zain
-                    
-                    
+
+
                     });
                 $('#forImageWidth').append(bgImg);
 
                 bgImg.attr('src', url);
-                
-                       
+
+
             }
-               
+
             //}
             /*else if(heightOrwidth=="height100%")
             {
                 $('.drop').css("background-size", "auto 100%");
                 $('.back').css("background-size", "auto 100%");
                 $('.drop').css("background-position","center");
-                $('.back').css("background-position","center"); 
+                $('.back').css("background-position","center");
                 $('.drop').css("background-repeat","no-repeat");
                 $('.back').css("background-repeat","no-repeat");
                 //may be required/$(".edit-design-content").height(CH.HEIGHTOFDROP+250+"");
@@ -1292,28 +1322,28 @@ function fitBackground(dropbackground){  //zain change
                     aspect=originalWidth/originalHeight;
                     var manipulatedHeight = 750;
                     var width=manipulatedHeight*aspect;
-    
+
                     CH.textConstantToAddForVerticalImages=(980-(Math.ceil(width)))/2;
                     //alert(CH.textConstantToAddForVerticalImages);
-    
+
                     moveDropElementsAccordingToBackground();
                 });
                 $('#forImageWidth').append(bgImg);
 
                 bgImg.attr('src', url);
-                
-                
-                
+
+
+
             //var CH.WIDTHOFDROP=580;
-            //var CH.HEIGHTOFDROP=350;        
-            
+            //var CH.HEIGHTOFDROP=350;
+
             }*/
             $("#divLoad").dialog("close");
              /*$("#drop").attr("background").load(function(){
             $("#divLoad").dialog("close");
         });
             */
-            
+
         }
     });
 }
@@ -1329,7 +1359,7 @@ function moveDropElementsAccordingToBackground(){
     $("#drop div").draggable({
     containment: [CH.textConstantToAddForVerticalImages,0, 980-(CH.textConstantToAddForVerticalImages*2), 150]
 });
-    
+
 }*/
 
 function applyGermanProgressBar(){
@@ -1345,7 +1375,7 @@ function applyGermanProgressBar(){
     $(".nav6bar ul li.fifth").css("width","225px");
     $(".nav6bar ul li.sixth").css("background", "url('img/images/menu/6menu/german/preview.png')");
     $(".nav6bar ul li.sixth").css("width","129px");
-                                        
+
     $(".nav6bar ul li.first.active").css("background", "url('img/images/menu/6menu/german/choosepackage-hover.png')");
     $(".nav6bar ul li.first.active").css("width","150px");
     $(".nav6bar ul li.second.active").css("background", "url('img/images/menu/6menu/german/format-filling-hover.png')");

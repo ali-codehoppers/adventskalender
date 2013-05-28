@@ -1,3 +1,4 @@
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"  />
 <?php
 
 $lang = array(
@@ -12,7 +13,13 @@ $lang = array(
 						'Choose the shape of the advent calendar' => 'Choose the shape of the advent calendar',
 						'Choose the filling of the advent calendar' => 'Choose the filling of the advent calendar',
 						'Choose and edit the address which is to be printed on the advent calendar' => 'Choose and edit the address which is to be printed on the advent calendar',
-						'Choose the colour of the backside as well as the left and right sides' => 'Choose the colour of the backside as well as the left and right sides',
+'Select a background motive'=>'Select a background motive',						
+'Choose the colour of the backside as well as the left and right sides' => 'Choose the colour of the backside as well as the left and right sides',
+'Customize your Advent Calendar according to your ideas' =>'Customize your Advent Calendar according to your ideas',
+						'Customize the logo printing area of your Advent Calendar'=>'Customize the logo printing area of your Advent Calendar',
+						'Now you can download directly to your proofs directly and request a quotation for your desired quantity' => 'Now you can download directly to your proofs directly and request a quotation for your desired quantity',
+						'Now you can directly download your chosen motif directly and request a quotation for your desired quantity'=>'Now you can directly download your chosen motif directly and request a quotation for your desired quantity',
+						'Advertising effectiveness tastes' => 'Advertising effectiveness tastes',
 'Choose a Format' => 'Choose a Format',
     'choose a filling' => 'choose a filling',
     'NEXT'=>'NEXT',
@@ -22,8 +29,6 @@ $lang = array(
     'Use Company Address'=>'Use Company Address',
     'Use Home Address'=>'Use Home Address',
     'CUSTOMIZE YOUR ADVENTS KALENDER'=>'CUSTOMIZE YOUR ADVENTS KALENDER',
-//'' => '','Choose a Format' => 'Format wählen',
-    
     'Company Name'=>'Company Name',
     'Road'=>'Road',
     'Zip Code and City'=>'Zip Code and City',
