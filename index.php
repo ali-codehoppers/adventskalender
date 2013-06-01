@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
 
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"  />
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"></meta>
 
         <title>Choose Package</title>
         <!--my C-->
@@ -32,20 +32,9 @@
         <script src="./javascripts/vc2.js" type="text/javascript"></script>
         <script src="./javascripts/vc3.js" type="text/javascript"></script>
         <script src="./javascripts/objectClasses.js" type="text/javascript"></script>
-        <style type="text/css">
-
-
-
-            /*.bgImage
-            {
-              background-image:url('110108300-W003.jpg');    
-              width: 1453px;
-              height:1028px;
-            *//*width: 500px;
-            height: 500px;
-            background-color: Gray;*/
-            /*}*/
-        </style>
+        <script src="./javascripts/languages/jquery.validationEngine-en.js" type="text/javascript" charset="utf-8"></script>
+        <script src="./javascripts/jquery.validationEngine.js" type="text/javascript" charset="utf-8"></script>
+        <link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css"/>
         <!--end of my C-->
 
         <!--[if IE 7]>
@@ -66,6 +55,7 @@
         }
         $ini = parse_ini_file('config.ini', false);
         $FIXED_DPI = $ini['imageDPI'];
+        
         ?>
         <script type="text/javascript">
             var jproducts_bookmarks_url='/en/products/?task=bookmarks';
@@ -151,8 +141,9 @@ var bannertemphtml;
 var selected=0;   
 $(document).ready(function() { 
     $(".nav5bar").hide();
+    $(".nav6bar").hide();
     $(".nav").hide();
-            
+    $(".mainBanner").attr("style","margin-top:0px;");
     //This is all for navigation bar
                 
     buttonToUnactiveFlag();
@@ -306,7 +297,7 @@ $(document).ready(function() {
                 
                 
     $(".nav6bar #fourth ").click(function(){
-        if((CH.currentPackage.packagename)&&(CH.backgroundSelected!=null))
+        if((CH.currentPackage.packagename)&&(CH.backgroundSelected!=null)&&(CH.addressSelected))
         {
             buttonToUnactivestate();
             $(".nav6bar #fourth").prop("class","fourth active");
@@ -316,7 +307,7 @@ $(document).ready(function() {
     });
                 
     $(".nav5bar #fourth ").click(function(){
-        if((CH.currentPackage.packagename)&&(CH.isFillingAndFormatSelected))
+        if((CH.currentPackage.packagename)&&(CH.isFillingAndFormatSelected)&&(CH.designLoad))
         {
             buttonToUnactivestate();
             $(".nav5bar #fourth").prop("class","fourth active");
@@ -328,7 +319,7 @@ $(document).ready(function() {
                 
                 
     $(".nav6bar #fifth ").click(function(){
-        if((CH.currentPackage.packagename)&&(CH.backgroundSelected!=null))
+        if((CH.currentPackage.packagename)&&(CH.backgroundSelected!=null)&&(CH.addressSelected)&&(CH.designLoad))
         {
             buttonToUnactivestate();
             $(".nav6bar #fifth").prop("class","fifth active");
@@ -392,7 +383,30 @@ $(document).ready(function() {
             });
     });*/
         </script>
+<style type="text/css">
 
+
+
+            /*.bgImage
+            {
+              background-image:url('110108300-W003.jpg');
+              width: 1453px;
+              height:1028px;
+            *//*width: 500px;
+            height: 500px;
+            background-color: Gray;*/
+            /*}*/
+            .ui-icon-closethick,.ui-icon-closethick:hover{
+                background-image: url(css/ui-lightness/images/ui-icons_cc0000_256x240.png) !important;
+                background-color: white;
+                border-radius: 5px;
+                -moz-border-radius: 5px;
+            }
+            .ui-icon{
+                width:17px;
+                height:17px;
+            }
+        </style>
 
     </head>
 
@@ -562,21 +576,21 @@ $(document).ready(function() {
                                 <h1>Business</h1>
                             </div>
                             <div class='packge-business'>
-                                <div style="min-height:450px;">
-                                <div class="greytip"><span>So einfach Funktioniert's</span></div>
+                                <div style="min-height:285px;">
+                                <div class="greytip"><span>So einfach funktioniert's</span></div>
                                 <!--<img src='img/images/business-packge.png' alt='business' class='packge-img' />-->
                                 <!--<span><?php echo mb_convert_encoding($lang['In the business version the following configurations are possible'], "UTF-8"); ?>:</span>-->
                                 <ul>
-                                    <li class='first'><?php echo mb_convert_encoding($lang['Choose the shape of the advent calendar'], "UTF-8"); ?>.</li>
-                                    <li class='second'><?php echo mb_convert_encoding($lang['Choose the filling of the advent calendar'], "UTF-8"); ?>.</li>
-                                    <li class='third'><?php echo mb_convert_encoding($lang['Choose and edit the address which is to be printed on the advent calendar'], "UTF-8"); ?>.</li>
-                                    <li class='fourth'><?php echo mb_convert_encoding($lang['Choose the colour of the backside as well as the left and right sides'], "UTF-8"); ?>.</li>
-                                    <li class='fifth'><?php echo mb_convert_encoding($lang['Customize your Advent Calendar according to your ideas'], "UTF-8"); ?>.</li>
+                                    <li class='first'><?php echo ($lang['Choose the shape of the advent calendar']); ?>.</li>
+                                    <li class='second'><?php echo ($lang['Choose the filling of the advent calendar']); ?>.</li>
+                                    <li class='third'><?php echo ($lang['Choose and edit the address which is to be printed on the advent calendar']); ?>.</li>
+                                    <li class='fourth'><?php echo ($lang['Choose the colour of the backside as well as the left and right sides']); ?>.</li>
+                                    <li class='fifth'><?php echo ($lang['Customize your Advent Calendar according to your ideas']); ?>.</li>
                                 </ul>
-                                <div class="footerText">
+                                <!--<div class="footerText">
                                     <span><?php echo mb_convert_encoding($lang['Now you can download directly to your proofs directly and request a quotation for your desired quantity'], "UTF-8"); ?>.</span>
                                     <span><?php echo mb_convert_encoding($lang['Advertising effectiveness tastes'], "UTF-8"); ?>!</span>
-                                </div>
+                                </div>-->
                                 </div>
                                 <a id='businessButton'  class='buyandchoose' href='#' name='choose-btn'></a>
                             </div>
@@ -586,24 +600,24 @@ $(document).ready(function() {
                                 <h1>Basic</h1>
                             </div>
                             <div class='packge-basic'>
-                                <div style="min-height:450px;">
-                                <div class="blacktip"><span>So einfach Funktioniert's</span></div>
+                                <div style="min-height:285px;">
+                                <div class="blacktip"><span>So einfach funktioniert's</span></div>
                                 <!--<img src='img/images/basic-packge.png' alt='basic' class='packge-img' />-->
                                 <!--<span><?php echo mb_convert_encoding($lang['In the basic version the following configurations are possible'], "UTF-8"); ?>:</span>-->
                                 <ul>
                                     <!--<li class='first'><?php echo mb_convert_encoding($lang['Choose a background image'], "UTF-8"); ?>.</li>
                                     <li class='second'><?php echo mb_convert_encoding($lang['Choose and edit the address which is to be printed on the advent calendar'], "UTF-8"); ?>.</li>
                                     <li class='third'><?php echo mb_convert_encoding($lang['Place text and images within the white areas of the background image'], "UTF-8"); ?>.</li>-->
-                                    <li class='first'><?php echo mb_convert_encoding($lang['Choose the shape of the advent calendar'], "UTF-8"); ?>.</li>
-                                    <li class='second'><?php echo mb_convert_encoding($lang['Choose the filling of the advent calendar'], "UTF-8"); ?>.</li>
-                                    <li class='third'><?php echo mb_convert_encoding($lang['Select a background motive'], "UTF-8"); ?>.</li>
-                                    <li class='fourth'><?php echo mb_convert_encoding($lang['Choose the colour of the backside as well as the left and right sides'], "UTF-8"); ?>.</li>
-                                    <li class='fifth'><?php echo mb_convert_encoding($lang['Customize the logo printing area of your Advent Calendar'], "UTF-8"); ?>.</li>
+                                    <li class='first'><?php echo ($lang['Choose the shape of the advent calendar']); ?>.</li>
+                                    <li class='second'><?php echo ($lang['Choose the filling of the advent calendar']); ?>.</li>
+                                    <li class='third'><?php echo ($lang['Select a background motive']); ?>.</li>
+                                    <li class='fourth'><?php echo ($lang['Choose the colour of the backside as well as the left and right sides']); ?>.</li>
+                                    <li class='fifth'><?php echo ($lang['Customize the logo printing area of your Advent Calendar']); ?>.</li>
                                 </ul>
-                                <div class="footerText">
+                                <!--<div class="footerText">
                                     <span><?php echo mb_convert_encoding($lang['Now you can download directly to your proofs directly and request a quotation for your desired quantity'], "UTF-8"); ?>.</span>
                                     <span><?php echo mb_convert_encoding($lang['Advertising effectiveness tastes'], "UTF-8"); ?>!</span>
-                                </div>
+                                </div>-->
                                 </div>
                                 <a id='standardButton'  class='buyandchoose' href='#' name='choose-btn'></a>
                             </div>
@@ -613,20 +627,20 @@ $(document).ready(function() {
                                 <h1>Standard</h1>
                             </div>
                             <div class='packge-standard'>
-                                    <div style="min-height:450px;">
-                                    <div class="greytip"><span>So einfach Funktioniert's</span></div>
+                                    <div style="min-height:285px;">
+                                    <div class="greytip"><span>So einfach funktioniert's</span></div>
                                     <!--<img src='img/images/standard-packge.png' alt='standard' class='packge-img' />-->
                                     <!--<span><?php echo mb_convert_encoding($lang['In the standard version the following configurations are possible'], "UTF-8"); ?>:</span>-->
                                     <ul>
                                         <!--<li class='first'><?php echo mb_convert_encoding($lang['Choose a background image'], "UTF-8"); ?>.</li>
                                         <li class='second'><?php echo mb_convert_encoding($lang['Choose and edit the address which is to be printed on the advent calendar'], "UTF-8"); ?>.</li>-->
-                                        <li class='first'><?php echo mb_convert_encoding($lang['Choose the shape of the advent calendar'], "UTF-8"); ?>.</li>
-                                        <li class='second'><?php echo mb_convert_encoding($lang['Choose the filling of the advent calendar'], "UTF-8"); ?>.</li>
+                                        <li class='first'><?php echo ($lang['Choose the shape of the advent calendar']); ?>.</li>
+                                        <li class='second'><?php echo ($lang['Choose the filling of the advent calendar']); ?>.</li>
                                     </ul>
-                                    <div class="footerText">
+                                    <!--<div class="footerText">
                                         <span><?php echo mb_convert_encoding($lang['Now you can directly download your chosen motif directly and request a quotation for your desired quantity'], "UTF-8"); ?>.</span>
                                         <span><?php echo mb_convert_encoding($lang['Advertising effectiveness tastes'], "UTF-8"); ?>!</span>
-                                    </div>
+                                    </div>-->
                                     </div>
                                 <a id='basicButton'  class='buyandchoose' href='#' name='choose-btn'></a>
                             </div>
@@ -643,10 +657,10 @@ $(document).ready(function() {
                             <form action='#' method='post' name='choose-filling'>
                                 <div class="filling-header">
                                     <div class='format-title'>
-                                        <?php echo mb_convert_encoding($lang['Choose a Format'], "UTF-8"); ?>
+                                        <?php echo ($lang['Choose a Format']); ?>
                                     </div>
                                     <div class="filling-title">
-                                        <?php echo mb_convert_encoding($lang['choose a filling'], "UTF-8"); ?>
+                                        <?php echo ($lang['choose a filling']); ?>
                                     </div>
                                     <div style="clear:both"></div>
                                 </div>
@@ -689,8 +703,8 @@ $(document).ready(function() {
                             </form>
                         </div>
                         <div style="clear:both;">
-                            <div id='nextButton' style="float: right; margin-right: 5px;"><input id='formatFillingNextButton' style="bottom: 10px;" type='button' name='submit' class='next-button' value='<?php echo mb_convert_encoding($lang['NEXT'], "UTF-8"); ?>' /></div>
-                            <div id='backButton' style="float: right; margin-right: 5px;"><input id='formatFillingBackButton' style="bottom: 10px;" type='button' name='submit' class='next-button' value='<?php echo mb_convert_encoding($lang['BACK'], "UTF-8"); ?>' /></div>
+                            <div id='nextButton' style="float: right; margin-right: 5px;"><input id='formatFillingNextButton' style="bottom: 10px;" type='button' name='submit' class='next-button' value='<?php echo ($lang['NEXT']); ?>' /></div>
+                            <div id='backButton' style="float: right; margin-right: 5px;"><input id='formatFillingBackButton' style="bottom: 10px;" type='button' name='submit' class='next-button' value='<?php echo ($lang['BACK']); ?>' /></div>
                             <div style="clear:both;"></div>
                         </div>
                     </div>
@@ -700,7 +714,7 @@ $(document).ready(function() {
                 <div id="content-choosedesignhtml" class="screens">
                     <div class="tiitle">
                         <div class='design-title'>
-                            <?php echo mb_convert_encoding($lang['Choose a design'], "UTF-8"); ?>
+                            <?php echo ($lang['Choose a design']); ?>
                                     </div>
 
                                     <div style="clear:both"></div>
@@ -717,49 +731,129 @@ $(document).ready(function() {
                             <div id="content-orderAdventKalenderhtml" class="screens">
                                 <div class="tiitle">
                                     <div class='design-title'>
-                            <?php //echo mb_convert_encoding($lang['Choose a design'], "UTF-8"); ?>
-                                        ORDER NOW
+                                        <?php echo ($lang['ORDER NOW']); ?>
                                     </div>
 
                                     <div style="clear:both"></div>
                                 </div>
                                 <div class='content-upper' style="border-bottom: 1px solid #C9C9C9; padding-bottom: 10px; border-radius: 0 0 5px 5px;">
-                                    <table border="0" id='orderDiv' cellspacing="10px">
-                                        <tr>
-                                            <td>Salutation</td>
-                                            <td>&nbsp;&nbsp;&nbsp;<select id='orderPageSalutation'><option>Mr.</option><option>Ms.</option></select></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Last Name</td>
-                                            <td><input id='orderPageLastName' type='text' name='LastName' size='35' /></td>
-                                        </tr>
-                                        <tr>
-                                            <td>First Name</td>
-                                            <td><input id='orderPageFirstName' type='text' name='FirstName' size='25' /></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Company</td>
-                                            <td><input id='orderPageCompanyName' type='text' name='Company' size='35' /></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Road</td>
-                                            <td><input id='orderPageRoad' type='text' name='Road' size='35' /></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Zip Code</td>
-                                            <td><input id='orderPageZipCode' type='text' name='ZipCode' size='35' /></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Place</td>
-                                            <td><input id='orderPagePlace' type='text' name='Place' size='35' /></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Desired Amount Of The Calender</td>
-                                            <td><input id='orderPageDesiredAmount' type='text' name='DesiredAmount' size='35' /></td>
-                                        </tr>
-
-                                    </table>
-
+                                    <form id="orderForm">
+                                    <div id="orderDiv">
+                                        <div class="row">
+                                            <div class="col1">
+                                                <span id="firmaTitle">Firma *</span>
+                                            </div>
+                                            <div class="col2">
+                                                <span id="strasseTitle">Strasse *</span>
+                                            </div>
+                                            <div style="clear:both"></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col1">
+                                                <input type="text" class="validate[required]" name="firmaField" id="firmaField"/>
+                                            </div>
+                                            <div class="col2">
+                                                <input type="text" class="validate[required]" name="strasseField" id="strasseField"/>
+                                            </div>
+                                            <div style="clear:both"></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col1">
+                                                <span id="anredeTitle">Anrede *</span>
+                                            </div>
+                                            <div class="col2">
+                                                <div class="subCol1"><span id="plzTitle">PLZ *</span></div>
+                                                <div class="subCol2"><span id="ortTitle">Ort *</span></div>
+                                            </div>
+                                            <div style="clear:both"></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col1">
+                                                <select name="anredeField" id="anredeField" class="validate[required]">
+                                                    <option value="Frau">Frau</option>
+                                                    <option value="Herr">Herr</option>
+                                                    <option value="Dr">Dr.</option>
+                                                    <option value="Prof">Prof.</option>
+                                                </select>
+                                            </div>
+                                            <div class="col2">
+                                                <div class="subCol1"><input type="text" name="plzField" id="plzField" class="validate[required]"/></div>
+                                                <div class="subCol2"><input type="text" name="ortField" id="ortField" class="validate[required]"/></div>
+                                            </div>
+                                            <div style="clear:both"></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col1">
+                                                <span id="vornameTitle">Vorname *</span>
+                                            </div>
+                                            <div class="col2">
+                                                <span id="landTitle">Land *</span>
+                                            </div>
+                                            <div style="clear:both"></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col1">
+                                                <input type="text" name="vornameField" id="vornameField" class="validate[required]"/>
+                                            </div>
+                                            <div class="col2">
+                                                <select name="landField" id="landField" class="validate[required]">
+                                                    <option value="DE">Deutschland (DE)</option>
+                                                    <option value="CH">Schweiz (CH)</option>
+                                                    <option value="AT">Österreich (AT)</option>
+                                                </select>
+                                            </div>
+                                            <div style="clear:both"></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col1">
+                                                <span id="nachnameTitle">Nachname *</span>
+                                            </div>
+                                            <div class="col2">
+                                                <span id="telefonTitle">Telefon</span>
+                                            </div>
+                                            <div style="clear:both"></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col1">
+                                                <input type="text" name="nachnameField" id="nachnameField" class="validate[required]"/>
+                                            </div>
+                                            <div class="col2">
+                                                <input type="text" name="telefonField" id="telefonField"/>
+                                            </div>
+                                            <div style="clear:both"></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col1">
+                                                <span id="emailTitle">Email *</span>
+                                            </div>
+                                            <div class="col2">
+                                                <span id="anzahlTitle">Anzahl der gewünschen Adventskalender</span>
+                                            </div>
+                                            <div style="clear:both"></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col1">
+                                                <input type="text" name="emailField" id="emailField" class="validate[required,custom[email]]"/>
+                                            </div>
+                                            <div class="col2">
+                                                <input type="text" name="anzahlField" id="anzahlField"/>
+                                            </div>
+                                            <div style="clear:both"></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col1">
+                                                <span id="commentTitle">Hier ist Platz für lhre Anmerkungen und Fragen</span>
+                                            </div>
+                                            <div style="clear:both"></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col1">
+                                                <textarea name="commentField" id="commentField"></textarea>
+                                            </div>
+                                            <div style="clear:both"></div>
+                                        </div>
+                                    </div>
+                                    </form>
                                 </div>
                                 <div id="orderPageButtonDiv">
 
@@ -774,121 +868,142 @@ $(document).ready(function() {
                                 <div class='tiitle'>
 
                                     <div class='address-title'>
-                            <?php echo mb_convert_encoding($lang['ADD YOUR HOUSE OR OFFICE ADDRESS'], "UTF-8"); ?>
+                            <?php echo ($lang['ADD YOUR HOUSE OR OFFICE ADDRESS']); ?>
                                     </div>
 
                                 </div>
                                 <div class='chose-format'>
                                     <div class='content-upper-address' style="border-bottom: 1px solid #C9C9C9; border-radius: 0 0 5px 5px;">
-                                        
                                             <div id="color_optionPanel" style="display:none">
-                                                <div class="pannel">
+                                                <div class="seprater">
                                                     <div class="row">
-                                                        <div class="colHead">
-                                                        Bitte Wählen Sie zwei Farben, welche Sie für die weitere individualisierung lhres Adventskaleders nutzen möchten.
-                                                        </div>
-                                                        <div class="col">
-                                                            <div class="col1">
-                                                                Color Option 1 
+                                                        <div class="headText">1. Farben wählen</div>
+                                                        <div class="col1">
+                                                            <div class="colHead">
+                                                                <p>Bitte wählen Sie nun 1-2 Farben aus dem Farbächer aus oder tragen Sie weiten unten, die Ihnen bekannten HKS-Farbcodes ein. Diese Farben konnen Sie im Anschluss im druckbaren Bereich für Ihre Weihnachtsbotschaft verwenden.</p>
                                                             </div>
-                                                            <div class="col2">
-                                                                <div id="colorOption1"><input value="#000000" type='hidden' id='colorOptionField1' name='colorOptionField1' class='color-picker-for-basic-package' size='6' autocomplete='on' maxlength='10' /></div>
+                                                            <div class="col">
+                                                                <div class="col1">
+                                                                    1. Farbig
+                                                                </div>
+                                                                <div class="col2">
+                                                                    <div id="colorOption1"><input value="#000000" type='hidden' id='colorOptionField1' name='colorOptionField1' class='color-picker-for-basic-package' size='6' autocomplete='on' maxlength='10' /></div>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="col">
-                                                            <div class="col1">
-                                                                Color Option 2 
+                                                            <div class="col">
+                                                                <div class="col1">
+                                                                    2. Farbig
+                                                                </div>
+                                                                <div class="col2">
+                                                                    <div id="colorOption2"><input value="#000000" type='hidden' id='colorOptionField2' name='colorOptionField2' class='color-picker-for-basic-package' size='6' autocomplete='on' maxlength='10' /></div>
+                                                                </div>
                                                             </div>
-                                                            <div class="col2">
-                                                                <div id="colorOption2"><input value="#000000" type='hidden' id='colorOptionField2' name='colorOptionField2' class='color-picker-for-basic-package' size='6' autocomplete='on' maxlength='10' /></div>
-                                                            </div>
+                                                            <div style="clear:both"></div>
                                                         </div>
                                                         <div style="clear:both"></div>
                                                     </div>
-                                                </div>
-                                                <div class="pannel">
-                                                    <div style="text-align: justify;font-weight: bold;margin:60px;">
-                                                        <p style="color:red">Achtung! Wenn Ihr Weihnachtsgruß, Ihr Firmenlogo oder Ihr Weihnachtsgruß in Kombination mit Ihrem Logo 3 oder mehr Farben darstellen, kontaktieren Sie uns bitte unter 07643-8010 damit wir individuell auf Ihre Sonderwünsche eingehen können.</p>
+                                                    <div class="row" >
+                                                        <div style="margin:auto;width:15%;font-weight: bold">ODER</div>
+                                                    </div>
+                                                    <div class="row" style="border-bottom-width: 0px;padding-bottom: 20px;" >
+                                                        <div style="float:left;padding-left:10px;width:45%">
+                                                            <div style="float:left;padding-top: 2px;">1. HKS-Farbe</div>
+                                                            <div style="float:left;margin-left: 15px;">
+                                                                <select name="hks1Value" id="hks1Value" style="width: 80px;">
+                                                                    
+                                                                </select>
+                                                            </div>
+                                                            <div style="clear:both"></div>
+                                                        </div>
+                                                        <div style="float:left;width:45%">
+                                                            <div style="float:left;padding-top: 2px;">2. HKS-Farbe</div>
+                                                            <div style="float:left;margin-left: 15px;">
+                                                                <select name="hks2Value" id="hks2Value" style="width: 80px;">
+                                                                    
+                                                                </select>
+                                                            </div>
+                                                            <div style="clear:both"></div>
+                                                        </div>
+                                                        <div style="clear:both"></div>
+                                                    </div>
+                                                    <div class="row" style="border-bottom-width: 0px;padding-top: 20px;">
+                                                        <p style="color:#000000;">ACHTUNG! Solten Sie zusätzlich zu Ihrem Weihnachtsgruß ein Grafik (Firmenlogo, Foto...) einfügen wollen, achten Sie bitte darauf, dass die hier ausgewählten Farben sich auch in Ihrem Logo wiederfinden.</p>
+                                                        <p style="color:#000000;">Kontaktieren Sie uns bitte direkt unter +49 7643 8010, wenn die Kombination Ihrer getroffenen Farbwahl und der Farben in der Grafik 3 oder mehr Farben darstellen, damit wir individuell auf Ihre Sonderwünsche eingehen können.</p>
                                                     </div>
                                                 </div>
+                                                
                                                 <div style="clear:both"></div>
                                             </div>
                                             <div id="dd_addressType">
                                                 <div class="row">
                                                     <div class="col1">
-                                                        <div>
-                                                            <input type="radio" name="addressType" value="company_address" checked="true"/><span style="padding-left:10px;"><?php echo mb_convert_encoding($lang['Use Company Address'], "UTF-8"); ?></span>
+                                                        <div id="addressOptionText" style="display:none">
+                                                            <div class="headText">2. Adresse für  Inverkehrbringer wählen</div>
+                                                            <div class="pannel" style="margin-top:20px;">
+                                                                <div style="text-align: justify;">
+                                                                    <p>Die generelle Kennzeichnungspflicht gemäß dem ProdSG besteht seit dem 1.12.2011 und gilt grundsä tzlich für ale Werbeartikel.</p>
+                                                                    <p>Anstelle der Herstelleradesse können Sie auch Ihre oder die Adresse Ihrer Kunden eintragen. Der eingetragene Inverkehbringer gilt quasi als Hersteller und übernimmt folglich sämtliche Haftungsrisiken für das Produkt.</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div style="padding-top: 26px;font-weight: bold;">
+                                                            <input type="radio" name="addressType" value="company_address" checked="true"/><span style="padding-left:10px;"><?php echo ($lang['Use Company Address']); ?></span>
                                                         </div>
                                                     </div>
-                                                    <div class="col2">
-                                                        <div>
-                                                            <input type="radio" name="addressType" value="home_address"/><span style="padding-left:10px;"><?php echo mb_convert_encoding($lang['Use Home Address'], "UTF-8"); ?></span>
-                                                        </div>
-                                                    </div>
-                                                    <div style="clear:both"></div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col1">
+                                                    <div class="col1" style="padding-top: 22px;">
                                                         <div id="companyAddress">
-                                                            <table border="0" id='companyAddressDivindd_bg' cellspacing="10px">
+                                                            <table border="0" id='companyAddressDivindd_bg' cellspacing="">
                                                                 <tr>
-                                                                    <td><?php echo mb_convert_encoding($lang['Company Name'], "UTF-8"); ?>*</td>
-                                                                    <td><input id='companyAddressPageCompanyName' type='text' name='companyAddrline1' size='35' readonly="true" value="Kalfany Süße Werbung GmbH & Co. KG"/></td>
+                                                                    <td><?php echo ($lang['Company Name']); ?></td>
+                                                                    <td><span id='companyAddressPageCompanyName' name='companyAddrline1'>Kalfany Süße Werbung GmbH & Co. KG</span></td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td><?php echo mb_convert_encoding($lang['Road'], "UTF-8"); ?>*</td>
-                                                                    <td><input id='companyAddressPageRoad' type='text' name='companyAddrline2' size='35' readonly="true" value="Holzmattenstraße 22"/></td>
+                                                                    <td><?php echo ($lang['Road']); ?></td>
+                                                                    <td><span id='companyAddressPageRoad' name='companyAddrline2'>Holzmattenstraße 22</span></td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td><?php echo mb_convert_encoding($lang['Zip Code and City'], "UTF-8"); ?>*</td>
-                                                                    <td><input id='companyAddressPageZipCode' type='text' name='companyZip' size='25' readonly="true" value="D-79336 Herbolzheim"/></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td><?php echo mb_convert_encoding($lang['Phone Number'], "UTF-8"); ?></td>
-                                                                    <td><input id='companyAddressPagePhoneNumber' type='text' name='companyPhone' size='35' /></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td><?php echo mb_convert_encoding($lang['eMail'], "UTF-8"); ?></td>
-                                                                    <td><input id='companyAddressPageEMail' type='text' name='companyEmail' size='35' /></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td><?php echo mb_convert_encoding($lang['Website'], "UTF-8"); ?></td>
-                                                                    <td><input id='companyAddressPageWebsite' type='text' name='companyWebsite' size='35' /></td>
+                                                                    <td><?php echo ($lang['Zip Code and City']); ?></td>
+                                                                    <td><span id='companyAddressPageZipCode' name='companyZip'>D-79336 Herbolzheim</span></td>
                                                                 </tr>
                                                             </table>
                                                             <div style="color:red; display:none;" id="companyErrorMessage"> Please fill all the required(*) fields</div>
                                                         </div>
                                                     </div>
-                                                    <div class="col2">
+                                                    <div class="col1" style="padding-top: 25px;padding-bottom: 20px;">
+                                                        <div style="font-weight: bold;">
+                                                            <input type="radio" name="addressType" value="home_address"/><span style="padding-left:10px;"><?php echo ($lang['Use Home Address']); ?></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col2" style="border-bottom-width: 0px;">
                                                         <div id="homeAddress">
                                                             <table border="0" id='homeAddressDivindd_bg' cellspacing="10px">
                                                                 <tr>
-                                                                    <td><?php echo mb_convert_encoding($lang['Company Name'], "UTF-8"); ?>*</td>
+                                                                    <td><?php echo ($lang['Company Name']); ?>*</td>
                                                                     <td><input id='homeAddressPageCompanyName' type='text' name='addrline1' size='35' /></td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td><?php echo mb_convert_encoding($lang['Road'], "UTF-8"); ?>*</td>
+                                                                    <td><?php echo ($lang['Road']); ?>*</td>
                                                                     <td><input id='homeAddressPageRoad' type='text' name='addrline2' size='35' /></td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td><?php echo mb_convert_encoding($lang['Zip Code and City'], "UTF-8"); ?>*</td>
+                                                                    <td><?php echo ($lang['Zip Code and City']); ?>*</td>
                                                                     <td><input id='homeAddressPageZipCode' type='text' name='zip' size='25' /></td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td><?php echo mb_convert_encoding($lang['Phone Number'], "UTF-8"); ?></td>
+                                                                    <td><?php echo ($lang['Phone Number']); ?></td>
                                                                     <td><input id='homeAddressPagePhoneNumber' type='text' name='phone' size='35' /></td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td><?php echo mb_convert_encoding($lang['eMail'], "UTF-8"); ?></td>
+                                                                    <td><?php echo ($lang['eMail']); ?></td>
                                                                     <td><input id='homeAddressPageEMail' type='text' name='email' size='35' /></td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td><?php echo mb_convert_encoding($lang['Website'], "UTF-8"); ?></td>
+                                                                    <td><?php echo ($lang['Website']); ?></td>
                                                                     <td><input id='homeAddressPageWebsite' type='text' name='website' size='35' /></td>
                                                                 </tr>
 
                                                             </table>
-                                                            <div style="color:red; display:none;" id="homeErrorMessage"> Please fill all the required(*) fields</div>
+                                                            <div style="color:red; display:none;font-weight: bold" id="homeErrorMessage">Grab & Kleinschreibung beachten!!!</div>
                                                         </div>
                                                     </div>
                                                     <div style="clear:both"></div>
@@ -907,8 +1022,8 @@ $(document).ready(function() {
                                 </div>
 
                                 <div id="buttonDiv" style="clear:both; padding-top:20px;">
-                                    <div class='next-button-div'><input id='AddressNextButton' type='button' name='submit' class='next-button' value='<?php echo mb_convert_encoding($lang['NEXT'], "UTF-8"); ?>' /></div>
-                                    <div class='back-button-div'><input id='AddressBackButton' type='button' name='submit' class='next-button' value='<?php echo mb_convert_encoding($lang['BACK'], "UTF-8"); ?>' /></div>
+                                    <div class='next-button-div'><input id='AddressNextButton' type='button' name='submit' class='next-button' value='<?php echo ($lang['NEXT']); ?>' /></div>
+                                    <div class='back-button-div'><input id='AddressBackButton' type='button' name='submit' class='next-button' value='<?php echo ($lang['BACK']); ?>' /></div>
                                 </div>
                             </div>
 
@@ -918,7 +1033,7 @@ $(document).ready(function() {
                                 <div class='tiitle'>
 
                                     <div class='playable-title'>
-                            <?php echo mb_convert_encoding($lang['CUSTOMIZE YOUR ADVENTS KALENDER'], "UTF-8"); ?>
+                            <?php echo ($lang['CUSTOMIZE YOUR ADVENTS KALENDER']); ?>
                         </div>
 
 
@@ -947,15 +1062,49 @@ $(document).ready(function() {
                                         </div>
 
                                         <div  id="toolbarFontAction" class="form-editor" style="width: auto; height: 35px;">
-                                            <select id="font1" name="font" class="form-editor-dropdown1"><option style="font-family: Arial;">Arial</option><!--<option style="font-family: Tangerine;">Tangerine</option>--><option style="font-family: Georgia;">Georgia</option><option style="font-family: Verdana;">Verdana</option><option style="font-family: Times New Roman;">Times New Roman</option><!--<option style="font-family: Lucida Grande;">Lucida Grande</option>--><option style="font-family: Lucida Sans Unicode;">Lucida Sans Unicode</option><option style="font-family: Courier New;">Courier New</option></select>
-                                            <select id="fontsize" name="font-size" class="form-editor-dropdown2"><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option><option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option><option>19</option><option>20</option><option>21</option><option>22</option><option>23</option><option>24</option></select>
-                                            <input type="hidden" id="colpick" name="color1" class="color-picker" size="6" autocomplete="on" maxlength="10" />
-                                            <button id="boldbutton" class="form-editor-btnb" ></button>
-                                            <button id="italicbutton" class="form-editor-btni"></button>
-                                            <button id="underlinebutton" class="form-editor-btnu" ></button>
-                                            <button id="Lalignbutton" class="form-editor-btnp1" ></button>
-                                            <button id="Calignbutton" class="form-editor-btnp2"></button>
-                                            <button id="Ralignbutton" class="form-editor-btnp3"></button>
+                                            <div class="textFontStyle">
+                                                <select id="font1" name="font" class="form-editor-dropdown1"><option style="font-family: Arial;">Arial</option><!--<option style="font-family: Tangerine;">Tangerine</option>--><option style="font-family: Georgia;">Georgia</option><option style="font-family: Verdana;">Verdana</option><option style="font-family: Times New Roman;">Times New Roman</option><!--<option style="font-family: Lucida Grande;">Lucida Grande</option>--><option style="font-family: Lucida Sans Unicode;">Lucida Sans Unicode</option><option style="font-family: Courier New;">Courier New</option></select>
+                                                <select id="fontsize" name="font-size" class="form-editor-dropdown2">
+                                                    <option>6</option>
+                                                    <option>7</option>
+                                                    <option>8</option>
+                                                    <option>9</option>
+                                                    <option>10</option>
+                                                    <option>11</option>
+                                                    <option>12</option>
+                                                    <option>13</option>
+                                                    <option>14</option>
+                                                    <option>15</option>
+                                                    <option>16</option>
+                                                    <option>17</option>
+                                                    <option>18</option>
+                                                    <option>19</option>
+                                                    <option>20</option>
+                                                    <option>21</option>
+                                                    <option>22</option>
+                                                    <option>23</option>
+                                                    <option>24</option>
+                                                    <option>25</option>
+                                                    <option>26</option>
+                                                    <option>27</option>
+                                                    <option>28</option>
+                                                    <option>29</option>
+                                                    <option>30</option>
+                                                    <option>31</option>
+                                                    <option>32</option>
+                                                    <option>33</option>
+                                                    <option>34</option>
+                                                </select>
+                                                <input type="hidden" id="colpick" name="color1" class="color-picker" size="6" autocomplete="on" maxlength="10" />
+                                            </div>
+                                            <div class="textButtonStyle">
+                                                <button id="boldbutton" class="form-editor-btnb" ></button>
+                                                <button id="italicbutton" class="form-editor-btni"></button>
+                                                <button id="underlinebutton" class="form-editor-btnu" ></button>
+                                                <button id="Lalignbutton" class="form-editor-btnp1" ></button>
+                                                <button id="Calignbutton" class="form-editor-btnp2"></button>
+                                                <button id="Ralignbutton" class="form-editor-btnp3"></button>
+                                            </div>
                                         </div>
 
                                         <ul id="toolbarViewAction" class="editor-shape" style="width: 124px; height: 40px;">
@@ -1002,22 +1151,11 @@ $(document).ready(function() {
                     <div id="playableButtonDiv" style="clear:both; padding-top:20px;"></div>
                 </div>
 
-
-
-
-
                 <!--SCREEN-DESK-->
-
 
             </div>
 
             <!--end of content-->
-
-
-
-
-
-
 
         </div>
         </div>       

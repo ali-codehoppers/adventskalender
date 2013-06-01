@@ -35,7 +35,8 @@ $lang = array(
     'Phone Number'=>'Phone Number',
     'eMail'=>'eMail',
     'Website'=>'Website',
-    'Please Fill All The Required Fields'=>'Please Fill All The Required Fields'
+    'Please Fill All The Required Fields'=>'Please Fill All The Required Fields',
+	'ORDER NOW'=>'Anfrage senden'
 						
 						
                 );

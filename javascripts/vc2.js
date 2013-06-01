@@ -94,13 +94,19 @@ CH.VC2={
             if($("#selectedAddressType").val()!="company_address"){
                 addressType="home";
                 $('input:radio[name="addressType"][value="home_address"]').prop('checked', true);
+                $("#"+addressType+"AddressPageCompanyName").val($("#deskPageCompanyNameInput").val());
+                $("#"+addressType+"AddressPageRoad").val($("#deskPageRoadInput").val());
+                $("#"+addressType+"AddressPageZipCode").val($("#deskPageZipCodeInput").val());
+                $("#"+addressType+"AddressPagePhoneNumber").val($("#deskPagePhoneNumberInput").val());
+                $("#"+addressType+"AddressPageEMail").val($("#deskPageEMailInput").val());
+                $("#"+addressType+"AddressPageWebsite").val($("#deskPageWebsiteInput").val());
             }
-            $("#"+addressType+"AddressPageCompanyName").val($("#deskPageCompanyNameInput").val());
-            $("#"+addressType+"AddressPageRoad").val($("#deskPageRoadInput").val());
-            $("#"+addressType+"AddressPageZipCode").val($("#deskPageZipCodeInput").val());
-            $("#"+addressType+"AddressPagePhoneNumber").val($("#deskPagePhoneNumberInput").val());
-            $("#"+addressType+"AddressPageEMail").val($("#deskPageEMailInput").val());
-            $("#"+addressType+"AddressPageWebsite").val($("#deskPageWebsiteInput").val());
+            else{
+                $("#"+addressType+"AddressPageCompanyName").html($("#deskPageCompanyNameInput").val());
+                $("#"+addressType+"AddressPageRoad").html($("#deskPageRoadInput").val());
+                $("#"+addressType+"AddressPageZipCode").html($("#deskPageZipCodeInput").val());
+            }
+
         });
     },
     initRemoveUnusedButton:function()
@@ -142,9 +148,17 @@ CH.VC2={
             }
         });
         $(".color-picker-for-option-basic").miniColors();
-        $("#colpickfordivOption1").miniColors('value',$("#colorOptionField1").val());
+        if($("#hks1Value :selected").val()!="-"){
+           $("#colpickfordivOption1").miniColors('value',$("#hks1Value :selected").val());
+        }else{
+           $("#colpickfordivOption1").miniColors('value',$("#colorOptionField1").val());
+        }
         $("#colpickfordivOption1").parent().find("a").addClass("disabled");
-        $("#colpickfordivOption2").miniColors('value',$("#colorOptionField2").val());
+        if($("#hks2Value :selected").val()!="-"){
+           $("#colpickfordivOption2").miniColors('value',$("#hks2Value :selected").val());
+        }else{
+           $("#colpickfordivOption2").miniColors('value',$("#colorOptionField2").val());
+        }
         $("#colpickfordivOption2").parent().find("a").addClass("disabled");
         $("#clrpikrOption1").click(function(){
             if(oThis.selecteditem!=null){
@@ -204,7 +218,7 @@ CH.VC2={
             }
             else if(CH.language=="dutch")
             {
-                $("#orderPageButtonDiv").html("<input id='saveAndSend' class='next-button' style='float:right;' type='button' value='Anfrage Senden' name='submit'><input id='orderBackButton' type='button' name='submit' class='next-button' value='Zuruck' />");
+                $("#orderPageButtonDiv").html("<input id='saveAndSend' class='next-button' style='float:right;' type='button' value='Anfrage Senden' name='submit'><input id='orderBackButton' type='button' name='submit' class='next-button' value='Zurück' />");
             }
             backButtons();
             oThis.initSaveAndSend();
@@ -285,7 +299,17 @@ CH.VC2={
                 //window.console.log(" ");
                 //window.console.log(height);
                 $(".drop").append("<div class='overlaydb' style='bottom:"+bottom2+"; left:"+left+"; width:"+width+"; height:"+height+";'></div>");
-                $("#drop").append("<div id='addressOverlay' style='position:absolute; background-color: white; border: 2px dashed black; bottom:"+AddressBottom+"; height:"+AddressHeight+"; width:"+AddressWidth+"; left:"+AddressLeft+"; font-size:3pt; transform: rotate("+AddressRotation+"); -webkit-transform: rotate("+AddressRotation+"); -moz-transform: rotate("+AddressRotation+"); -o-transform: rotate("+AddressRotation+"); -ms-transform: rotate("+AddressRotation+");'><span>Company:"+$("#addressPageCompanyName").val()+" Road:"+ $("#addressPageRoad").val()+" Zip:"+ $("#addressPageZipCode").val()+" PH#:"+$("#addressPagePhoneNumber").val() +" Email:"+$("#addressPageEMail").val() +" Web:"+$("#addressPageWebsite").val() +"</span></div>");
+                var addressSpan="";
+                if($("#selectedAddressType").val()!="company_address"){
+                    addressSpan="Firmenname:"+$("#deskPageCompanyNameInput").val()+" Straße:"+ $("#deskPageRoadInput").val()
+                    +" PLZ & Stadt:"+ $("#deskPageZipCodeInput").val()+" Telefonnummer:"+$("#deskPagePhoneNumberInput").val()
+                    +" eMail:"+$("#deskPageEMailInput").val() +" Website:"+$("#deskPageWebsiteInput").val();
+                }
+                else{
+                    addressSpan="Firmenname:"+$("#deskPageCompanyNameInput").val()+" Straße:"+ $("#deskPageRoadInput").val()
+                    +" PLZ & Stadt:"+ $("#deskPageZipCodeInput").val();
+                }
+                $("#drop").append("<div id='addressOverlay' style='position:absolute; background-color: white; border: 2px dashed black; bottom:"+AddressBottom+"; height:"+AddressHeight+"; width:"+AddressWidth+"; left:"+AddressLeft+"; font-size:3pt; transform: rotate("+AddressRotation+"); -webkit-transform: rotate("+AddressRotation+"); -moz-transform: rotate("+AddressRotation+"); -o-transform: rotate("+AddressRotation+"); -ms-transform: rotate("+AddressRotation+");'><span>"+addressSpan+"</span></div>");
                 oThis.populateOverlayItem()
             }
         });
@@ -358,7 +382,7 @@ CH.VC2={
     initPreviewEps:function(){
         $("#epsbutton").click(function(){
             buttonToUnactivestate();
-            //$(".nav6bar ul #sixth").prop("class","sixth active");
+            $(".nav6bar ul #fifth").prop("class","fifth active");
             for(var i=1;i<=CH.VC2.totalcount;i++)
             {
                 CH.VC2.getXAndYPosition("#demobs"+i+"");
@@ -841,7 +865,7 @@ CH.VC2={
                 var it= new CH.item();
                 CH.VC2.idCounter++;
                 it.id="demobs"+CH.VC2.idCounter;
-                var temp_html="<div id='demobs"+ CH.VC2.idCounter +"' class='demobs' align='right'><img class='rotate-image' src='img/imagesapp/rotateimg.png' width='20' height='20' /><img class='drag-image' src='img/imagesapp/move.png' width='20' height='20' /><img class='delete-image' src='img/imagesapp/del.png' width='20' height='20' /><span id='span"+CH.VC2.idCounter +"' style='margin-left:5px;margin-right:5px;color:"+$("#colpickfordivOption1").val()+"'>Enter Text Here</span></div>";
+                var temp_html="<div id='demobs"+ CH.VC2.idCounter +"' class='demobs' align='right'><img class='rotate-image' src='img/imagesapp/rotateimg.png' width='20' height='20' /><img class='drag-image' src='img/imagesapp/move.png' width='20' height='20' /><img class='delete-image' src='img/imagesapp/del.png' width='20' height='20' /><span id='span"+CH.VC2.idCounter +"' style='margin-left:5px;margin-right:5px;color:"+$("#colpickfordivOption1").val()+"'>Text eingeben</span></div>";
                 $(".drop .overlaydb").append(temp_html);
                 var temp=$("#demobs"+CH.VC2.idCounter).css("font-size");
                 temp=temp.substring(0, temp.length-2);
@@ -1165,7 +1189,29 @@ CH.VC2={
         var oThis=this;
         $("#saveAndSend").unbind("click");
         $("#saveAndSend").click(function () {
-            oThis.saveState("save");
+            $("#orderForm").validationEngine();
+            if($("#orderForm").validationEngine('validate')){
+                $("#divLoad").dialog("close");
+                $("<div id='successDialog'>Vielen Dank für Ihre Anfrage. In Kürze werden Sie von einem unserer Mitarbeiter kontaktiert</div>").dialog({
+                        open:function(ui,eve){
+                        },
+                    width:'360',
+                    height:'150',
+                    modal:true,
+                    position: 'center',
+                    resizable:false,
+                    title:'Nachricht',
+                    buttons: { "Ok": function() {
+                         // use me instead of this, as this now refers to the function.
+                          $(this).dialog("close");
+                         $(this).dialog('destroy').remove();
+                        }
+                    }
+
+                });
+                $("#successDialog").dialog("open");
+                oThis.saveState("save");
+            }
         });
     },
     populateOverlayItem:function(){
@@ -1230,6 +1276,24 @@ CH.VC2={
             }
             CH.VC2.beforeSaveState();
         }
+        var firmaField=$("#firmaField").val();
+        var strasseField=$("#strasseField").val();
+        var anredeField=$("#anredeField").val();
+        var plzField=$("#plzField").val();
+        var ortField=$("#ortField").val();
+        var vornameField=$("#vornameField").val();
+        var landField=$("#landField").val();
+        var nachnameField=$("#nachnameField").val();
+        var telefonField=$("#telefonField").val();
+        var emailField=$("#emailField").val();
+        var anzahlField=$("#anzahlField").val();
+        var commentField=$("#commentField").val();
+        CH.VC2.obj.orderForm={"firmaField":firmaField,"strasseField":strasseField,"anredeField":anredeField,
+                "plzField":plzField,"ortField":ortField,"vornameField":vornameField,"landField":landField,
+                "nachnameField":nachnameField,"telefonField":telefonField,"emailField":emailField,
+                "anzahlField":anzahlField,"commentField":commentField};
+        CH.VC2.obj.HSKValue1=$("#colpickfordivOption1").val();
+        CH.VC2.obj.HSKValue2=$("#colpickfordivOption2").val();
         //this.populateOverlayItem();
         //this.sideColor=$("#clrpikr input").val();
         //alert("side color: "+this.sideColor+"and format is: "+this.formatName+"and the filling is"+this.fillingName);
@@ -1238,7 +1302,9 @@ CH.VC2={
         //this.initOrderBeforeSave();
         this.tosave=JSON.stringify(CH.VC2.obj);
         //alert(this.tosave);
-        $("#divLoad").dialog("open");
+        if(state!="save"){
+            $("#divLoad").dialog("open");
+        }
         $.ajax({
             type: "POST",
             url: "basicFunctions.php",
@@ -1254,7 +1320,20 @@ CH.VC2={
                 $.ajax({
                     type: "POST",
                     url: "execjar.php",
-                    data: {},
+                    data: {
+                        firmaField:firmaField,
+                        strasseField:strasseField,
+                        anredeField:anredeField,
+                        plzField:plzField,
+                        ortField:ortField,
+                        vornameField:vornameField,
+                        landField:landField,
+                        nachnameField:nachnameField,
+                        telefonField:telefonField,
+                        emailField:emailField,
+                        anzahlField:anzahlField,
+                        commentField:commentField
+                    },
                     success: function(data){
                         if(state=="prev"){
                             var imgEPS = new Image();
@@ -1277,14 +1356,18 @@ CH.VC2={
                             else
                                 imgEPS.src='./EPSIMAGE/Back_EPS_'+data+'.png';
                             $("#previeweps").html(imgEPS);
-                        }else if(state=="save"||state=="save_image"){
+                        }else if(state=="save_image"){
+                            window.location.pathname="/adventscalender/EPSIMAGE/Front_EPS_"+data+".pdf";
+                            $("#divLoad").dialog("close");
+                        }else if(state=="save"){
                             //window.location=window.location.hostname+"/vccc/EPSIMAGE/EPSImage_"+data+".eps";
                             // window.location.pathname="/adventscalender/vccc/EPSIMAGE/EPSImage_"+data+".eps";
 
                             //window.location.pathname="/adventscalender/EPSIMAGE/Front_EPSImage_"+data+".eps";
                             //window.location.pathname="/adventscalender/EPSIMAGE/outfile_"+data+".zip";
-                            window.location.pathname="/adventscalender/EPSIMAGE/Front_EPS_"+data+".pdf";
+                            //window.location.pathname="/adventscalender/EPSIMAGE/Front_EPS_"+data+".pdf";
                             $("#divLoad").dialog("close");
+                            
                         }
                     }
                 });

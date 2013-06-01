@@ -6,32 +6,28 @@
  padding:0;
  margin:0;
  }
- 
- 
-
-
 
 /*hereeeeeeeeeeeeee*/
 .nav6bar ul li.first {
-	width:150px;
-	height:59px;
-	background:url(../img/images/menu/6menu/german/choosepackage.png) no-repeat left top;
+    width:162px;
+    height:59px;
+    background:url(../img/images/menu/6menu/german/choosepackage.png) no-repeat left top;
     color: #c1c1c1;
     display: block;
     float: left;
 }
 
 .nav6bar ul li.first:hover, .nav6bar ul li#first.active {
-	width:150px;
-	height:59px;
-	background:url(../img/images/menu/6menu/german/choosepackage-hover.png) no-repeat left top;
+    width:162px;
+    height:59px;
+    background:url(../img/images/menu/6menu/german/choosepackage-hover.png) no-repeat left top;
     color: #c1c1c1;
     display: block;
     float: left;
 }
 
 .nav6bar ul li.second {
-	width:170px;
+	width:202px;
 	height:59px;
 	background:url(../img/images/menu/6menu/german/format-filling.png) no-repeat left top;
     color: #c1c1c1;
@@ -41,7 +37,7 @@
 }
 
 .nav6bar ul li.second:hover, .nav6bar ul li#second.active {
-	width:170px;
+	width:202px;
 	height:59px;
 	background:url(../img/images/menu/6menu/german/format-filling-hover.png) no-repeat left top;
     color: #c1c1c1;
@@ -51,7 +47,7 @@
 }
 
 .nav6bar ul li.third {
-	width:204px;
+	width:190px;
 	height:59px;
 	background:url(../img/images/menu/6menu/german/choose-design.png) no-repeat left top;
     color: #c1c1c1;
@@ -61,7 +57,7 @@
 }
 
 .nav6bar ul li.third:hover, .nav6bar ul li#third.active  {
-	width:204px;
+	width:190px;
 	height:59px;
 	background:url(../img/images/menu/6menu/german/choose-design-hover.png) no-repeat left top;
     color: #c1c1c1;
@@ -71,7 +67,7 @@
 }
 
 .nav6bar ul li.fourth {
-	width:212px;
+	width:156px;
 	height:59px;
 	background:url(../img/images/menu/6menu/german/add-address.png) no-repeat left top;
     color: #c1c1c1;
@@ -81,7 +77,7 @@
 }
 
 .nav6bar ul li.fourth:hover, .nav6bar ul li#fourth.active  {
-	width:212px;
+	width:156px;
 	height:59px;
 	background:url(../img/images/menu/6menu/german/add-address-hover.png) no-repeat left top;
     color: #c1c1c1;
@@ -91,7 +87,7 @@
 }
 
 .nav6bar ul li.fifth {
-	width:225px;
+	width:204px;
 	height:59px;
 	background:url(../img/images/menu/6menu/german/desk.png) no-repeat left top;
     color: #c1c1c1;
@@ -101,7 +97,7 @@
 }
 
 .nav6bar ul li.fifth:hover, .nav6bar ul li#fifth.active  {
-	width:225px;
+	width:204px;
 	height:59px;
 	background:url(../img/images/menu/6menu/german/desk-hover.png) no-repeat left top;
     color: #c1c1c1;
@@ -111,7 +107,7 @@
 }
 
 .nav6bar ul li.sixth {
-	width:130px;
+	width:180px;
 	height:59px;
 	background:url(../img/images/menu/6menu/german/bestellen.png) no-repeat left top;
     color: #c1c1c1;
@@ -121,7 +117,7 @@
 }
 
 .nav6bar ul li.sixth:hover, .nav6bar ul li#sixth.active  {
-	width:130px;
+	width:180px;
 	height:59px;
 	background:url(../img/images/menu/6menu/german/bestellenhover.png) no-repeat left top;
     color: #c1c1c1;
@@ -144,6 +140,7 @@
     padding:0;
     margin:0;
     /* z-index: 2500;*/
+
 }
 .nav5bar ul li {
     color: #c1c1c1;
@@ -151,10 +148,11 @@
     float: left;
     /*position: relative;*/
     /*    z-index: 2700;*/
+    
 }
 
 .nav5bar ul li.first {
-    width:210px;
+    width:202px;
     height:59px;
     background:url(../img/images/menu/5menu/german/paketwahlen.png) no-repeat left top;
     color: #c1c1c1;
@@ -163,7 +161,7 @@
 }
 
 .nav5bar ul li.first:hover, .nav5bar ul li#first.active {
-    width:210px;
+    width:202px;
     height:59px;
     background:url(../img/images/menu/5menu/german/paketwahlenhover.png) no-repeat left top;
     color: #c1c1c1;
@@ -172,7 +170,7 @@
 }
 
 .nav5bar ul li.second {
-    width:206px;
+    width:221px;
     height:59px;
     background:url(../img/images/menu/5menu/german/formatfilling.png) no-repeat left top;
     color: #c1c1c1;
@@ -182,7 +180,7 @@
 }
 
 .nav5bar ul li.second:hover, .nav5bar ul li#second.active {
-    width:206px;
+    width:221px;
     height:59px;
     background:url(../img/images/menu/5menu/german/formatfillinghover.png) no-repeat left top;
     color: #c1c1c1;
@@ -192,7 +190,7 @@
 }
 
 .nav5bar ul li.third {
-    width:228px;
+    width:214px;
     height:59px;
     background:url(../img/images/menu/5menu/german/hintergrundwahlen.png) no-repeat left top;
     color: #c1c1c1;
@@ -202,7 +200,7 @@
 }
 
 .nav5bar ul li.third:hover, .nav5bar ul li#third.active  {
-    width:228px;
+    width:214px;
     height:59px;
     background:url(../img/images/menu/5menu/german/hintergrundwahlenhover.png) no-repeat left top;
     color: #c1c1c1;
@@ -212,7 +210,7 @@
 }
 
 .nav5bar ul li.fourth {
-    width:259px;
+    width:232px;
     height:59px;
     background:url(../img/images/menu/5menu/german/hintergrundbearbeiten.png) no-repeat left top;
     color: #c1c1c1;
@@ -222,7 +220,7 @@
 }
 
 .nav5bar ul li.fourth:hover, .nav5bar ul li#fourth.active  {
-    width:259px;
+    width:232px;
     height:59px;
     background:url(../img/images/menu/5menu/german/hintergrundbearbeitenhover.png) no-repeat left top;
     color: #c1c1c1;
@@ -232,7 +230,7 @@
 }
 
 .nav5bar ul li.fifth {
-    width:170px;
+    width:205px;
     height:59px;
     background:url(../img/images/menu/5menu/german/bestellen.png) no-repeat left top;
     color: #c1c1c1;
@@ -242,7 +240,7 @@
 }
 
 .nav5bar ul li.fifth:hover, .nav5bar ul li#fifth.active  {
-    width:170px;
+    width:205px;
     height:59px;
     background:url(../img/images/menu/5menu/german/bestellenhover.png) no-repeat left top;
     color: #c1c1c1;
