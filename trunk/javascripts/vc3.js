@@ -215,7 +215,7 @@ CH.VC3={
         }
         else if(CH.language=="dutch")
         {
-            $("#orderPageButtonDiv").html("<input id='saveAndSend' class='next-button' style='float:right;' type='button' value='Anfrage Senden' name='submit'><input id='orderBackButton' type='button' name='submit' class='next-button' value='Zuruck' />");
+            $("#orderPageButtonDiv").html("<input id='saveAndSend' class='next-button' style='float:right;' type='button' value='Anfrage Senden' name='submit'><input id='orderBackButton' type='button' name='submit' class='next-button' value='Zurück' />");
         }
         backButtons();
         oThis.initSaveAndSend();
@@ -230,13 +230,18 @@ CH.VC3={
         if($("#selectedAddressType").val()!="company_address"){
             addressType="home";
             $('input:radio[name="addressType"][value="home_address"]').prop('checked', true);
+            $("#"+addressType+"AddressPageCompanyName").val($("#deskPageCompanyNameInput").val());
+            $("#"+addressType+"AddressPageRoad").val($("#deskPageRoadInput").val());
+            $("#"+addressType+"AddressPageZipCode").val($("#deskPageZipCodeInput").val());
+            $("#"+addressType+"AddressPagePhoneNumber").val($("#deskPagePhoneNumberInput").val());
+            $("#"+addressType+"AddressPageEMail").val($("#deskPageEMailInput").val());
+            $("#"+addressType+"AddressPageWebsite").val($("#deskPageWebsiteInput").val());
         }
-        $("#"+addressType+"AddressPageCompanyName").val($("#deskPageCompanyNameInput").val());
-        $("#"+addressType+"AddressPageRoad").val($("#deskPageRoadInput").val());
-        $("#"+addressType+"AddressPageZipCode").val($("#deskPageZipCodeInput").val());
-        $("#"+addressType+"AddressPagePhoneNumber").val($("#deskPagePhoneNumberInput").val());
-        $("#"+addressType+"AddressPageEMail").val($("#deskPageEMailInput").val());
-        $("#"+addressType+"AddressPageWebsite").val($("#deskPageWebsiteInput").val());
+        else{
+            $("#"+addressType+"AddressPageCompanyName").html($("#deskPageCompanyNameInput").val());
+            $("#"+addressType+"AddressPageRoad").html($("#deskPageRoadInput").val());
+            $("#"+addressType+"AddressPageZipCode").html($("#deskPageZipCodeInput").val());
+        }
     });
 },
     initMakeShape:function(){
@@ -1703,7 +1708,7 @@ CH.VC3={
                 var it= new CH.item();
                 CH.VC3.idCounter++;
                 it.id="demo"+CH.VC3.idCounter;
-                var temp_html="<div id='demo"+ CH.VC3.idCounter +"' class='demo' align='right'><img class='rotate-image' src='img/imagesapp/rotateimg.png' width='20' height='20' /><img class='drag-image' src='img/imagesapp/move.png' width='20' height='20' /><img class='delete-image' src='img/imagesapp/del.png' width='20' height='20' /><span id='span"+CH.VC3.idCounter +"'>Enter Text Here</span></div>";
+                var temp_html="<div id='demo"+ CH.VC3.idCounter +"' class='demo' align='right'><img class='rotate-image' src='img/imagesapp/rotateimg.png' width='20' height='20' /><img class='drag-image' src='img/imagesapp/move.png' width='20' height='20' /><img class='delete-image' src='img/imagesapp/del.png' width='20' height='20' /><span id='span"+CH.VC3.idCounter +"'>Text eingeben</span></div>";
                 $(".drop").append(temp_html);
                 if(oThis.isTriangle==1){
                     var totalWidthHalf=$("#drop").width()/2;
@@ -2593,7 +2598,29 @@ CH.VC3={
         var oThis=this;
         $("#saveAndSend").unbind("click");
         $("#saveAndSend").click(function () {
-            oThis.saveState("save");
+            $("#orderForm").validationEngine();
+            if($("#orderForm").validationEngine('validate')){
+                $("#divLoad").dialog("close");
+                $("<div id='successDialog'>Vielen Dank für Ihre Anfrage. In Kürze werden Sie von einem unserer Mitarbeiter kontaktiert</div>").dialog({
+                        open:function(ui,eve){
+                        },
+                    width:'360',
+                    height:'150',
+                    modal:true,
+                    position: 'center',
+                    resizable:false,
+                    title:'Nachricht',
+                    buttons: { "Ok": function() {
+                         // use me instead of this, as this now refers to the function.
+                         $(this).dialog("close");
+                         $(this).dialog('destroy').remove();
+                        }
+                    }
+
+                });
+                $("#successDialog").dialog("open");
+                oThis.saveState("save");
+            }
         });
 
     },
@@ -2672,11 +2699,30 @@ CH.VC3={
             {
                 CH.VC3.getXAndYPosition("#demo"+i+"");
             }
-            CH.VC3.beforeSaveState();
+            CH.VC3.beforeSaveState();  
         }
+        var firmaField=$("#firmaField").val();
+        var strasseField=$("#strasseField").val();
+        var anredeField=$("#anredeField").val();
+        var plzField=$("#plzField").val();
+        var ortField=$("#ortField").val();
+        var vornameField=$("#vornameField").val();
+        var landField=$("#landField").val();
+        var nachnameField=$("#nachnameField").val();
+        var telefonField=$("#telefonField").val();
+        var emailField=$("#emailField").val();
+        var anzahlField=$("#anzahlField").val();
+        var commentField=$("#commentField").val();
+        CH.VC3.obj.orderForm={"firmaField":firmaField,"strasseField":strasseField,"anredeField":anredeField,
+                "plzField":plzField,"ortField":ortField,"vornameField":vornameField,"landField":landField,
+                "nachnameField":nachnameField,"telefonField":telefonField,"emailField":emailField,
+                "anzahlField":anzahlField,"commentField":commentField};
         window.console.log("a="+JSON.stringify(CH.VC3.obj));
         this.tosave=JSON.stringify(CH.VC3.obj);
         //alert(this.tosave);
+        if(state!="save"){
+            $("#divLoad").dialog("open");
+        }
         $.ajax({
             type: "POST",
             url: "basicFunctions.php",
@@ -2689,13 +2735,26 @@ CH.VC3={
                 $('form#submit').hide(function(){
                     $('div.success').fadeIn();
                 });
-
+                
                 /*   In use Commented by zain 5-10-2012*/
-                $("#divLoad").dialog("open");
+                //$("#divLoad").dialog("open");
                 $.ajax({
                     type: "POST",
                     url: "execjar.php",
-                    data: {},
+                    data: {
+                        firmaField:firmaField,
+                        strasseField:strasseField,
+                        anredeField:anredeField,
+                        plzField:plzField,
+                        ortField:ortField,
+                        vornameField:vornameField,
+                        landField:landField,
+                        nachnameField:nachnameField,
+                        telefonField:telefonField,
+                        emailField:emailField,
+                        anzahlField:anzahlField,
+                        commentField:commentField
+                    },
                     success: function(data){
                         if(state=="prev"){
                             var imgEPS = new Image();
@@ -2718,15 +2777,18 @@ CH.VC3={
                             else
                                 imgEPS.src='./EPSIMAGE/Back_EPS_'+data+'.png';
                             $("#previeweps").html(imgEPS);
-                        }else if(state=="save"||state=="save_image"){
+                        }else if(state=="save_image"){
+                            window.location.pathname="/adventscalender/EPSIMAGE/Front_EPS_"+data+".pdf";
+                            $("#divLoad").dialog("close");
+                        }else if(state=="save"){
                             //window.location=window.location.hostname+"/vccc/EPSIMAGE/EPSImage_"+data+".eps";
                             // window.location.pathname="/adventscalender/vccc/EPSIMAGE/EPSImage_"+data+".eps";
 
                             //window.location.pathname="/adventscalender/EPSIMAGE/Front_EPSImage_"+data+".eps";
                             //window.location.pathname="/adventscalender/EPSIMAGE/outfile_"+data+".zip";
-                            window.location.pathname="/adventscalender/EPSIMAGE/Front_EPS_"+data+".pdf";
+                            //window.location.pathname="/adventscalender/EPSIMAGE/Front_EPS_"+data+".pdf";
                             $("#divLoad").dialog("close");
-                        //alert(data);   to view data to be stored
+                            
                         }
                     }
                 });

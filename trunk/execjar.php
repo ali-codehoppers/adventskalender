@@ -8,15 +8,19 @@
 
 require_once("./connect.php");
 
-$salutation=$_POST['salutation'];
-$lastName=$_POST['lastName'];
-$firstName=$_POST['firstName'];
-$companyName=$_POST['companyName'];
-$road=$_POST['road'];
-$zipCode=$_POST['zipCode'];
-$place=$_POST['place'];
-$desiredAmount=$_POST['desiredAmount'];
-$tempmessage=$salutation."\r\n".$lastName."\r\n".$firstName."\r\n".$companyName."\r\n".$road."\r\n".$zipCode."\r\n".$place."\r\n".$desiredAmount;
+$firmaField=$_POST['firmaField'];
+$strasseField=$_POST['strasseField'];
+$anredeField=$_POST['anredeField'];
+$plzField=$_POST['plzField'];
+$ortField=$_POST['ortField'];
+$vornameField=$_POST['vornameField'];
+$landField=$_POST['landField'];
+$nachnameField=$_POST['nachnameField'];
+$telefonField=$_POST['telefonField'];
+$emailField=$_POST['emailField'];
+$anzahlField=$_POST['anzahlField'];
+$commentField=$_POST['commentField'];
+$tempmessage=$firmaField."\r\n".$strasseField."\r\n".$anredeField."\r\n".$plzField."\r\n".$ortField."\r\n".$vornameField."\r\n".$landField."\r\n".$nachnameField."\r\n".$telefonField."\r\n".$emailField."\r\n".$anzahlField."\r\n".$commentField;
 
 $ini=parse_ini_file('config.ini',false);
 if(mysql_select_db($ini['dbName']))
@@ -38,7 +42,7 @@ exec("java -jar epsAKalender.jar $id", $output );//forserver
 //
 //print_r($output);
 $ini=parse_ini_file('config.ini',false);
-mail_attachment($ini["clientEmail"],"advent",$tempmessage,"noreply@advents.com","./EPSIMAGE/Front_EPS_".$id.".png");
+mail_attachment($emailField,"advent",$tempmessage,"noreply@advents.com","./EPSIMAGE/Front_EPS_".$id.".pdf");
 }
 
 function mail_attachment($to, $subject, $message, $from, $file) {

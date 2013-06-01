@@ -1,5 +1,14 @@
 <?php
+header('Content-Type: text/html; charset=UTF-8');
 
+function convertToUTF8($str) {
+    $enc = mb_detect_encoding($str);
+    if ($enc && $enc != 'UTF-8') {
+        return iconv($enc, 'UTF-8', $str);
+    } else {
+        return $str;
+    }
+}
 $picMaxSize = 6000;
 $SEPERATOR = "@@@";
 $dropWidth = 980;
@@ -538,6 +547,22 @@ elseif ($type == "checkIfImageIsTriangle") {
         else {
             echo (0);
         }
+    }
+}
+else if ($type == "hksColorCode") {
+    $q = "select * from colormap";
+    //$q = "select * from fillings ORDER BY id limit " . (($pageNum - 1) * 6) . ",6"; //testing
+    $r = mysql_query($q);
+    $num_rows = mysql_num_rows($r);
+
+    //echo $num_rows;
+    $count = 0;
+    echo "<option value='-'>------</option>";
+    while ($row = mysql_fetch_array($r)) {
+        $HKS = $row['HKS'];
+        $RGB= $row['RGB'];
+        echo "<option value='#".$RGB."'>".$HKS."</option>";
+        $count++;
     }
 }
 

@@ -438,7 +438,7 @@ CH.VC1={
         var oThis=this;
         $("#Save").unbind("click");
         $("#Save").click(function () {
-            oThis.saveState("save");
+            oThis.saveState("save_image");
         });
     },
     initOrderAdventKalender:function(){
@@ -457,7 +457,7 @@ CH.VC1={
         }
         else if(CH.language=="dutch")
         {
-            $("#orderPageButtonDiv").html("<input id='saveAndSend' class='next-button' style='float:right;' type='button' value='Anfrage Senden' name='submit'><input id='orderBackButton' type='button' name='submit' class='next-button' value='Zuruck' />");
+            $("#orderPageButtonDiv").html("<input id='saveAndSend' class='next-button' style='float:right;' type='button' value='Anfrage Senden' name='submit'><input id='orderBackButton' type='button' name='submit' class='next-button' value='Zurück' />");
         }
         backButtons();
         oThis.initSaveAndSend();
@@ -468,7 +468,29 @@ CH.VC1={
         var oThis=this;
         $("#saveAndSend").unbind("click");
         $("#saveAndSend").click(function () {
-            oThis.saveState("save");
+            $("#orderForm").validationEngine();
+            if($("#orderForm").validationEngine('validate')){
+                $("#divLoad").dialog("close");
+                $("<div id='successDialog'>Vielen Dank für Ihre Anfrage. In Kürze werden Sie von einem unserer Mitarbeiter kontaktiert</div>").dialog({
+                        open:function(ui,eve){
+                        },
+                    width:'360',
+                    height:'150',
+                    modal:true,
+                    position: 'center',
+                    resizable:false,
+                    title:'Nachricht',
+                    buttons: { "Ok": function() {
+                         // use me instead of this, as this now refers to the function.
+                         $(this).dialog("close");
+                         $(this).dialog('destroy').remove();
+                        }
+                    }
+
+                });
+                $("#successDialog").dialog("open");
+                oThis.saveState("save");
+            }
         });
 
     },
@@ -478,7 +500,18 @@ CH.VC1={
         traverseBack();
         this.sideColor=$("#clrpikr input").val();
         //alert("side color: "+this.sideColor+"and format is: "+this.formatName+"and the filling is"+this.fillingName);
-
+        var firmaField=$("#firmaField").val();
+        var strasseField=$("#strasseField").val();
+        var anredeField=$("#anredeField").val();
+        var plzField=$("#plzField").val();
+        var ortField=$("#ortField").val();
+        var vornameField=$("#vornameField").val();
+        var landField=$("#landField").val();
+        var nachnameField=$("#nachnameField").val();
+        var telefonField=$("#telefonField").val();
+        var emailField=$("#emailField").val();
+        var anzahlField=$("#anzahlField").val();
+        var commentField=$("#commentField").val();
         var obj={
             "triangle":empty,
             "backSide":this.back,
@@ -487,11 +520,17 @@ CH.VC1={
             "backBackground":this.dropbackground,
             "format":this.formatName,
             "filling":this.fillingName,
-            "sideColor":this.sideColor
+            "sideColor":this.sideColor,
+            "orderForm":{"firmaField":firmaField,"strasseField":strasseField,"anredeField":anredeField,
+                        "plzField":plzField,"ortField":ortField,"vornameField":vornameField,"landField":landField,
+                        "nachnameField":nachnameField,"telefonField":telefonField,"emailField":emailField,
+                        "anzahlField":anzahlField,"commentField":commentField}
         };
         window.console.log("a="+JSON.stringify(obj));
         this.tosave=JSON.stringify(obj);
-        $("#divLoad").dialog("open");
+        if(state!="save"){
+            $("#divLoad").dialog("open");
+        }
         $.ajax({
             type: "POST",
             url: "basicFunctions.php",
@@ -504,32 +543,23 @@ CH.VC1={
                 $('form#submit').hide(function(){
                     $('div.success').fadeIn();
                 });
-
-
-                var salutation=$("#orderPageSalutation").val();
-                var lastName=$("#orderPageLastName").val();
-                var firstName=$("#orderPageFirstName").val();
-                var companyName=$("#orderPageCompanyName").val();
-                var road=$("#orderPageRoad").val();
-                var zipCode=$("#orderPageZipCode").val();
-                var place=$("#orderPagePlace").val();
-                var desiredAmount=$("#orderPageDesiredAmount").val();
-
-
-
+                
                 $.ajax({
                     type: "POST",
                     url: "execjar.php",
                     data: {
-                      salutation:salutation,
-                lastName:lastName,
-                firstName:firstName,
-                companyName:companyName,
-                road:road,
-                zipCode:zipCode,
-                place:place,
-                desiredAmount:desiredAmount
-
+                        firmaField:firmaField,
+                        strasseField:strasseField,
+                        anredeField:anredeField,
+                        plzField:plzField,
+                        ortField:ortField,
+                        vornameField:vornameField,
+                        landField:landField,
+                        nachnameField:nachnameField,
+                        telefonField:telefonField,
+                        emailField:emailField,
+                        anzahlField:anzahlField,
+                        commentField:commentField
                     },
                     success: function(data){
                         if(state=="prev"){
@@ -551,11 +581,18 @@ CH.VC1={
                             /*else
                                 imgEPS.src='./EPSIMAGE/Back_EPS_'+data+'.png';
                             $("#previeweps").html(imgEPS);*/
-                        }else if(state=="save"){
-                            //window.location.pathname="/adventscalender/EPSIMAGE/Front_EPSImage_"+data+".eps";
-                            //window.location.pathname="/adventscalender/EPSIMAGE/outfile_"+data+".zip";
+                        }else if(state=="save_image"){
                             window.location.pathname="/adventscalender/EPSIMAGE/Front_EPS_"+data+".pdf";
                             $("#divLoad").dialog("close");
+                        }else if(state=="save"){
+                            //window.location=window.location.hostname+"/vccc/EPSIMAGE/EPSImage_"+data+".eps";
+                            // window.location.pathname="/adventscalender/vccc/EPSIMAGE/EPSImage_"+data+".eps";
+
+                            //window.location.pathname="/adventscalender/EPSIMAGE/Front_EPSImage_"+data+".eps";
+                            //window.location.pathname="/adventscalender/EPSIMAGE/outfile_"+data+".zip";
+                            //window.location.pathname="/adventscalender/EPSIMAGE/Front_EPS_"+data+".pdf";
+                            $("#divLoad").dialog("close");
+                            
                         }
                     }
                 });

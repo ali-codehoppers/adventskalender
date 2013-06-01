@@ -9,6 +9,8 @@ CH.SEPERSTOR="@@@";
 CH.paddding;
 CH.selected;
 CH.backgroundSelected;
+CH.addressSelected=false;
+CH.designLoad=false;
 CH.isFillingAndFormatSelected;
 CH.isCompanyAddress=true;
 CH.textConstantToAddForVerticalImages=0;
@@ -247,16 +249,17 @@ CH.com={
 
         this.designImageClicked(".content-upper ul li a");
         $("#chooseDesignNextButton").click(function(e){
+            CH.designLoad=true;
             if(CH.backgroundSelected!=null)
             {
                 if(CH.currentPackage.packageId != "1")
-                    {
-                $("#radioCompanyAddress").attr('checked','checked');
-                putAddressIndd();
-                    }
-                    else{
-                        fromAddressToDesk();
-                    }
+                {
+                    $("#radioCompanyAddress").attr('checked','checked');
+                    putAddressIndd();
+                }
+                else{
+                    fromAddressToDesk();
+                }
             }
         });
         backButtons();
@@ -306,7 +309,7 @@ CH.com={
         }
         else if(CH.language=="dutch"){
             $('#buttonDiv').append("<div id='next-button-div'><input id='chooseDesignNextButton' style='margin-top: 0px;' type='button' name='submit' class='next-button' value='Weiter' /></div>");
-            $('#buttonDiv').append("<div id='back-button-div'><input id='chooseDesignBackButton' style='margin-top: 0px;' type='button' name='submit' class='next-button' value='Zuruck' /></div>");
+            $('#buttonDiv').append("<div id='back-button-div'><input id='chooseDesignBackButton' style='margin-top: 0px;' type='button' name='submit' class='next-button' value='Zurück' /></div>");
         }
         $('#buttonDiv').append("<div class='clearBoth'></div>");
     },
@@ -413,7 +416,7 @@ function afterLoadDesignData(data,currentVC){
     else if(CH.language=="dutch")
     {
         $('#buttonDiv').append("<div id='next-button-div'><input id='chooseDesignNextButton' style='margin-top: 0px;' type='button' name='submit' class='next-button' value='Weiter' /></div>");
-        $('#buttonDiv').append("<div id='back-button-div'><input id='chooseDesignBackButton' style='margin-top: 0px;' type='button' name='submit' class='next-button' value='Zuruck' /></div>");
+        $('#buttonDiv').append("<div id='back-button-div'><input id='chooseDesignBackButton' style='margin-top: 0px;' type='button' name='submit' class='next-button' value='Zurück' /></div>");
     }
     $('#buttonDiv').append("<div class='clearBoth'></div>");
 
@@ -651,7 +654,35 @@ function restoreAll()
     $(".left").html("");
     $(".right").html("");
     //$(".tools").html("<div id='toolbarCommonAction' class='editor-icon' style='width: auto; height: 40px;'><button id='Save' class='form-editor-save'></button><button id='removeButton' class='form-editor-delete'></button><button id='UndoButton' class='form-editor-undo'></button><button id='RedoButton' class='form-editor-redo'></button><button id='CopyButton' class='form-editor-copy'></button><button id='PasteButton' class='form-editor-paste'></button><button id='ZoomIn' class='form-editor-zoomin'></button><button id='ZoomOut' class='form-editor-zoomout'></button></div><div id='toolbarImageAction' class='editor-icon1' style='width: auto; height: 35px;'><button id='addButton' class='form-editor-t'></button><button id='upphot' class='form-editor-cam'></button><button id='changebg' class='form-editor-f'></button></div><div  id='toolbarFontAction' class='form-editor' style='width: auto; height: 35px;'><select id='font1' name='font' class='form-editor-dropdown1'><option style='font-family: Arial;'>Arial</option><!--<option style='font-family: Tangerine;'>Tangerine</option>--><option style='font-family: Georgia;'>Georgia</option><option style='font-family: Verdana;'>Verdana</option><option style='font-family: Times New Roman;'>Times New Roman</option><!--<option style='font-family: Lucida Grande;'>Lucida Grande</option>--><option style='font-family: Lucida Sans Unicode;'>Lucida Sans Unicode</option><option style='font-family: Courier New;'>Courier New</option></select><select id='fontsize' name='font-size' class='form-editor-dropdown2'><option>10</option><option>12</option><option>14</option><option>16</option><option>18</option><option>20</option><option>22</option><option>24</option><option>28</option><option>32</option><option>38</option></select><input type='hidden' id='colpick' name='color1' class='color-picker' size='6' autocomplete='on' maxlength='10' /><button id='boldbutton' class='form-editor-btnb' ></button><button id='italicbutton' class='form-editor-btni'></button><button id='underlinebutton' class='form-editor-btnu' ></button><button id='Lalignbutton' class='form-editor-btnp1' ></button><button id='Calignbutton' class='form-editor-btnp2'></button><button id='Ralignbutton' class='form-editor-btnp3'></button></div><ul id='toolbarViewAction' class='editor-shape' style='width: 224px; height: 40px;'><li><div id='frontdivimg' class='toolbarBtn'><img src='img/images/shape1-editor.png' alt='shape1' />Front</div></li><li><div id='backdivimg' class='toolbarBtn'><img src='img/images/shape2-editor.png' alt='shape2' />Back</div></li><li><div id='leftdivimg' class='toolbarBtn'><img src='img/images/shape3-editor.png' alt='shape3' />Left</div></li><li><div id='rightdivimg' class='toolbarBtn'><img src='img/images/shape4-editor.png' alt='shape4' />Right</div></li><li><div id='clrpikr'><input type='hidden' id='colpickfordiv' name='color1' class='color-picker-for-background' size='6' autocomplete='on' maxlength='10' /></div></li></ul></form>");
-    $(".tools").html("<div id='toolbarCommonAction' class='editor-icon' style='width: auto; height: 40px;'><button id='Save' class='form-editor-save'></button><button id='removeButton' class='form-editor-delete'></button><button id='UndoButton' class='form-editor-undo'></button><button id='RedoButton' class='form-editor-redo'></button><button id='CopyButton' class='form-editor-copy'></button><button id='PasteButton' class='form-editor-paste'></button><button id='ZoomIn' class='form-editor-zoomin'></button><button id='ZoomOut' class='form-editor-zoomout'></button></div><div id='toolbarImageAction' class='editor-icon1' style='width: auto; height: 35px;'><button id='addButton' class='form-editor-t'></button><button id='upphot' class='form-editor-cam'></button><button id='changebg' class='form-editor-f'></button></div><div  id='toolbarFontAction' class='form-editor' style='width: auto; height: 35px;'><select id='font1' name='font' class='form-editor-dropdown1'><option style='font-family: Arial;'>Arial</option><!--<option style='font-family: Tangerine;'>Tangerine</option>--><option style='font-family: Georgia;'>Georgia</option><option style='font-family: Verdana;'>Verdana</option><option style='font-family: Times New Roman;'>Times New Roman</option><!--<option style='font-family: Lucida Grande;'>Lucida Grande</option>--><option style='font-family: Lucida Sans Unicode;'>Lucida Sans Unicode</option><option style='font-family: Courier New;'>Courier New</option></select><select id='fontsize' name='font-size' class='form-editor-dropdown2'><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option><option>13</option><option>14</option><option>15</option><option>16</option></select><input type='hidden' id='colpick' name='color1' class='color-picker' size='6' autocomplete='on' maxlength='10' /><button id='boldbutton' class='form-editor-btnb' ></button><button id='italicbutton' class='form-editor-btni'></button><button id='underlinebutton' class='form-editor-btnu' ></button><button id='Lalignbutton' class='form-editor-btnp1' ></button><button id='Calignbutton' class='form-editor-btnp2'></button><button id='Ralignbutton' class='form-editor-btnp3'></button></div><ul id='toolbarViewAction' class='editor-shape' style='width: 224px; height: 40px;'><li><div id='frontdivimg' class='toolbarBtn'><img src='img/images/shape1-editor.png' alt='shape1' /></div></li><li><div id='backdivimg' class='toolbarBtn'><img src='img/images/shape2-editor.png' alt='shape2' /></div></li><li><div id='leftdivimg' class='toolbarBtn'><img src='img/images/shape3-editor.png' alt='shape3' />Left</div></li><li><div id='rightdivimg' class='toolbarBtn'><img src='img/images/shape4-editor.png' alt='shape4' />Right</div></li><li><div id='clrpikr'><input type='hidden' id='colpickfordiv' name='color1' class='color-picker-for-background' size='6' autocomplete='on' maxlength='10' /></div></li></ul></form>");
+    $(".tools").html("<div id='toolbarCommonAction' class='editor-icon' style='width: auto; height: 40px;'><button id='Save' class='form-editor-save'></button><button id='removeButton' class='form-editor-delete'></button><button id='UndoButton' class='form-editor-undo'></button><button id='RedoButton' class='form-editor-redo'></button><button id='CopyButton' class='form-editor-copy'></button><button id='PasteButton' class='form-editor-paste'></button><button id='ZoomIn' class='form-editor-zoomin'></button><button id='ZoomOut' class='form-editor-zoomout'></button></div><div id='toolbarImageAction' class='editor-icon1' style='width: auto; height: 35px;'><button id='addButton' class='form-editor-t'></button><button id='upphot' class='form-editor-cam'></button><button id='changebg' class='form-editor-f'></button></div>"+
+                        "<div  id='toolbarFontAction' class='form-editor' style='width: auto; height: 35px;'>"+
+                            "<div class=\"textFontStyle\"><select id='font1' name='font' class='form-editor-dropdown1'>"+
+                                "<option style='font-family: Arial;'>Arial</option>"+
+                                "<!--<option style='font-family: Tangerine;'>Tangerine</option>-->"+
+                                "<option style='font-family: Georgia;'>Georgia</option>"+
+                                "<option style='font-family: Verdana;'>Verdana</option>"+
+                                "<option style='font-family: Times New Roman;'>Times New Roman</option>"+
+                                "<!--<option style='font-family: Lucida Grande;'>Lucida Grande</option>-->"+
+                                "<option style='font-family: Lucida Sans Unicode;'>Lucida Sans Unicode</option>"+
+                                "<option style='font-family: Courier New;'>Courier New</option>"+
+                            "</select>"+
+                            "<select id='fontsize' name='font-size' class='form-editor-dropdown2'>"+
+                                "<option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>"+
+                                "<option>11</option><option>12</option><option>13</option><option>14</option><option>15</option>"+
+                                "<option>16</option><option>17</option><option>18</option><option>19</option><option>20</option>"+
+                                "<option>21</option><option>22</option><option>23</option><option>24</option><option>25</option>"+
+                                "<option>26</option><option>27</option><option>28</option><option>29</option><option>30</option>"+
+                                "<option>31</option><option>32</option><option>33</option><option>34</option>"+
+                             "</select>"+
+                             "<input type='hidden' id='colpick' name='color1' class='color-picker' size='6' autocomplete='on' maxlength='10' />"+
+                             "</div><div class=\"textButtonStyle\">"+
+                             "<button id='boldbutton' class='form-editor-btnb'/>"+
+                             "<button id='italicbutton' class='form-editor-btni'/>"+
+                             "<button id='underlinebutton' class='form-editor-btnu'/>"+
+                             "<button id='Lalignbutton' class='form-editor-btnp1' />"+
+                             "<button id='Calignbutton' class='form-editor-btnp2'/>"+
+                             "<button id='Ralignbutton' class='form-editor-btnp3'/>"+
+                             "</div></div><ul id='toolbarViewAction' class='editor-shape' style='width: 224px; height: 40px;'><li><div id='frontdivimg' class='toolbarBtn'><img src='img/images/shape1-editor.png' alt='shape1' /></div></li><li><div id='backdivimg' class='toolbarBtn'><img src='img/images/shape2-editor.png' alt='shape2' /></div></li><li><div id='leftdivimg' class='toolbarBtn'><img src='img/images/shape3-editor.png' alt='shape3' />Left</div></li><li><div id='rightdivimg' class='toolbarBtn'><img src='img/images/shape4-editor.png' alt='shape4' />Right</div></li><li><div id='clrpikr'><input type='hidden' id='colpickfordiv' name='color1' class='color-picker-for-background' size='6' autocomplete='on' maxlength='10' /></div></li></ul></form>");
     CH.backgroundSelected=null;
     CH.currentPackage=null;
     CH.isFillingAndFormatSelected=false;
@@ -705,12 +736,12 @@ function loadAddressFromAddressScreen(){
     {*/
     $("#selectedAddressType").val($("input[name='addressType']:checked").val());
     if($("input[name='addressType']:checked").val()=="company_address"){
-        $("#deskPageCompanyNameInput").val($("#companyAddressPageCompanyName").val());
-        $("#deskPageRoadInput").val($("#companyAddressPageRoad").val());
-        $("#deskPageZipCodeInput").val($("#companyAddressPageZipCode").val());
-        $("#deskPagePhoneNumberInput").val($("#companyAddressPagePhoneNumber").val());
-        $("#deskPageEMailInput").val($("#companyAddressPageEMail").val());
-        $("#deskPageWebsiteInput").val($("#companyAddressPageWebsite").val());
+        $("#deskPageCompanyNameInput").val($("#companyAddressPageCompanyName").html());
+        $("#deskPageRoadInput").val($("#companyAddressPageRoad").html());
+        $("#deskPageZipCodeInput").val($("#companyAddressPageZipCode").html());
+        $("#deskPagePhoneNumberInput").val("");
+        $("#deskPageEMailInput").val("");
+        $("#deskPageWebsiteInput").val("");
     }else{
         $("#deskPageCompanyNameInput").val($("#homeAddressPageCompanyName").val());
         $("#deskPageRoadInput").val($("#homeAddressPageRoad").val());
@@ -725,9 +756,23 @@ function loadAddressFromAddressScreen(){
 }
 
 function putAddressIndd()
-{   if(CH.currentPackage.packageId == "2"){
+{
+    CH.addressSelected=true;
+    if(CH.currentPackage.packageId == "2"){
         $("#color_optionPanel").show();
+        $("#addressOptionText").show();
         $(".color-picker-for-basic-package").miniColors();
+        $.ajax({
+            type: "POST",
+            url: "basicFunctions.php",
+            data: {
+                "type":"hksColorCode"
+            },
+            success:function(data){
+               $("#hks1Value").append(data);
+               $("#hks2Value").append(data);
+            }
+        });
     }
     $(".screens").hide();
     $("#content-chooseaddresshtml").show();
@@ -739,6 +784,7 @@ function putAddressIndd()
         if($("input[name='addressType']:checked").val()=="company_address"){
             stepToDesk("company");
             $("#homeErrorMessage").hide();
+            //$("#companyAddress").attr("style","min-height:250px;");
         }else{
             stepToDesk("home");
             $("#companyErrorMessage").hide();
@@ -780,25 +826,33 @@ function stepToDesk(addressType)
     var oThis=this;
     $("#AddressNextButton").unbind("click"); //awais
     $("#AddressNextButton").click(function(e){
-        if($("#"+addressType+"AddressPageCompanyName").val()!="" && $("#"+addressType+"AddressPageRoad").val()!="" && $("#"+addressType+"AddressPageZipCode").val()!="")
-        {
-            $("#"+addressType+"ErrorMessage").hide();
-            if(addressType=="company"){
-                $("#homeErrorMessage").hide();
-            }
-            else{
-                $("#companyErrorMessage").hide();
-            }
+        CH.designLoad=true;
+        if(addressType=="company"){
             oThis.fromAddressToDesk();
-        }
-        else
-        {
-            $("#"+addressType+"ErrorMessage").show();
-            if(addressType=="company"){
-                $("#homeErrorMessage").hide();
+        }else{
+            if($("#"+addressType+"AddressPageCompanyName").val()!="" && $("#"+addressType+"AddressPageRoad").val()!="" && $("#"+addressType+"AddressPageZipCode").val()!="")
+            {
+                $("#"+addressType+"ErrorMessage").hide();
+                if(addressType=="company"){
+                    $("#homeErrorMessage").hide();
+                    //$("#companyAddress").attr("style","min-height:250px;");
+                }
+                else{
+                    $("#companyErrorMessage").hide();
+                }
+                oThis.fromAddressToDesk();
             }
-            else{
-                $("#companyErrorMessage").hide();
+            else
+            {
+                $("#"+addressType+"ErrorMessage").show();
+                //$("#companyAddress").attr("style","min-height:320px;");
+                if(addressType=="company"){
+                    $("#homeErrorMessage").hide();
+                    //$("#companyAddress").attr("style","min-height:250px;");
+                }
+                else{
+                    $("#companyErrorMessage").hide();
+                }
             }
         }
     });
@@ -864,7 +918,7 @@ function fromAddressToDesk()
             }
             else if(CH.language=="dutch")
             {
-                $("#playableButtonDiv").append("<div id='bottomButtonsFinalScreen'><div id='order-button-div'><input id='OrderAdventKalender' type='button' name='submit' class='next-button' value='BESTELLEN' /></div><div id='moveback-button-div'><input id='moveBack' type='button' name='submit' class='next-button' value='MOVE BACKGROUND' /></div><div id='save-button-div'><input id='saveAndSend' type='button' name='submit' class='next-button' value='SPEICHEN & ABSENDEN' /></div><div id='preview-button-div'><input id='epsbutton' type='button' name='submit' class='next-button' value='Vorschau' /></div><div id='back-button-div'><input id='deskBackButton' type='button' name='submit' class='next-button' value='Zuruck' /></div></div>");
+                $("#playableButtonDiv").append("<div id='bottomButtonsFinalScreen'><div id='order-button-div'><input id='OrderAdventKalender' type='button' name='submit' class='next-button' value='BESTELLEN' /></div><div id='moveback-button-div'><input id='moveBack' type='button' name='submit' class='next-button' value='MOVE BACKGROUND' /></div><div id='save-button-div'><input id='saveAndSend' type='button' name='submit' class='next-button' value='SPEICHEN & ABSENDEN' /></div><div id='preview-button-div'><input id='epsbutton' type='button' name='submit' class='next-button' value='Vorschau' /></div><div id='back-button-div'><input id='deskBackButton' type='button' name='submit' class='next-button' value='Zurück' /></div></div>");
             }
 
         }
@@ -877,7 +931,7 @@ function fromAddressToDesk()
             }
             else if(CH.language=="dutch")
             {
-                $("#playableButtonDiv").append("<div id='bottomButtonsFinalScreen'><div id='order-button-div'><input id='OrderAdventKalender' type='button' name='submit' class='next-button' value='BESTELLEN' /></div><div id='moveback-button-div'><input id='moveBack' type='button' name='submit' class='next-button' value='MOVE BACKGROUND' /></div><div id='save-button-div'><input id='saveAndSend' type='button' name='submit' class='next-button' value='SPEICHEN & ABSENDEN' /></div><div id='preview-button-div'><input id='epsbutton' type='button' name='submit' class='next-button' value='Vorschau' /></div><div id='back-button-div'><input id='deskBackButton' type='button' name='submit' class='next-button' value='Zuruck' /></div></div>");
+                $("#playableButtonDiv").append("<div id='bottomButtonsFinalScreen'><div id='order-button-div'><input id='OrderAdventKalender' type='button' name='submit' class='next-button' value='BESTELLEN' /></div><div id='moveback-button-div'><input id='moveBack' type='button' name='submit' class='next-button' value='MOVE BACKGROUND' /></div><div id='save-button-div'><input id='saveAndSend' type='button' name='submit' class='next-button' value='SPEICHEN & ABSENDEN' /></div><div id='preview-button-div'><input id='epsbutton' type='button' name='submit' class='next-button' value='Vorschau' /></div><div id='back-button-div'><input id='deskBackButton' type='button' name='submit' class='next-button' value='Zurück' /></div></div>");
             }
 
         }
@@ -891,7 +945,7 @@ function fromAddressToDesk()
             }
             else if(CH.language=="dutch")
             {
-                $("#playableButtonDiv").append("<div id='bottomButtonsFinalScreen'><div id='order-button-div'><input id='OrderAdventKalender' type='button' name='submit' class='next-button' value='BESTELLEN' /></div><div id='moveback-button-div'><input id='moveBack' type='button' name='submit' class='next-button' value='MOVE BACKGROUND' /></div><div id='preview-button-div'><input id='epsbutton' type='button' name='submit' class='next-button' value='Vorschau' /></div><div id='back-button-div'><input id='deskBackButton' type='button' name='submit' class='next-button' value='Zuruck' /></div></div>");
+                $("#playableButtonDiv").append("<div id='bottomButtonsFinalScreen'><div id='order-button-div'><input id='OrderAdventKalender' type='button' name='submit' class='next-button' value='Weiter' /></div><div id='moveback-button-div'><input id='moveBack' type='button' name='submit' class='next-button' value='MOVE BACKGROUND' /></div><div id='preview-button-div'><input id='epsbutton' type='button' name='submit' class='next-button' value='Vorschau' /></div><div id='back-button-div'><input id='deskBackButton' type='button' name='submit' class='next-button' value='Zurück' /></div></div>");
             }
 
         }
@@ -904,7 +958,7 @@ function fromAddressToDesk()
             }
             else if(CH.language=="dutch")
             {
-                $("#playableButtonDiv").append("<div id='bottomButtonsFinalScreen'><div id='order-button-div'><input id='OrderAdventKalender' type='button' name='submit' class='next-button' value='BESTELLEN' /></div><div id='moveback-button-div'><input id='moveBack' type='button' name='submit' class='next-button' value='MOVE BACKGROUND' /></div><div id='preview-button-div'><input id='epsbutton' type='button' name='submit' class='next-button' value='Vorschau' /></div><div id='back-button-div'><input id='deskBackButton' type='button' name='submit' class='next-button' value='Zuruck' /></div></div>");
+                $("#playableButtonDiv").append("<div id='bottomButtonsFinalScreen'><div id='order-button-div'><input id='OrderAdventKalender' type='button' name='submit' class='next-button' value='Weiter' /></div><div id='moveback-button-div'><input id='moveBack' type='button' name='submit' class='next-button' value='MOVE BACKGROUND' /></div><div id='preview-button-div'><input id='epsbutton' type='button' name='submit' class='next-button' value='Vorschau' /></div><div id='back-button-div'><input id='deskBackButton' type='button' name='submit' class='next-button' value='Zurück' /></div></div>");
             }
 
         }
@@ -1102,8 +1156,6 @@ function initialScreenOne(){
     $("#content-choosepackagehtml").show();
     backButtons();
     $('.buyandchoose').click(function(){
-
-
         if($(this).prop("id")=="basicButton")
         {
             CH.currentPackage=CH.VC1;
@@ -1154,7 +1206,10 @@ function backButtons(){
 
 
     $('#formatFillingBackButton').click(function(){
+        $(".mainBanner").attr("style","margin-top:0px;");
         $(".mainBanner").show();
+        $(".nav5bar").hide();
+        $(".nav6bar").hide();
         $(".screens").hide();
         $("#content-choosepackagehtml").show();
         restoreAll()
@@ -1192,6 +1247,7 @@ function backButtons(){
          }
     });
     $('#orderBackButton').click(function(){
+        $('#orderForm').validationEngine('hideAll');
         $(".screens").hide();
         if(CH.currentPackage.packageId != "1")
             {
