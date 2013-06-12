@@ -538,7 +538,7 @@ CH.VC1={
                 "type":"saveJasonToDb",
                 "itemJasonToSaveInDb":this.tosave
             },
-            async:false,
+            //async:false,
             success: function(data){
                 $('form#submit').hide(function(){
                     $('div.success').fadeIn();

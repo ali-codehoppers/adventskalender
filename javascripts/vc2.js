@@ -148,30 +148,69 @@ CH.VC2={
             }
         });
         $(".color-picker-for-option-basic").miniColors();
-        if($("#hks1Value :selected").val()!="-"){
-           $("#colpickfordivOption1").miniColors('value',$("#hks1Value :selected").val());
+        if($("[name=colorOption]:checked").val()=="hks"){
+            if($("#hks1Value :selected").val()!="-"){
+                $("#colpickfordivOption1").miniColors('value',$("#hks1Value :selected").val());
+            }else{
+                $("#colpickfordivOption1").miniColors('value',$("#colorOptionField1").val());
+            }
+            if($("#hks2Value :selected").val()!="-"){
+                $("#colpickfordivOption2").miniColors('value',$("#hks2Value :selected").val());
+            }else{
+                $("#colpickfordivOption2").miniColors('value',$("#colorOptionField2").val());
+            }
         }else{
-           $("#colpickfordivOption1").miniColors('value',$("#colorOptionField1").val());
+            if($("#pantone1Value :selected").val()!="-"){
+                $("#colpickfordivOption1").miniColors('value',$("#pantone1Value :selected").val());
+            }else{
+                $("#colpickfordivOption1").miniColors('value',$("#colorOptionField1").val());
+            }
+            if($("#pantone2Value :selected").val()!="-"){
+                $("#colpickfordivOption2").miniColors('value',$("#pantone2Value :selected").val());
+            }else{
+                $("#colpickfordivOption2").miniColors('value',$("#colorOptionField2").val());
+            }
         }
+        
         $("#colpickfordivOption1").parent().find("a").addClass("disabled");
-        if($("#hks2Value :selected").val()!="-"){
-           $("#colpickfordivOption2").miniColors('value',$("#hks2Value :selected").val());
-        }else{
-           $("#colpickfordivOption2").miniColors('value',$("#colorOptionField2").val());
-        }
         $("#colpickfordivOption2").parent().find("a").addClass("disabled");
+        $("#clrpikrOption1").parent().prepend("<div id=\"overlayColor1\" style=\"position: absolute;width: 30px;height: 30px;\"></div>");
         $("#clrpikrOption1").click(function(){
             if(oThis.selecteditem!=null){
                 var cItem = CH.VC2.items[oThis.selecteditem];
-                cItem.fontcolor=$("#colpickfordivOption1").val();
-                $("#"+cItem.id).find("span").css("color",$("#colpickfordivOption1").val());
+                if(cItem!=null){
+                    cItem.fontcolor=$("#colpickfordivOption1").val();
+                    $("#"+cItem.id).find("span").css("color",$("#colpickfordivOption1").val());
+                }
             }
         });
+        $("#overlayColor1").click(function(){
+            if(oThis.selecteditem!=null){
+                var cItem = CH.VC2.items[oThis.selecteditem];
+                if(cItem!=null){
+                    cItem.fontcolor=$("#colpickfordivOption1").val();
+                    $("#"+cItem.id).find("span").css("color",$("#colpickfordivOption1").val());
+                }
+            }
+        });
+        //$("#clrpikrOption2").append("<div style=\"position: absolute;width: 30px;height: 30px;\"></div>");
+        $("#clrpikrOption2").parent().prepend("<div id=\"overlayColor2\" style=\"position: absolute;width: 30px;height: 30px;\"></div>");
         $("#clrpikrOption2").click(function(){
             if(oThis.selecteditem!=null){
                 var cItem = CH.VC2.items[oThis.selecteditem];
-                cItem.fontcolor=$("#colpickfordivOption2").val();
-                $("#"+cItem.id).find("span").css("color",$("#colpickfordivOption2").val());
+                if(cItem!=null){
+                    cItem.fontcolor=$("#colpickfordivOption2").val();
+                    $("#"+cItem.id).find("span").css("color",$("#colpickfordivOption2").val());
+                }
+            }
+        });
+        $("#overlayColor2").click(function(){
+            if(oThis.selecteditem!=null){
+                var cItem = CH.VC2.items[oThis.selecteditem];
+                if(cItem!=null){
+                    cItem.fontcolor=$("#colpickfordivOption2").val();
+                    $("#"+cItem.id).find("span").css("color",$("#colpickfordivOption2").val());
+                }
             }
         });
     },
@@ -590,8 +629,10 @@ CH.VC2={
             $(".form-editor .miniColors-trigger").css("background-color",temp);
             var tempFontName=$(this.sDiv).children('span').css("font-family");
             if(tempFontName != undefined)
-            {
+            {tempFontName=tempFontName.split(",")[0];
                 $("#font1").val(tempFontName);
+            }else{
+                $("#font1").val("Arial");
             }
             var temp2=$(this.sDiv).children('span').css("font-size");
             temp2=temp2.substring(0, temp2.length-2);
@@ -867,6 +908,8 @@ CH.VC2={
                 it.id="demobs"+CH.VC2.idCounter;
                 var temp_html="<div id='demobs"+ CH.VC2.idCounter +"' class='demobs' align='right'><img class='rotate-image' src='img/imagesapp/rotateimg.png' width='20' height='20' /><img class='drag-image' src='img/imagesapp/move.png' width='20' height='20' /><img class='delete-image' src='img/imagesapp/del.png' width='20' height='20' /><span id='span"+CH.VC2.idCounter +"' style='margin-left:5px;margin-right:5px;color:"+$("#colpickfordivOption1").val()+"'>Text eingeben</span></div>";
                 $(".drop .overlaydb").append(temp_html);
+                
+                
                 var temp=$("#demobs"+CH.VC2.idCounter).css("font-size");
                 temp=temp.substring(0, temp.length-2);
                 temp=parseInt(temp);
@@ -874,11 +917,16 @@ CH.VC2={
                 temp=Math.ceil(temp);
                 it.fontSize=""+temp;
                 it.fontcolor=$("#colpickfordivOption1").val();
+                if($("#font1")!=null && $("#font1").val()!=""){
+                    $("#demobs"+CH.VC2.idCounter).css("font-family","Aritus");
+                    it.fontStyle=""+$("#font1").val();
+                }
                 it.innertxt=$("#demobs"+CH.VC2.idCounter+" span").html();
                 this.items.push(it);
                 CH.VC2.getXAndYPosition("#demobs"+CH.VC2.idCounter);
                 CH.VC2.selectElement("#demobs"+CH.VC2.idCounter);
             //CH.VC2.items[CH.VC2.selecteditem].fontcolor=$("#colpickfordivOption1").val();
+                
 
             }
             oThis.initSelection();
@@ -1201,7 +1249,7 @@ CH.VC2={
                     position: 'center',
                     resizable:false,
                     title:'Nachricht',
-                    buttons: { "Ok": function() {
+                    buttons: {"Ok": function() {
                          // use me instead of this, as this now refers to the function.
                           $(this).dialog("close");
                          $(this).dialog('destroy').remove();
@@ -1312,7 +1360,7 @@ CH.VC2={
                 "type":"saveJasonToDb",
                 "itemJasonToSaveInDb":this.tosave
             },
-            async:false,
+            //async:false,
             success: function(data){
                 $('form#submit').hide(function(){
                     $('div.success').fadeIn();
@@ -1540,19 +1588,18 @@ CH.VC2={
     },
     xainFunc:function(){
         var oThis=this;
-
-        CH.VC2.fontFamilyOfText(oThis.sDiv);
-
+        if (oThis.sDiv){
+            CH.VC2.fontFamilyOfText(oThis.sDiv);
+        }
+        else{
+            alert("Please select any text field before applying effects");
+        }
     },
 
     fontFamilyOfText:function(item){
-
-
         $(""+item+" span").css("font-family",$("#font1").val());
         var index=($(item).prop("id")).substr($(item).prop("id").length-1);//
-        CH.VC2.items[index-1].fontStyle= $(""+item+" span").css("font-family");
-
-
+        CH.VC2.items[index-1].fontStyle= $(""+item+" span").css("font-family").replace(/'|"/g, "");
     },
 
     initBtFontsize:function(){
@@ -1560,10 +1607,11 @@ CH.VC2={
         $("#fontsize").unbind("change");
         $("#fontsize").change(function () {
             if (oThis.sDiv){
+
                 oThis.fontsizeOfText(oThis.sDiv);
             }
             else{
-                alert("select an element");
+                alert("Please select any text field before applying effects");
             }
         });
     },
@@ -1578,8 +1626,8 @@ CH.VC2={
         var heightOfParent=$(oThis.sDiv).parent().height();
         var differenceInTop=$(oThis.sDiv).offset().top-$(oThis.sDiv).parent().offset().top;
         var heightOfDiv=$(oThis.sDiv).height();
-        if(heightOfParent >= (differenceInTop+heightOfDiv))
-        {
+        /*if(heightOfParent >= (differenceInTop+heightOfDiv))
+        {*/
             var temp2=$(item+" span").css("font-size");
             if(temp2 != undefined)
             {
@@ -1592,11 +1640,11 @@ CH.VC2={
             }
             $(item.id).css("width","auto");
             $(item.id).css("height","auto");
-        }
+        /*}
         else{
             alert("Unable to perform this operation. \n Reason: Text will go beyond the available area");
             $(oThis.sDiv+" span").css("font-size",oldFontValue);
-        }
+        }*/
     },
     appendDesignBackgroundUploadBt:function(){/*dont delete*/}
 }

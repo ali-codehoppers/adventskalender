@@ -6,12 +6,19 @@
     padding:0;
     margin:0;
 }
+/*@font-face
+{
+    font-family: "Artius";
+    src: local("Artius"),url('fonts/aritus-d.ttf') format('truetype');
+    font-style: normal;
+}
 @font-face
 {
-    font-family: Frutiger;
-    src: url('Frutiger_Roman.ttf'),
-         url('Frutiger_Roman.eot'); /* IE9 */
-}
+    font-family: "Futura Web";
+    src: local('Futura Web'),url('fonts/futura.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}*/
 html {
     background: none repeat scroll 0 0 transparent;
 }

@@ -42,7 +42,7 @@ exec("java -jar epsAKalender.jar $id", $output );//forserver
 //
 //print_r($output);
 $ini=parse_ini_file('config.ini',false);
-mail_attachment($emailField,"advent",$tempmessage,"noreply@advents.com","./EPSIMAGE/Front_EPS_".$id.".pdf");
+mail_attachment($emailField.",".$ini["clientEmail"],"advent",$tempmessage,"noreply@advents.com","./EPSIMAGE/Front_EPS_".$id.".pdf");
 }
 
 function mail_attachment($to, $subject, $message, $from, $file) {

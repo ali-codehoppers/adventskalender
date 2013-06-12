@@ -2701,6 +2701,7 @@ CH.VC3={
             }
             CH.VC3.beforeSaveState();  
         }
+        
         var firmaField=$("#firmaField").val();
         var strasseField=$("#strasseField").val();
         var anredeField=$("#anredeField").val();
@@ -2730,7 +2731,7 @@ CH.VC3={
                 "type":"saveJasonToDb",
                 "itemJasonToSaveInDb":this.tosave
             },
-            async:false,
+            //async:false,
             success: function(data){
                 $('form#submit').hide(function(){
                     $('div.success').fadeIn();
