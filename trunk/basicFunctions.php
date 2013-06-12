@@ -180,6 +180,9 @@ else if ($type == "uploadBackground") {
 }
 else if ($type == "saveJasonToDb") {
     $abc = str_replace("\\\"","\\\\\"",$_POST['itemJasonToSaveInDb']);
+    $abc = str_replace("ü","\\\u00FC", $abc);
+    $abc = str_replace("ß","\\\u00DF", $abc);
+
     $temp = 'userid';
     $q = "INSERT INTO `cards`( `json`, `userId`  )VALUES('$abc', '$temp');";
     echo $q;
@@ -562,6 +565,36 @@ else if ($type == "hksColorCode") {
         $HKS = $row['HKS'];
         $RGB= $row['RGB'];
         echo "<option value='#".$RGB."'>".$HKS."</option>";
+        $count++;
+    }
+}
+else if ($type == "pantColorCode") {
+    $q = "select * from pantone_color";
+    //$q = "select * from fillings ORDER BY id limit " . (($pageNum - 1) * 6) . ",6"; //testing
+    $r = mysql_query($q);
+    $num_rows = mysql_num_rows($r);
+
+    //echo $num_rows;
+    $count = 0;
+    echo "<option value='-'>------</option>";
+    while ($row = mysql_fetch_array($r)) {
+        $PANTONE = str_replace("\xFC", "ü", $row['colorId']);
+        $RGB= $row['rgbValue'];
+        echo "<option value='#".$RGB."'>".$PANTONE."</option>";
+        $count++;
+    }
+}
+else if ($type == "fontList") {
+    $q = "select * from fontfile";
+    //$q = "select * from fillings ORDER BY id limit " . (($pageNum - 1) * 6) . ",6"; //testing
+    $r = mysql_query($q);
+    $num_rows = mysql_num_rows($r);
+
+    //echo $num_rows;
+    $count = 0;
+    while ($row = mysql_fetch_array($r)) {
+        $displayName = $row['displayName'];
+        echo "<option value='".$displayName."'>".$displayName."</option>";
         $count++;
     }
 }

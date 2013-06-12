@@ -1,10 +1,11 @@
      
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<?php header('Content-Type: text/html; charset=utf-8'); ?>
+ <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
 
         <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"></meta>
-
+<link rel="stylesheet" type="text/css" href="fontcss.php"/>
         <title>Choose Package</title>
         <!--my C-->
         <link rel="stylesheet" href="css/ui-lightness/jquery-ui-1.8.23.custom.css" /><!--add s to run this to put right corner-->
@@ -35,6 +36,7 @@
         <script src="./javascripts/languages/jquery.validationEngine-en.js" type="text/javascript" charset="utf-8"></script>
         <script src="./javascripts/jquery.validationEngine.js" type="text/javascript" charset="utf-8"></script>
         <link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css"/>
+        
         <!--end of my C-->
 
         <!--[if IE 7]>
@@ -580,6 +582,10 @@ $(document).ready(function() {
                                 <div class="greytip"><span>So einfach funktioniert's</span></div>
                                 <!--<img src='img/images/business-packge.png' alt='business' class='packge-img' />-->
                                 <!--<span><?php echo mb_convert_encoding($lang['In the business version the following configurations are possible'], "UTF-8"); ?>:</span>-->
+                                <div>
+                                    <img src="img/images/commingsoon-image.jpg"/>
+                                </div>
+                                <div style="display:none">
                                 <ul>
                                     <li class='first'><?php echo ($lang['Choose the shape of the advent calendar']); ?>.</li>
                                     <li class='second'><?php echo ($lang['Choose the filling of the advent calendar']); ?>.</li>
@@ -591,8 +597,10 @@ $(document).ready(function() {
                                     <span><?php echo mb_convert_encoding($lang['Now you can download directly to your proofs directly and request a quotation for your desired quantity'], "UTF-8"); ?>.</span>
                                     <span><?php echo mb_convert_encoding($lang['Advertising effectiveness tastes'], "UTF-8"); ?>!</span>
                                 </div>-->
-                                </div>
                                 <a id='businessButton'  class='buyandchoose' href='#' name='choose-btn'></a>
+                                </div>
+                                
+                                </div>
                             </div>
                         </div>
                         <div class='middle-contentpackge'>
@@ -600,26 +608,28 @@ $(document).ready(function() {
                                 <h1>Basic</h1>
                             </div>
                             <div class='packge-basic'>
-                                <div style="min-height:285px;">
-                                <div class="blacktip"><span>So einfach funktioniert's</span></div>
-                                <!--<img src='img/images/basic-packge.png' alt='basic' class='packge-img' />-->
-                                <!--<span><?php echo mb_convert_encoding($lang['In the basic version the following configurations are possible'], "UTF-8"); ?>:</span>-->
-                                <ul>
-                                    <!--<li class='first'><?php echo mb_convert_encoding($lang['Choose a background image'], "UTF-8"); ?>.</li>
-                                    <li class='second'><?php echo mb_convert_encoding($lang['Choose and edit the address which is to be printed on the advent calendar'], "UTF-8"); ?>.</li>
-                                    <li class='third'><?php echo mb_convert_encoding($lang['Place text and images within the white areas of the background image'], "UTF-8"); ?>.</li>-->
-                                    <li class='first'><?php echo ($lang['Choose the shape of the advent calendar']); ?>.</li>
-                                    <li class='second'><?php echo ($lang['Choose the filling of the advent calendar']); ?>.</li>
-                                    <li class='third'><?php echo ($lang['Select a background motive']); ?>.</li>
-                                    <li class='fourth'><?php echo ($lang['Choose the colour of the backside as well as the left and right sides']); ?>.</li>
-                                    <li class='fifth'><?php echo ($lang['Customize the logo printing area of your Advent Calendar']); ?>.</li>
-                                </ul>
-                                <!--<div class="footerText">
-                                    <span><?php echo mb_convert_encoding($lang['Now you can download directly to your proofs directly and request a quotation for your desired quantity'], "UTF-8"); ?>.</span>
-                                    <span><?php echo mb_convert_encoding($lang['Advertising effectiveness tastes'], "UTF-8"); ?>!</span>
-                                </div>-->
+                                <div style="min-height:285px;float:left">
+                                    <div class="blacktip"><span>So einfach funktioniert's</span></div>
+                                    <!--<img src='img/images/basic-packge.png' alt='basic' class='packge-img' />-->
+                                    <!--<span><?php echo mb_convert_encoding($lang['In the basic version the following configurations are possible'], "UTF-8"); ?>:</span>-->
+                                    <ul>
+                                        <!--<li class='first'><?php echo mb_convert_encoding($lang['Choose a background image'], "UTF-8"); ?>.</li>
+                                        <li class='second'><?php echo mb_convert_encoding($lang['Choose and edit the address which is to be printed on the advent calendar'], "UTF-8"); ?>.</li>
+                                        <li class='third'><?php echo mb_convert_encoding($lang['Place text and images within the white areas of the background image'], "UTF-8"); ?>.</li>-->
+                                        <li class='first'><?php echo ($lang['Choose the shape of the advent calendar']); ?>.</li>
+                                        <li class='second'><?php echo ($lang['Choose the filling of the advent calendar']); ?>.</li>
+                                        <li class='third'><?php echo ($lang['Select a background motive']); ?>.</li>
+                                        <li class='fourth'><?php echo ($lang['Choose the colour of the backside as well as the left and right sides']); ?>.</li>
+                                        <li class='fifth'><?php echo ($lang['Customize the logo printing area of your Advent Calendar']); ?>.</li>
+                                    </ul>
+                                    <!--<div class="footerText">
+                                        <span><?php echo mb_convert_encoding($lang['Now you can download directly to your proofs directly and request a quotation for your desired quantity'], "UTF-8"); ?>.</span>
+                                        <span><?php echo mb_convert_encoding($lang['Advertising effectiveness tastes'], "UTF-8"); ?>!</span>
+                                    </div>-->
                                 </div>
-                                <a id='standardButton'  class='buyandchoose' href='#' name='choose-btn'></a>
+                                <div style="clear:both;padding-top: 30px;">
+                                    <a id='standardButton'  class='buyandchoose' href='#' name='choose-btn'></a>
+                                </div>
                             </div>
                         </div>
                         <div class='left-contentpackge'>
@@ -627,7 +637,7 @@ $(document).ready(function() {
                                 <h1>Standard</h1>
                             </div>
                             <div class='packge-standard'>
-                                    <div style="min-height:285px;">
+                                    <div style="min-height:285px;float:left">
                                     <div class="greytip"><span>So einfach funktioniert's</span></div>
                                     <!--<img src='img/images/standard-packge.png' alt='standard' class='packge-img' />-->
                                     <!--<span><?php echo mb_convert_encoding($lang['In the standard version the following configurations are possible'], "UTF-8"); ?>:</span>-->
@@ -642,7 +652,9 @@ $(document).ready(function() {
                                         <span><?php echo mb_convert_encoding($lang['Advertising effectiveness tastes'], "UTF-8"); ?>!</span>
                                     </div>-->
                                     </div>
-                                <a id='basicButton'  class='buyandchoose' href='#' name='choose-btn'></a>
+                                    <div style="clear:both;padding-top: 30px;">
+                                        <a id='basicButton'  class='buyandchoose' href='#' name='choose-btn'></a>
+                                    </div>
                             </div>
                         </div>
 
@@ -906,7 +918,10 @@ $(document).ready(function() {
                                                         <div style="margin:auto;width:15%;font-weight: bold">ODER</div>
                                                     </div>
                                                     <div class="row" style="border-bottom-width: 0px;padding-bottom: 20px;" >
-                                                        <div style="float:left;padding-left:10px;width:45%">
+                                                        <div style="float:left;width:100%">
+                                                            <input type="radio" name="colorOption" value="hks" checked/><span style="font-weight: bold;padding-left: 5px">HKS</span>
+                                                        </div>
+                                                        <div style="float:left;width:50%">
                                                             <div style="float:left;padding-top: 2px;">1. HKS-Farbe</div>
                                                             <div style="float:left;margin-left: 15px;">
                                                                 <select name="hks1Value" id="hks1Value" style="width: 80px;">
@@ -915,7 +930,7 @@ $(document).ready(function() {
                                                             </div>
                                                             <div style="clear:both"></div>
                                                         </div>
-                                                        <div style="float:left;width:45%">
+                                                        <div style="float:left;width:48%">
                                                             <div style="float:left;padding-top: 2px;">2. HKS-Farbe</div>
                                                             <div style="float:left;margin-left: 15px;">
                                                                 <select name="hks2Value" id="hks2Value" style="width: 80px;">
@@ -926,8 +941,32 @@ $(document).ready(function() {
                                                         </div>
                                                         <div style="clear:both"></div>
                                                     </div>
+                                                    <div class="row" style="border-bottom-width: 0px;padding-bottom: 20px;" >
+                                                        <div style="float:left;width:100%">
+                                                            <input type="radio" name="colorOption" value="pant"/><span style="font-weight: bold;padding-left: 5px">PANTONE</span>
+                                                        </div>
+                                                        <div style="float:left;width:50%">
+                                                            <div style="float:left;padding-top: 2px;">1. Pantone-Farbe</div>
+                                                            <div style="float:left;margin-left: 15px;">
+                                                                <select name="pantone1Value" id="pantone1Value" style="width: 80px;">
+
+                                                                </select>
+                                                            </div>
+                                                            <div style="clear:both"></div>
+                                                        </div>
+                                                        <div style="float:left;width:48%">
+                                                            <div style="float:left;padding-top: 2px;">2. Pantone-Farbe</div>
+                                                            <div style="float:left;margin-left: 15px;">
+                                                                <select name="pantone2Value" id="pantone2Value" style="width: 80px;">
+
+                                                                </select>
+                                                            </div>
+                                                            <div style="clear:both"></div>
+                                                        </div>
+                                                        <div style="clear:both"></div>
+                                                    </div>
                                                     <div class="row" style="border-bottom-width: 0px;padding-top: 20px;">
-                                                        <p style="color:#000000;">ACHTUNG! Solten Sie zusätzlich zu Ihrem Weihnachtsgruß ein Grafik (Firmenlogo, Foto...) einfügen wollen, achten Sie bitte darauf, dass die hier ausgewählten Farben sich auch in Ihrem Logo wiederfinden.</p>
+                                                        <p style="color:#000000;text-transform: capitalize;">ACHTUNG! Solten Sie zusätzlich zu Ihrem Weihnachtsgruß ein Grafik (Firmenlogo, Foto...) einfügen wollen, achten Sie bitte darauf, dass die hier ausgewählten Farben sich auch in Ihrem Logo wiederfinden.</p>
                                                         <p style="color:#000000;">Kontaktieren Sie uns bitte direkt unter +49 7643 8010, wenn die Kombination Ihrer getroffenen Farbwahl und der Farben in der Grafik 3 oder mehr Farben darstellen, damit wir individuell auf Ihre Sonderwünsche eingehen können.</p>
                                                     </div>
                                                 </div>
@@ -941,7 +980,7 @@ $(document).ready(function() {
                                                             <div class="headText">2. Adresse für  Inverkehrbringer wählen</div>
                                                             <div class="pannel" style="margin-top:20px;">
                                                                 <div style="text-align: justify;">
-                                                                    <p>Die generelle Kennzeichnungspflicht gemäß dem ProdSG besteht seit dem 1.12.2011 und gilt grundsä tzlich für ale Werbeartikel.</p>
+                                                                    <p style="text-transform: capitalize;">Die generelle Kennzeichnungspflicht gemäß dem ProdSG besteht seit dem 1.12.2011 und gilt grundsä tzlich für ale Werbeartikel.</p>
                                                                     <p>Anstelle der Herstelleradesse können Sie auch Ihre oder die Adresse Ihrer Kunden eintragen. Der eingetragene Inverkehbringer gilt quasi als Hersteller und übernimmt folglich sämtliche Haftungsrisiken für das Produkt.</p>
                                                                 </div>
                                                             </div>
@@ -955,11 +994,11 @@ $(document).ready(function() {
                                                             <table border="0" id='companyAddressDivindd_bg' cellspacing="">
                                                                 <tr>
                                                                     <td><?php echo ($lang['Company Name']); ?></td>
-                                                                    <td><span id='companyAddressPageCompanyName' name='companyAddrline1'>Kalfany Süße Werbung GmbH & Co. KG</span></td>
+                                                                    <td><span id='companyAddressPageCompanyName' name='companyAddrline1' style="text-transform: capitalize;">Kalfany SüßWerbung GmbH & Co. KG</span></td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td><?php echo ($lang['Road']); ?></td>
-                                                                    <td><span id='companyAddressPageRoad' name='companyAddrline2'>Holzmattenstraße 22</span></td>
+                                                                    <td  style="text-transform: capitalize"><?php echo ($lang['Road']); ?></td>
+                                                                    <td><span id='companyAddressPageRoad' name='companyAddrline2' style="text-transform: capitalize;">Holzmattenstraße 22</span></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td><?php echo ($lang['Zip Code and City']); ?></td>
@@ -982,7 +1021,7 @@ $(document).ready(function() {
                                                                     <td><input id='homeAddressPageCompanyName' type='text' name='addrline1' size='35' /></td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td><?php echo ($lang['Road']); ?>*</td>
+                                                                    <td style="text-transform: capitalize"><?php echo ($lang['Road']); ?>*</td>
                                                                     <td><input id='homeAddressPageRoad' type='text' name='addrline2' size='35' /></td>
                                                                 </tr>
                                                                 <tr>
@@ -1063,7 +1102,8 @@ $(document).ready(function() {
 
                                         <div  id="toolbarFontAction" class="form-editor" style="width: auto; height: 35px;">
                                             <div class="textFontStyle">
-                                                <select id="font1" name="font" class="form-editor-dropdown1"><option style="font-family: Arial;">Arial</option><!--<option style="font-family: Tangerine;">Tangerine</option>--><option style="font-family: Georgia;">Georgia</option><option style="font-family: Verdana;">Verdana</option><option style="font-family: Times New Roman;">Times New Roman</option><!--<option style="font-family: Lucida Grande;">Lucida Grande</option>--><option style="font-family: Lucida Sans Unicode;">Lucida Sans Unicode</option><option style="font-family: Courier New;">Courier New</option></select>
+                                                <select id="font1" name="font" class="form-editor-dropdown1">
+                                                </select>
                                                 <select id="fontsize" name="font-size" class="form-editor-dropdown2">
                                                     <option>6</option>
                                                     <option>7</option>

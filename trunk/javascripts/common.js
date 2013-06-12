@@ -647,6 +647,18 @@ function changeBackground(){
         $(".front-form-inside-div").append("<input type='text' id='"+CH.VC3.items[i].id+"-LeftDiv' class='txtbox'  value='" + CH.VC3.items[i].innertxt + "'/>")
     }
 }*/
+function fontList(){
+    $.ajax({
+        type: "POST",
+        url: "basicFunctions.php",
+        data: {
+            "type":"fontList"
+        },
+        success:function(data){
+           $("#font1").html(data);
+        }
+    });
+}
 function restoreAll()
 {
     $(".drop").html("");
@@ -656,15 +668,8 @@ function restoreAll()
     //$(".tools").html("<div id='toolbarCommonAction' class='editor-icon' style='width: auto; height: 40px;'><button id='Save' class='form-editor-save'></button><button id='removeButton' class='form-editor-delete'></button><button id='UndoButton' class='form-editor-undo'></button><button id='RedoButton' class='form-editor-redo'></button><button id='CopyButton' class='form-editor-copy'></button><button id='PasteButton' class='form-editor-paste'></button><button id='ZoomIn' class='form-editor-zoomin'></button><button id='ZoomOut' class='form-editor-zoomout'></button></div><div id='toolbarImageAction' class='editor-icon1' style='width: auto; height: 35px;'><button id='addButton' class='form-editor-t'></button><button id='upphot' class='form-editor-cam'></button><button id='changebg' class='form-editor-f'></button></div><div  id='toolbarFontAction' class='form-editor' style='width: auto; height: 35px;'><select id='font1' name='font' class='form-editor-dropdown1'><option style='font-family: Arial;'>Arial</option><!--<option style='font-family: Tangerine;'>Tangerine</option>--><option style='font-family: Georgia;'>Georgia</option><option style='font-family: Verdana;'>Verdana</option><option style='font-family: Times New Roman;'>Times New Roman</option><!--<option style='font-family: Lucida Grande;'>Lucida Grande</option>--><option style='font-family: Lucida Sans Unicode;'>Lucida Sans Unicode</option><option style='font-family: Courier New;'>Courier New</option></select><select id='fontsize' name='font-size' class='form-editor-dropdown2'><option>10</option><option>12</option><option>14</option><option>16</option><option>18</option><option>20</option><option>22</option><option>24</option><option>28</option><option>32</option><option>38</option></select><input type='hidden' id='colpick' name='color1' class='color-picker' size='6' autocomplete='on' maxlength='10' /><button id='boldbutton' class='form-editor-btnb' ></button><button id='italicbutton' class='form-editor-btni'></button><button id='underlinebutton' class='form-editor-btnu' ></button><button id='Lalignbutton' class='form-editor-btnp1' ></button><button id='Calignbutton' class='form-editor-btnp2'></button><button id='Ralignbutton' class='form-editor-btnp3'></button></div><ul id='toolbarViewAction' class='editor-shape' style='width: 224px; height: 40px;'><li><div id='frontdivimg' class='toolbarBtn'><img src='img/images/shape1-editor.png' alt='shape1' />Front</div></li><li><div id='backdivimg' class='toolbarBtn'><img src='img/images/shape2-editor.png' alt='shape2' />Back</div></li><li><div id='leftdivimg' class='toolbarBtn'><img src='img/images/shape3-editor.png' alt='shape3' />Left</div></li><li><div id='rightdivimg' class='toolbarBtn'><img src='img/images/shape4-editor.png' alt='shape4' />Right</div></li><li><div id='clrpikr'><input type='hidden' id='colpickfordiv' name='color1' class='color-picker-for-background' size='6' autocomplete='on' maxlength='10' /></div></li></ul></form>");
     $(".tools").html("<div id='toolbarCommonAction' class='editor-icon' style='width: auto; height: 40px;'><button id='Save' class='form-editor-save'></button><button id='removeButton' class='form-editor-delete'></button><button id='UndoButton' class='form-editor-undo'></button><button id='RedoButton' class='form-editor-redo'></button><button id='CopyButton' class='form-editor-copy'></button><button id='PasteButton' class='form-editor-paste'></button><button id='ZoomIn' class='form-editor-zoomin'></button><button id='ZoomOut' class='form-editor-zoomout'></button></div><div id='toolbarImageAction' class='editor-icon1' style='width: auto; height: 35px;'><button id='addButton' class='form-editor-t'></button><button id='upphot' class='form-editor-cam'></button><button id='changebg' class='form-editor-f'></button></div>"+
                         "<div  id='toolbarFontAction' class='form-editor' style='width: auto; height: 35px;'>"+
-                            "<div class=\"textFontStyle\"><select id='font1' name='font' class='form-editor-dropdown1'>"+
-                                "<option style='font-family: Arial;'>Arial</option>"+
-                                "<!--<option style='font-family: Tangerine;'>Tangerine</option>-->"+
-                                "<option style='font-family: Georgia;'>Georgia</option>"+
-                                "<option style='font-family: Verdana;'>Verdana</option>"+
-                                "<option style='font-family: Times New Roman;'>Times New Roman</option>"+
-                                "<!--<option style='font-family: Lucida Grande;'>Lucida Grande</option>-->"+
-                                "<option style='font-family: Lucida Sans Unicode;'>Lucida Sans Unicode</option>"+
-                                "<option style='font-family: Courier New;'>Courier New</option>"+
+                            "<div class=\"textFontStyle\">\n\
+                            <select id='font1' name='font' class='form-editor-dropdown1'>"+
                             "</select>"+
                             "<select id='fontsize' name='font-size' class='form-editor-dropdown2'>"+
                                 "<option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>"+
@@ -686,6 +691,7 @@ function restoreAll()
     CH.backgroundSelected=null;
     CH.currentPackage=null;
     CH.isFillingAndFormatSelected=false;
+    fontList();
     $("#content-choosedesignhtml .content-upper ul").html("");
     $(".right-contentfilling .choose-filling ul").html("");
     $("#dd_format").html("");
@@ -773,6 +779,17 @@ function putAddressIndd()
                $("#hks2Value").append(data);
             }
         });
+        $.ajax({
+            type: "POST",
+            url: "basicFunctions.php",
+            data: {
+                "type":"pantColorCode"
+            },
+            success:function(data){
+               $("#pantone1Value").append(data);
+               $("#pantone2Value").append(data);
+            }
+        });
     }
     $(".screens").hide();
     $("#content-chooseaddresshtml").show();
@@ -823,9 +840,11 @@ function putAddressIndd()
 }
 function stepToDesk(addressType)
 {
+    //
     var oThis=this;
     $("#AddressNextButton").unbind("click"); //awais
     $("#AddressNextButton").click(function(e){
+        fontList();
         CH.designLoad=true;
         if(addressType=="company"){
             oThis.fromAddressToDesk();
@@ -882,6 +901,7 @@ function fromAddressToDesk()
                 {
                     CH.currentPackage.isTriangle=0;
                     $("#moveback-button-div").remove();
+                    CH.VC2.idCounter=0;
                 //alert(data)
                 }
                 else if(data[0]=="1"){
@@ -895,6 +915,7 @@ function fromAddressToDesk()
                     //function to move all elements inside the triangle
                     CH.currentPackage.moveTextAccordinglyIntoTriangle(data.split(',')[8],data.split(',')[9]);
                     CH.VC3.initMoveBackground();
+                    
                 }
                 else{
                     alert("ERROR WITH CURRENT FORMAT!");
@@ -1176,7 +1197,6 @@ function initialScreenOne(){
     });
 }
 function buttonToUnactivestate(){
-
     $(".nav6bar ul #first").prop("class","first");
     $(".nav6bar ul #second").prop("class","second");
     $(".nav6bar ul #third").prop("class","third");
@@ -1188,7 +1208,6 @@ function buttonToUnactivestate(){
     $(".nav5bar ul #third").prop("class","third");
     $(".nav5bar ul #fourth").prop("class","fourth");
     $(".nav5bar ul #fifth").prop("class","fifth");
-
 
 }
 
@@ -1234,17 +1253,17 @@ function backButtons(){
     $('#deskBackButton').click(function(){
         $(".screens").hide();
         if(CH.currentPackage.packageId != "1")
-            {
-        $("#content-chooseaddresshtml").show();
-        //$("#drop").show();
-        buttonToUnactivestate();
-        $(".nav6bar ul #fourth").prop("class","fourth active");
-            }
-         else{
-             $("#content-choosedesignhtml").show();
-             buttonToUnactivestate();
-        $(".nav5bar ul #third").prop("class","third active");
-         }
+        {
+            $("#content-chooseaddresshtml").show();
+            //$("#drop").show();
+            buttonToUnactivestate();
+            $(".nav6bar ul #fourth").prop("class","fourth active");
+        }
+        else{
+            $("#content-choosedesignhtml").show();
+            buttonToUnactivestate();
+            $(".nav5bar ul #third").prop("class","third active");
+        }
     });
     $('#orderBackButton').click(function(){
         $('#orderForm').validationEngine('hideAll');
