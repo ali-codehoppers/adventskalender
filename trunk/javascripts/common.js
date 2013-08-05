@@ -18,6 +18,7 @@ CH.FIXED_DPI=0;
 CH.selectedBar;
 CH.ACTUALWIDTH;
 CH.ACTUALHEIGHT;
+CH.DROPHEIGHT;
 
 CH.com={
     VC:null,//current vc
@@ -713,7 +714,13 @@ function setBackGroundImageInDrop(sourceOfImage)
     $('.drop').css('background-image', 'url()');
     var background=(sourceOfImage);
     var url = "url(./"+background+"?"+Math.random()+")";
+    var img = new Image(); 
+    img.onload = function() {
     $('.drop').css('background-image', url);
+        $("#divLoad").dialog("close");
+        //the callback function call here
+    };
+    img.src = background;
     //$('.back').css('background-image', url);
     fitBackground(sourceOfImage);
     makeCanvas();
@@ -840,7 +847,6 @@ function putAddressIndd()
 }
 function stepToDesk(addressType)
 {
-    //
     var oThis=this;
     $("#AddressNextButton").unbind("click"); //awais
     $("#AddressNextButton").click(function(e){
@@ -880,6 +886,7 @@ function stepToDesk(addressType)
 
 function fromAddressToDesk()
 {
+    $("#divLoad").dialog("open");
         $(".drop").html("");
         $(".screens").hide();
         $("#content-playablehtml").show();
@@ -922,66 +929,38 @@ function fromAddressToDesk()
                 }
             }
         });
-
-
         /*triangle check end*/
         loadAddressFromAddressScreen();
         $("#epsbutton").remove();
 
         //if ( $(window).width() < 960)
-        /*
-        if( $("#bottomButtonsFinalScreen").length != 1)
-        {
-
-            if(CH.language=="english")
-            {
+    /*if( $("#bottomButtonsFinalScreen").length != 1){
+        if(CH.language=="english"){
                 $("#playableButtonDiv").append("<div id='bottomButtonsFinalScreen'><div id='order-button-div'><input id='OrderAdventKalender' type='button' name='submit' class='next-button' value='ORDER' /></div><div id='moveback-button-div'><input id='moveBack' type='button' name='submit' class='next-button' value='MOVE BACKGROUND' /></div><div id='save-button-div'><input id='saveAndSend' type='button' name='submit' class='next-button' value='SAVE & SEND' /></div><div id='preview-button-div'><input id='epsbutton' type='button' name='submit' class='next-button' value='PREVIEW-FRONTSIDE' /></div><div id='back-button-div'><input id='deskBackButton' type='button' name='submit' class='next-button' value='BACK' /></div></div>");
-            }
-            else if(CH.language=="dutch")
-            {
+        }else if(CH.language=="dutch"){
                 $("#playableButtonDiv").append("<div id='bottomButtonsFinalScreen'><div id='order-button-div'><input id='OrderAdventKalender' type='button' name='submit' class='next-button' value='BESTELLEN' /></div><div id='moveback-button-div'><input id='moveBack' type='button' name='submit' class='next-button' value='MOVE BACKGROUND' /></div><div id='save-button-div'><input id='saveAndSend' type='button' name='submit' class='next-button' value='SPEICHEN & ABSENDEN' /></div><div id='preview-button-div'><input id='epsbutton' type='button' name='submit' class='next-button' value='Vorschau' /></div><div id='back-button-div'><input id='deskBackButton' type='button' name='submit' class='next-button' value='Zurück' /></div></div>");
             }
-
-        }
-        else{
+    }else{
             $("#bottomButtonsFinalScreen").remove();
-
-            if(CH.language=="english")
-            {
+        if(CH.language=="english"){
                 $("#playableButtonDiv").append("<div id='bottomButtonsFinalScreen'><div id='order-button-div'><input id='OrderAdventKalender' type='button' name='submit' class='next-button' value='ORDER' /></div><div id='moveback-button-div'><input id='moveBack' type='button' name='submit' class='next-button' value='MOVE BACKGROUND' /></div><div id='save-button-div'><input id='saveAndSend' type='button' name='submit' class='next-button' value='SAVE & SEND' /></div><div id='preview-button-div'><input id='epsbutton' type='button' name='submit' class='next-button' value='PREVIEW-FRONTSIDE' /></div><div id='back-button-div'><input id='deskBackButton' type='button' name='submit' class='next-button' value='BACK' /></div></div>");
-            }
-            else if(CH.language=="dutch")
-            {
+        }else if(CH.language=="dutch"){
                 $("#playableButtonDiv").append("<div id='bottomButtonsFinalScreen'><div id='order-button-div'><input id='OrderAdventKalender' type='button' name='submit' class='next-button' value='BESTELLEN' /></div><div id='moveback-button-div'><input id='moveBack' type='button' name='submit' class='next-button' value='MOVE BACKGROUND' /></div><div id='save-button-div'><input id='saveAndSend' type='button' name='submit' class='next-button' value='SPEICHEN & ABSENDEN' /></div><div id='preview-button-div'><input id='epsbutton' type='button' name='submit' class='next-button' value='Vorschau' /></div><div id='back-button-div'><input id='deskBackButton' type='button' name='submit' class='next-button' value='Zurück' /></div></div>");
             }
-
-        }
-    */
-   if( $("#bottomButtonsFinalScreen").length != 1)
-        {
-
-            if(CH.language=="english")
-            {
+    }*/
+   if( $("#bottomButtonsFinalScreen").length != 1){
+        if(CH.language=="english"){
                 $("#playableButtonDiv").append("<div id='bottomButtonsFinalScreen'><div id='order-button-div'><input id='OrderAdventKalender' type='button' name='submit' class='next-button' value='ORDER' /></div><div id='moveback-button-div'><input id='moveBack' type='button' name='submit' class='next-button' value='MOVE BACKGROUND' /></div><div id='preview-button-div'><input id='epsbutton' type='button' name='submit' class='next-button' value='PREVIEW-FRONTSIDE' /></div><div id='back-button-div'><input id='deskBackButton' type='button' name='submit' class='next-button' value='BACK' /></div></div>");
-            }
-            else if(CH.language=="dutch")
-            {
+        }else if(CH.language=="dutch"){
                 $("#playableButtonDiv").append("<div id='bottomButtonsFinalScreen'><div id='order-button-div'><input id='OrderAdventKalender' type='button' name='submit' class='next-button' value='Weiter' /></div><div id='moveback-button-div'><input id='moveBack' type='button' name='submit' class='next-button' value='MOVE BACKGROUND' /></div><div id='preview-button-div'><input id='epsbutton' type='button' name='submit' class='next-button' value='Vorschau' /></div><div id='back-button-div'><input id='deskBackButton' type='button' name='submit' class='next-button' value='Zurück' /></div></div>");
             }
-
-        }
-        else{
+    }else{
             $("#bottomButtonsFinalScreen").remove();
-
-            if(CH.language=="english")
-            {
+        if(CH.language=="english"){
                 $("#playableButtonDiv").append("<div id='bottomButtonsFinalScreen'><div id='order-button-div'><input id='OrderAdventKalender' type='button' name='submit' class='next-button' value='ORDER' /></div><div id='moveback-button-div'><input id='moveBack' type='button' name='submit' class='next-button' value='MOVE BACKGROUND' /></div><div id='preview-button-div'><input id='epsbutton' type='button' name='submit' class='next-button' value='PREVIEW-FRONTSIDE' /></div><div id='back-button-div'><input id='deskBackButton' type='button' name='submit' class='next-button' value='BACK' /></div></div>");
-            }
-            else if(CH.language=="dutch")
-            {
+        }else if(CH.language=="dutch"){
                 $("#playableButtonDiv").append("<div id='bottomButtonsFinalScreen'><div id='order-button-div'><input id='OrderAdventKalender' type='button' name='submit' class='next-button' value='Weiter' /></div><div id='moveback-button-div'><input id='moveBack' type='button' name='submit' class='next-button' value='MOVE BACKGROUND' /></div><div id='preview-button-div'><input id='epsbutton' type='button' name='submit' class='next-button' value='Vorschau' /></div><div id='back-button-div'><input id='deskBackButton' type='button' name='submit' class='next-button' value='Zurück' /></div></div>");
             }
-
         }
         CH.currentPackage.initOrderAdventKalender();
         CH.currentPackage.initSaveAndSend();
@@ -991,9 +970,8 @@ function fromAddressToDesk()
         }
         CH.currentPackage.initPreviewEps();
         backButtons();
+    $("#divLoad").dialog("close");
     //CH.currentPackage.putBackGroundInInitialscreen();
-
-
 }
 
 function makeCanvas()
@@ -1315,6 +1293,7 @@ function fitBackground(dropbackground){  //zain change
             CH.ACTUALHEIGHT= (parseFloat(data.split(' ')[5])*0.026458333).toFixed(3);
             /*if(heightOrwidth=="width100%")
             {*/
+            CH.DROPHEIGHT=height;
             if(heightOrwidth=="widthgreater")
             {
                 $('.drop').css("width", CH.WIDTHOFDROP+"px");
@@ -1328,6 +1307,7 @@ function fitBackground(dropbackground){  //zain change
                 $('.drop').css("background-repeat","no-repeat");
                 $('.back').css("background-repeat","no-repeat");
                 $(".sider").css("height",$('.drop').height()+10+"px");
+                
             }
             else if(heightOrwidth=="widthlesser")
             {

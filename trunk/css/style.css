@@ -24,7 +24,7 @@ html {
 }
 
 body {
-    background:url(../img/images/bg-body.png) repeat-x left top;
+    /*background:url(../img/images/bg-body.png) repeat-x left top;*/
     background-color:#ffffff;
     font-family:Arial,Verdana,sans-serif;
     width:100%;
@@ -1280,8 +1280,8 @@ input {
 
 .choose-filling ul li img
 {
-    width:170px;
-    height:160px;
+    /*width:170px;
+    height:160px;*/
     /*margin-top:10px;
     margin-left:28px;*/
 }
@@ -3838,7 +3838,7 @@ label.limitboxlabel {
 #dd_addressType .row .col1{
     border-bottom: 1px solid #C9C9C9;
     padding: 40px;
-    padding-bottom: 10px;
+    padding-bottom: 0px;
 }
 #dd_addressType .row .col1,#dd_addressType .row .col2{
     /*width:49%;
@@ -3887,6 +3887,7 @@ label.limitboxlabel {
     /*margin-top:4px;
     margin-bottom: 4px;*/
     padding:40px;
+    padding-bottom: 0px;
     border-bottom: 1px solid #C9C9C9;
 }
 #color_optionPanel .row .col{

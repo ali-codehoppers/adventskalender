@@ -241,11 +241,45 @@ CH.VC2={
         }
         CH.VC2.beforeSaveState();
     },
-    initOrderAdventKalender:function(){
-        var oThis=this;
-        $("#OrderAdventKalender").unbind("click");
-        $("#OrderAdventKalender").click(function () {
-            oThis.initOrderBeforeSave();
+    checkDivError:function(){
+        var checkExist=false;
+        for(var i=1;i<=CH.VC2.totalcount;i++)
+        {
+            if($("#demobs"+i+"").length>0){
+                if($("#demobs"+i+".errorHighlight").length>0){
+                    $("<div id='errorDialog' style='text-align:justify'>Es befinden sich Elemente außerhalb des bedruckbaren Bereich.Diese werden nicht gedruckt. Bitte prüfen Sie Ihren Entwurf, wenn dies ungewollt ist.</div>").dialog({
+                            close:function(ui,eve){
+                                $(this).dialog('destroy').remove();
+                            },
+                            width:'340',
+                            height:'180',
+                            modal:true,
+                            position: 'center',
+                            resizable:false,
+                            title:'Nachricht',
+                            buttons: {
+                                "Ok": function() {
+                                    // use me instead of this, as this now refers to the function.
+                                    $(this).dialog("close");
+                                    $(this).dialog('destroy').remove();
+                                    CH.VC2.nextOrderAdventKalender();
+                                },
+                                "Cancel": function() {
+                                    // use me instead of this, as this now refers to the function.
+                                    $(this).dialog("close");
+                                    $(this).dialog('destroy').remove();
+                                }
+                            }
+                        });
+                    $("#errorDialog").dialog("open");
+                    checkExist=true;
+                }
+            }
+        }
+        return checkExist;
+    },
+    nextOrderAdventKalender:function(){
+        this.initOrderBeforeSave();
             $(".screens").hide();
             $("#content-orderAdventKalenderhtml").show();
             buttonToUnactivestate();
@@ -260,7 +294,15 @@ CH.VC2={
                 $("#orderPageButtonDiv").html("<input id='saveAndSend' class='next-button' style='float:right;' type='button' value='Anfrage Senden' name='submit'><input id='orderBackButton' type='button' name='submit' class='next-button' value='Zurück' />");
             }
             backButtons();
-            oThis.initSaveAndSend();
+        this.initSaveAndSend();
+    },
+    initOrderAdventKalender:function(){
+        var oThis=this;
+        $("#OrderAdventKalender").unbind("click");
+        $("#OrderAdventKalender").click(function () {
+            if(!oThis.checkDivError()){
+                CH.VC2.nextOrderAdventKalender();
+            }
         });
     },
     initialScreenTwo:function(){
@@ -340,15 +382,26 @@ CH.VC2={
                 $(".drop").append("<div class='overlaydb' style='bottom:"+bottom2+"; left:"+left+"; width:"+width+"; height:"+height+";'></div>");
                 var addressSpan="";
                 if($("#selectedAddressType").val()!="company_address"){
-                    addressSpan="Firmenname:"+$("#deskPageCompanyNameInput").val()+" Straße:"+ $("#deskPageRoadInput").val()
-                    +" PLZ & Stadt:"+ $("#deskPageZipCodeInput").val()+" Telefonnummer:"+$("#deskPagePhoneNumberInput").val()
-                    +" eMail:"+$("#deskPageEMailInput").val() +" Website:"+$("#deskPageWebsiteInput").val();
+                    addressSpan=$("#deskPageCompanyNameInput").val()+", "+ $("#deskPageRoadInput").val()
+                    +", "+ $("#deskPageZipCodeInput").val()+", "+$("#deskPagePhoneNumberInput").val()
+                    +", "+$("#deskPageEMailInput").val() +", "+$("#deskPageWebsiteInput").val();
                 }
                 else{
-                    addressSpan="Firmenname:"+$("#deskPageCompanyNameInput").val()+" Straße:"+ $("#deskPageRoadInput").val()
-                    +" PLZ & Stadt:"+ $("#deskPageZipCodeInput").val();
+                    addressSpan=$("#deskPageCompanyNameInput").val()+", "+ $("#deskPageRoadInput").val()
+                    +", "+ $("#deskPageZipCodeInput").val();
                 }
                 $("#drop").append("<div id='addressOverlay' style='position:absolute; background-color: white; border: 2px dashed black; bottom:"+AddressBottom+"; height:"+AddressHeight+"; width:"+AddressWidth+"; left:"+AddressLeft+"; font-size:3pt; transform: rotate("+AddressRotation+"); -webkit-transform: rotate("+AddressRotation+"); -moz-transform: rotate("+AddressRotation+"); -o-transform: rotate("+AddressRotation+"); -ms-transform: rotate("+AddressRotation+");'><span>"+addressSpan+"</span></div>");
+                var ovItem= new CH.overlayItem();
+                CH.currentPackage.overlayItem.push(ovItem);
+                oThis.overlayItem[0].isOverlay=1;
+                oThis.overlayItem[0].height=height.replace("px","");
+                oThis.overlayItem[0].width=width.replace("px","");
+                oThis.overlayItem[0].xposition=left.replace("px","");
+                window.console.log("Drop Height"+CH.DROPHEIGHT);
+                window.console.log("height="+height.replace("px",""));
+                window.console.log("bottom="+bottom2.replace("px",""));
+                oThis.overlayItem[0].yposition=CH.DROPHEIGHT-height.replace("px","")-bottom2.replace("px","");
+                window.console.log("yPosition="+oThis.overlayItem[0].yposition);
                 oThis.populateOverlayItem()
             }
         });
@@ -573,13 +626,11 @@ CH.VC2={
         var yPos;
         window.console.log("In image resize: "+oThis.sDiv);
         if(oThis.sDiv!="")
-        {
-            $(".drop").css("position","absolute !important");
+        {$(".drop").css("position","absolute !important");
             $(".drop "+oThis.sDiv).resizable({
-                aspectRatio:true,
+                aspectRatio:false,
                 containment: $(oThis.sDiv).parent(),
-                minWidth: 40,
-                minHeight: 40,
+                minWidth: 50,
                 start:function(eve,ui){
                     oldWidth=$(".drop "+oThis.sDiv).width();
                     oldHeight=$(".drop "+oThis.sDiv).height();
@@ -589,6 +640,8 @@ CH.VC2={
                 resize:function(event, ui) {
                     $(".drop "+oThis.sDiv).css("left",xPos);
                     $(".drop "+oThis.sDiv).css("top",yPos);
+                    $(".drop "+oThis.sDiv).css("height",$(".drop "+oThis.sDiv+" span img").css("height"));
+                    
                 },
                 stop:function(e,u)
                 {
@@ -608,7 +661,23 @@ CH.VC2={
                             alert("Image DPI becomes less than "+CH.FIXED_DPI)
                         });
                     }
-
+                    var offset = $(this).offset();
+                    xPos = offset.left;
+                    yPos = offset.top;
+                    var width=xPos+parseFloat($(oThis.sDiv).css("width"));
+                    var height=yPos+parseFloat($(oThis.sDiv).css("height"));
+                    var oDivXPos=$(oThis.sDiv).parent().offset().left;
+                    var oDivYPos=$(oThis.sDiv).parent().offset().top;
+                    var oDivWidth=oDivXPos+parseFloat($(oThis.sDiv).parent().css("width"));
+                    var oDivYHeight=oDivYPos+parseFloat($(oThis.sDiv).parent().css("height"));
+                    if(xPos<oDivXPos||yPos<oDivYPos||width>oDivWidth||height>oDivYHeight){
+                        $(oThis.sDiv).removeClass("highlight");
+                        $(oThis.sDiv).addClass("errorHighlight");
+                    }
+                    else{
+                        $(oThis.sDiv).removeClass("errorHighlight");
+                        $(oThis.sDiv).addClass("highlight");
+                    }
                 }
             });
         }
@@ -855,8 +924,11 @@ CH.VC2={
             var temp="#demobs"+CH.VC2.idCounter;
             $(temp).css("position","relative");
             var temp2=$(".overlaydb").css("height");
-            $(temp+" span img").css("height",temp2);
-            var newwidth=asp*$(temp+" span img").height();
+
+            $(temp).css("height",temp2);
+            $(temp).css("height",$(temp).height()-5);
+            var newwidth=asp*$(temp).height();
+            $(temp).css("width",newwidth);
             var ind= CH.VC2.findItem(temp.substring(1));
             CH.VC2.items[ind].fontSize= "0";
             CH.VC2.items[ind].height= $(temp+" span img").height()+"";
@@ -918,8 +990,8 @@ CH.VC2={
                 it.fontSize=""+temp;
                 it.fontcolor=$("#colpickfordivOption1").val();
                 if($("#font1")!=null && $("#font1").val()!=""){
-                    $("#demobs"+CH.VC2.idCounter).css("font-family","Aritus");
-                    it.fontStyle=""+$("#font1").val();
+                    $("#demobs"+CH.VC2.idCounter).css("font-family",$("#font1 option:first-child").val());
+                    it.fontStyle=""+$("#font1 option:first-child").val();
                 }
                 it.innertxt=$("#demobs"+CH.VC2.idCounter+" span").html();
                 this.items.push(it);
@@ -1240,7 +1312,7 @@ CH.VC2={
             $("#orderForm").validationEngine();
             if($("#orderForm").validationEngine('validate')){
                 $("#divLoad").dialog("close");
-                $("<div id='successDialog'>Vielen Dank für Ihre Anfrage. In Kürze werden Sie von einem unserer Mitarbeiter kontaktiert</div>").dialog({
+                $("<div id='successDialog'>Vielen Dank für Ihre Anfrage. Sie erhalten nun Ihren Korrekturabzug als PDF per Email gesendet. Einer unserer Mitarbeiter wird sich zudem in Kürze persönlich mit Ihnen in Verbindung setzen.<br/><a target='_blank' href='http://www.suesse-werbung.de/saisonartikel/weihnachten'>Zur Produktübersicht</a></div>").dialog({
                         open:function(ui,eve){
                         },
                     width:'360',
@@ -1264,13 +1336,6 @@ CH.VC2={
     },
     populateOverlayItem:function(){
         var oThis=this;
-        var ovItem= new CH.overlayItem();
-        CH.currentPackage.overlayItem.push(ovItem);
-        oThis.overlayItem[0].isOverlay=1;
-        oThis.overlayItem[0].height=$(".overlaydb").height();
-        oThis.overlayItem[0].width=$(".overlaydb").width();
-        oThis.overlayItem[0].xposition=$(".overlaydb").offset().left-$(".drop").offset().left;
-        oThis.overlayItem[0].yposition=$(".overlaydb").offset().top-$(".drop").offset().top;
         var angleOfdiv=CH.VC2.angleOfAddressDiv;
         $("#addressOverlay").css('-moz-transform', 'rotate(0deg)');
         $("#addressOverlay").css('-webkit-transform', 'rotate(0deg)');
@@ -1405,7 +1470,9 @@ CH.VC2={
                                 imgEPS.src='./EPSIMAGE/Back_EPS_'+data+'.png';
                             $("#previeweps").html(imgEPS);
                         }else if(state=="save_image"){
-                            window.location.pathname="/adventscalender/EPSIMAGE/Front_EPS_"+data+".pdf";
+                            window.location="downloadPdf.php?id="+data;
+                            //var popup=window.open("downloadPdf.php?id="+data);
+                            //popup.onload=function(){ popup.close();}
                             $("#divLoad").dialog("close");
                         }else if(state=="save"){
                             //window.location=window.location.hostname+"/vccc/EPSIMAGE/EPSImage_"+data+".eps";
@@ -1600,6 +1667,7 @@ CH.VC2={
         $(""+item+" span").css("font-family",$("#font1").val());
         var index=($(item).prop("id")).substr($(item).prop("id").length-1);//
         CH.VC2.items[index-1].fontStyle= $(""+item+" span").css("font-family").replace(/'|"/g, "");
+        //CH.VC2.getXAndYPosition(CH.VC2.items[index-1].id);
     },
 
     initBtFontsize:function(){
