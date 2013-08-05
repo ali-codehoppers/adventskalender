@@ -245,7 +245,7 @@ else if ($type == "saveJasonToDb") {
         if (strlen($fillingTitle) > 16) {
             $fillingName = substr($fillingTitle, 0, 16) . "...";
         }
-        echo "<li title='$fillingTitle'><center><img alt='filling-" . $fillingId . "' src='" . $formatName . "' /><br/><span>$fillingName</span><br/><input id='filling-$fillingId ' class='filling-radio' type='radio' name='filling'></center></li>";
+        echo "<li title='$fillingTitle'><div style='text-align:center;'><div style='width:170px;height:160px;background-image:url(" . $formatName . ");background-repeat:no-repeat;background-position:center center'></div><br/><span>$fillingName</span><br/><input id='filling-$fillingId ' class='filling-radio' type='radio' name='filling'></div></li>";
         $count++;
     }
 } else if ($type == "getFillingsForFormat") {
@@ -265,7 +265,7 @@ else if ($type == "saveJasonToDb") {
             $fillingName = substr($fillingTitle, 0, 16) . "...";
         }
         $fillingId = $row['id'];
-        $data.= "<li  title='$fillingTitle'><center><img alt='filling" . $fillingId . "' src='" . $formatName . "' /><br/><span >$fillingName</span><br/><input id='filling-" . $fillingId . "' class='filling-radio' type='radio' name='filling'></center></li>";
+        $data.= "<li title='$fillingTitle'><div style='text-align:center;'><div style='width:170px;height:160px;background-image:url(" . $formatName . ");background-repeat:no-repeat;background-position:center center'></div><br/><span >$fillingName</span><br/><input id='filling-" . $fillingId . "' class='filling-radio' type='radio' name='filling'></div></li>";
         $count++;
         if ($num_rows > 6) {
             if ($count > 5) {

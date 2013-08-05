@@ -1,11 +1,10 @@
-     
- <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <?php header('Content-Type: text/html; charset=utf-8'); ?>
  <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
 
         <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"></meta>
-<link rel="stylesheet" type="text/css" href="fontcss.php"/>
+        <link rel="stylesheet" type="text/css" href="fontcss.php"/>
         <title>Choose Package</title>
         <!--my C-->
         <link rel="stylesheet" href="css/ui-lightness/jquery-ui-1.8.23.custom.css" /><!--add s to run this to put right corner-->
@@ -414,14 +413,14 @@ $(document).ready(function() {
 
     <body>
         <div id="divLoad" style="display:none"><img src="img/imagesapp/loading.gif" alt="Uploading...."/></div>
-        <div id="quicknavi" class="quicknavi-en">
+        <div id="quicknavi" class="quicknavi-en" style="display:none">
 
 
             <div class="jproducts-bookmarks container-bookmarks">
                 <center><span class="small">No products in the list</span></center></div> 
         </div>
         <div class="wrapper">
-            <div class="header">
+            <div class="header" style="display:none">
                 <div class="logo"> <a href="#"><img src="img/images/logo.png" alt="logo"/></a></div>
                 <div class="header-content">                              
                     <div class="flags">
@@ -756,7 +755,7 @@ $(document).ready(function() {
                                                 <span id="firmaTitle">Firma *</span>
                                             </div>
                                             <div class="col2">
-                                                <span id="strasseTitle">Strasse *</span>
+                                                <span id="strasseTitle">STRASSE UND HAUSNR *</span>
                                             </div>
                                             <div style="clear:both"></div>
                                         </div>
@@ -784,8 +783,6 @@ $(document).ready(function() {
                                                 <select name="anredeField" id="anredeField" class="validate[required]">
                                                     <option value="Frau">Frau</option>
                                                     <option value="Herr">Herr</option>
-                                                    <option value="Dr">Dr.</option>
-                                                    <option value="Prof">Prof.</option>
                                                 </select>
                                             </div>
                                             <div class="col2">
@@ -854,7 +851,7 @@ $(document).ready(function() {
                                         </div>
                                         <div class="row">
                                             <div class="col1">
-                                                <span id="commentTitle">Hier ist Platz für lhre Anmerkungen und Fragen</span>
+                                                <span id="commentTitle">HIER IST PLATZ FÜR IHRE ANMERKUNGEN UND FRAGEN</span>
                                             </div>
                                             <div style="clear:both"></div>
                                         </div>
@@ -888,7 +885,7 @@ $(document).ready(function() {
                                     <div class='content-upper-address' style="border-bottom: 1px solid #C9C9C9; border-radius: 0 0 5px 5px;">
                                             <div id="color_optionPanel" style="display:none">
                                                 <div class="seprater">
-                                                    <div class="row">
+                                                    <div class="row" style="min-height: 200px">
                                                         <div class="headText">1. Farben wählen</div>
                                                         <div class="col1">
                                                             <div class="colHead">
@@ -914,7 +911,7 @@ $(document).ready(function() {
                                                         </div>
                                                         <div style="clear:both"></div>
                                                     </div>
-                                                    <div class="row" >
+                                                    <div class="row" style="padding-top: 22px;min-height: 75px;">
                                                         <div style="margin:auto;width:15%;font-weight: bold">ODER</div>
                                                     </div>
                                                     <div class="row" style="border-bottom-width: 0px;padding-bottom: 20px;" >
@@ -965,8 +962,8 @@ $(document).ready(function() {
                                                         </div>
                                                         <div style="clear:both"></div>
                                                     </div>
-                                                    <div class="row" style="border-bottom-width: 0px;padding-top: 20px;">
-                                                        <p style="color:#000000;text-transform: capitalize;">ACHTUNG! Solten Sie zusätzlich zu Ihrem Weihnachtsgruß ein Grafik (Firmenlogo, Foto...) einfügen wollen, achten Sie bitte darauf, dass die hier ausgewählten Farben sich auch in Ihrem Logo wiederfinden.</p>
+                                                    <div class="row" style="border-bottom-width: 0px;padding-top: 20px;text-align: justify;">
+                                                        <p style="color:#000000;text-transform: capitalize;">ACHTUNG! Sollten Sie zusätzlich zu Ihrem Weihnachtsgruß eine Grafik (Firmenlogo o.ä.) einfügen wollen, achten Sie bitte darauf, dass die bereits ausgewählten 2 Farben auch die in Ihrer Grafik verwendeten Farben sind.</p>
                                                         <p style="color:#000000;">Kontaktieren Sie uns bitte direkt unter +49 7643 8010, wenn die Kombination Ihrer getroffenen Farbwahl und der Farben in der Grafik 3 oder mehr Farben darstellen, damit wir individuell auf Ihre Sonderwünsche eingehen können.</p>
                                                     </div>
                                                 </div>
@@ -975,13 +972,12 @@ $(document).ready(function() {
                                             </div>
                                             <div id="dd_addressType">
                                                 <div class="row">
-                                                    <div class="col1">
+                                                    <div class="col1" style="min-height: 200px;padding-right: 30px">
                                                         <div id="addressOptionText" style="display:none">
                                                             <div class="headText">2. Adresse für  Inverkehrbringer wählen</div>
                                                             <div class="pannel" style="margin-top:20px;">
-                                                                <div style="text-align: justify;">
-                                                                    <p style="text-transform: capitalize;">Die generelle Kennzeichnungspflicht gemäß dem ProdSG besteht seit dem 1.12.2011 und gilt grundsä tzlich für ale Werbeartikel.</p>
-                                                                    <p>Anstelle der Herstelleradesse können Sie auch Ihre oder die Adresse Ihrer Kunden eintragen. Der eingetragene Inverkehbringer gilt quasi als Hersteller und übernimmt folglich sämtliche Haftungsrisiken für das Produkt.</p>
+                                                                <div style="text-align: justify;width:100%;">
+                                                                    <p style="text-transform: capitalize;">Hier können Sie auswählen, wer als Inverkehrbringer auf dem Adventskalender stehen soll. Laut der Lebenskennzeichnungsverordnung (Abschn. 1 §3 Abs. 1) kann dies der Hersteller, also die Kalfany Süße Werbung GmbH & Co. KG, als auch ein in einem Mitgliedsstaat der EU niedergelassener Verkäufer sein. Falls dies auf Ihr Unternehmen zutrifft, können Sie hier Ihre Adresse eintragen.</p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -989,7 +985,7 @@ $(document).ready(function() {
                                                             <input type="radio" name="addressType" value="company_address" checked="true"/><span style="padding-left:10px;"><?php echo ($lang['Use Company Address']); ?></span>
                                                         </div>
                                                     </div>
-                                                    <div class="col1" style="padding-top: 22px;">
+                                                    <div class="col1" style="padding-top: 22px;min-height: 75px;">
                                                         <div id="companyAddress">
                                                             <table border="0" id='companyAddressDivindd_bg' cellspacing="">
                                                                 <tr>

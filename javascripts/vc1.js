@@ -471,7 +471,7 @@ CH.VC1={
             $("#orderForm").validationEngine();
             if($("#orderForm").validationEngine('validate')){
                 $("#divLoad").dialog("close");
-                $("<div id='successDialog'>Vielen Dank für Ihre Anfrage. In Kürze werden Sie von einem unserer Mitarbeiter kontaktiert</div>").dialog({
+                $("<div id='successDialog'>Vielen Dank für Ihre Anfrage. Sie erhalten nun Ihren Korrekturabzug als PDF per Email gesendet. Einer unserer Mitarbeiter wird sich zudem in Kürze persönlich mit Ihnen in Verbindung setzen.<br/><a target='_blank' href='http://www.suesse-werbung.de/saisonartikel/weihnachten'>Zur Produktübersicht</a></div>").dialog({
                         open:function(ui,eve){
                         },
                     width:'360',
@@ -582,7 +582,9 @@ CH.VC1={
                                 imgEPS.src='./EPSIMAGE/Back_EPS_'+data+'.png';
                             $("#previeweps").html(imgEPS);*/
                         }else if(state=="save_image"){
-                            window.location.pathname="/adventscalender/EPSIMAGE/Front_EPS_"+data+".pdf";
+                            window.location="downloadPdf.php?id="+data;
+                            //var popup=window.open("downloadPdf.php?id="+data);
+                            //popup.onload=function(){ popup.close();}
                             $("#divLoad").dialog("close");
                         }else if(state=="save"){
                             //window.location=window.location.hostname+"/vccc/EPSIMAGE/EPSImage_"+data+".eps";

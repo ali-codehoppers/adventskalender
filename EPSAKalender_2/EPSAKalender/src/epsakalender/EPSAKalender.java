@@ -12,6 +12,11 @@ import java.awt.font.TextLayout;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.net.URI;
+import java.net.URL;
+import java.net.URLDecoder;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.*;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
@@ -32,7 +37,7 @@ import org.json.simple.parser.JSONParser;
 
 /**
  *
- * @author AmierHaider
+ * @author Ahmed Abdullah Saeed
  */
 
 public class EPSAKalender {
@@ -525,17 +530,19 @@ public class EPSAKalender {
         double widthDiff = Math.floor(Double.valueOf(3) * (bgWidth / width));
         double heightDiff = Math.floor(Double.valueOf(3) * ((bgHeight / height)));
         double fontSize = widthDiff * 1.3;
-        Font myFont = new Font("Arial", Font.PLAIN, (int) (fontSize));
+        Font myFont = new Font("Arial",Font.PLAIN,1);
         FontMetrics fMetrics = imageEps.getFontMetrics(myFont);
+        myFont=myFont.deriveFont(Font.PLAIN, (int) (fontSize));
         value.addAttribute(TextAttribute.FONT, myFont, 0, parseOverlayJson.get(0).addressText.length());
 
         AttributedCharacterIterator iterator = value.getIterator();
-        textRenderOnEPS(parseOverlayJson.get(0).addressWidth,parseOverlayJson.get(0).addressRotation,"",fMetrics, iterator,null,6,0);
+        textRenderOnEPS(parseOverlayJson.get(0).addressWidth,parseOverlayJson.get(0).addressRotation,"",fMetrics, iterator,null,6,0,0);
         return textOverlayBuffer;
     }
-    public void textRenderOnEPS(double width,double angle,String textAlign,FontMetrics fMetrics,AttributedCharacterIterator iterator,BufferedImage overlayImage,int constNum,int textConst){
+    public void textRenderOnEPS(double width,double angle,String textAlign,FontMetrics fMetrics,AttributedCharacterIterator iterator,BufferedImage overlayImage,int constNum,int textConst,double yConst){
         float breakWidth = new Float((width) * xAspect)+textConst;
-        float drawPosY = -fMetrics.getAscent();
+        float drawPosY = -fMetrics.getAscent()+(float)yConst;
+        //float drawPosY = 0;
         float drawPosX = 0;
         FontRenderContext fontRenderContext=null;
         if(overlayImage!=null){
@@ -552,26 +559,32 @@ public class EPSAKalender {
         int countLine = 0;
         int prevPos=0;
         while (measurer.getPosition() < iterator.getEndIndex()) {
-
             TextLayout textLayout = measurer.nextLayout(breakWidth);
+            /*double teHe=textLayout.getBounds().getHeight();
+            float drawPosX = textLayout.isLeftToRight()? 0 : breakWidth - textLayout.getAdvance();
 
+            // Move y-coordinate by the ascent of the
+            // layout.
+            drawPosY += textLayout.getAscent();
+*/
             if (countLine != 0 || angle == 0) {
-                drawPosY += textLayout.getAscent();
+                drawPosY += (textLayout.getAscent());
             } else if (angle != 0 && measurer.getPosition() >= iterator.getEndIndex()) {
                 drawPosY += fMetrics.getAscent();
             } else if (angle != 0 && measurer.getPosition() < iterator.getEndIndex()) {
-                drawPosY += fMetrics.getAscent() / 2;
+                drawPosY += fMetrics.getAscent()+(fMetrics.getAscent() / 2);
                 drawPosX = (-fMetrics.getAscent() / 2);
             }
+
             if(textAlign.equals("center"))
                 drawPosX=(breakWidth-textLayout.getAdvance())/2;
             else if(textAlign.equals("right"))
                 drawPosX=(breakWidth-textLayout.getAdvance());
+
             prevPos=measurer.getPosition();
             if(overlayImage!=null){
                 AffineTransform fontAT = AffineTransform.getTranslateInstance(0, 0);
                 overlayItem.setFont((Font)iterator.getAttribute(TextAttribute.FONT));
-                //overlayItem.setFont(imageEps.getFont());
                 overlayItem.setColor(imageEps.getColor());
 
                 double xTextPosition=imageEps.getTransform().getTranslateX()-overlayX;
@@ -662,6 +675,14 @@ public class EPSAKalender {
                     //InputStream fontIn = this.getClass().getResourceAsStream(fontFileName);
                     Font myFont = Font.createFont(Font.TRUETYPE_FONT, fileIn);
                     myFont = myFont.deriveFont(fontStyle, (int) (fontSize));
+                    FontMetrics fMetrics = imageEps.getFontMetrics(myFont);
+                    double yConst=0;
+                    double fontAscent=fMetrics.getAscent();
+                    if(compareMetrics.getAscent()>fMetrics.getAscent()){
+                        yConst=compareMetrics.getAscent()-fMetrics.getAscent();
+                    }
+                    
+                    
                     GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
                     ge.registerFont(myFont);
 
@@ -670,7 +691,7 @@ public class EPSAKalender {
                     if (current.innertxt != null) {
                         value = new AttributedString(current.innertxt);
                     }
-                    FontMetrics fMetrics = imageEps.getFontMetrics(myFont);
+                    
                     if (current.angle != 0) {
                         fontAT.translate(new Float((current.xposition) * xAspect), new Float((current.yposition) * yAspect));
                     } else {
@@ -697,7 +718,7 @@ public class EPSAKalender {
                     }
                     AttributedCharacterIterator iterator = value.getIterator();
                     if (current.width != 0) {
-                        textRenderOnEPS(current.width,current.angle,current.textAlign,fMetrics, iterator,textOverlay,0,40);
+                        textRenderOnEPS(current.width,current.angle,current.textAlign,fMetrics, iterator,textOverlay,0,40,yConst);
                             }
                 } else {
                     String imageId[] = current.innertxt.split(",");

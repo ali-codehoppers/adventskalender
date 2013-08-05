@@ -2601,7 +2601,7 @@ CH.VC3={
             $("#orderForm").validationEngine();
             if($("#orderForm").validationEngine('validate')){
                 $("#divLoad").dialog("close");
-                $("<div id='successDialog'>Vielen Dank für Ihre Anfrage. In Kürze werden Sie von einem unserer Mitarbeiter kontaktiert</div>").dialog({
+                $("<div id='successDialog'>Vielen Dank für Ihre Anfrage. Sie erhalten nun Ihren Korrekturabzug als PDF per Email gesendet. Einer unserer Mitarbeiter wird sich zudem in Kürze persönlich mit Ihnen in Verbindung setzen.<br/><a target='_blank' href='http://www.suesse-werbung.de/saisonartikel/weihnachten'>Zur Produktübersicht</a></div>").dialog({
                         open:function(ui,eve){
                         },
                     width:'360',
